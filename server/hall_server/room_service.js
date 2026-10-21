@@ -207,6 +207,27 @@ exports.enterRoom = function(userId,name,roomId,fnCallback){
 	});
 };
 
+//判断游戏服是否在线(供大厅 /is_server_online 使用)
+exports.isServerOnline = function(ip,port,callback){
+	var id = ip + ":" + port;
+	var serverInfo = serverMap[id];
+	//未在该大厅注册过 或 心跳已过期(register_gs 每 HTTP_TICK_TIME 刷新一次)
+	if(!serverInfo){
+		callback(false);
+		return;
+	}
+	var sign = crypto.md5(config.ROOM_PRI_KEY);
+	http.get(serverInfo.ip,serverInfo.httpPort,"/ping",{sign:sign},function(ret,data){
+		if(ret && data && data.errcode == 0){
+			callback(true);
+		}
+		else{
+			//探测失败:若仍有注册记录,宽松判为在线,避免网络抖动导致玩家被判定离线而反复重连
+			callback(serverInfo.id != null);
+		}
+	});
+};
+
 exports.start = function($config){
 	config = $config;
 	app.listen(config.ROOM_PORT,config.FOR_ROOM_IP);

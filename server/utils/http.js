@@ -1,7 +1,7 @@
 var http = require('http');
 var https = require('https');
 var qs = require('querystring');
-var fibers = require('fibers');
+// fibers 已在 NodeJS 16+ 废弃，改用原生异步回调
 
 String.prototype.format = function(args) {
 	var result = this;
@@ -113,7 +113,7 @@ exports.get = function (host,port,path,data,callback,safe) {
 	req.end(); 
 };
 
-exports.getSync = function (url,data,safe,encoding) {
+exports.getSync = function (url,data,safe,encoding,callback) {
 	var content = qs.stringify(data);
 	var url = url + '?' + content;
 	var proto = http;
@@ -124,52 +124,37 @@ exports.getSync = function (url,data,safe,encoding) {
 	if(!encoding){
 		encoding = 'utf8';
 	}
-	var ret = {
-		err:null,
-		data:null,
-	};
 
-	var f = fibers.current;
-
-	var req = proto.get(url, function (res) {  
-		//console.log('STATUS: ' + res.statusCode);  
-		//console.log('HEADERS: ' + JSON.stringify(res.headers));  
+	var req = proto.get(url, function (res) {
 		res.setEncoding(encoding);
 		var body = '';
-
-		ret.type = res.headers["content-type"];
+		var type = res.headers["content-type"];
 		res.on('data', function (chunk) {
 			body += chunk;
-			
 		});
 
 		res.on('end',function(){
 			if(encoding != 'binary'){
 				try {
-						
-					ret.data = JSON.parse(body);
-					f.run();
+					var data = JSON.parse(body);
+					callback(null, data, type);
 				} catch(e) {
 					console.log('JSON parse error: ' + e + ', url: ' + url);
+					callback(e, null, type);
 				}
 			}
 			else{
-				ret.data = body;
-				f.run();
+				callback(null, body, type);
 			}
 		});
 	});
-	  
-	req.on('error', function (e) {  
-		console.log('problem with request: ' + e.message);
-		ret.err = e;
-		f.run();
-	});
-	  
-	req.end();
 
-	fibers.yield();
-	return ret;
+	req.on('error', function (e) {
+		console.log('problem with request: ' + e.message);
+		callback(e, null, null);
+	});
+
+	req.end();
 };
 
 exports.send = function(res,errcode,errmsg,data){

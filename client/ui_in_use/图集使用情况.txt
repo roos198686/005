@@ -1,0 +1,183 @@
+========================================
+图集: hall_ui  (resources\images\atlas\hall_ui)
+  帧总数: 70
+  状态: 代码加载(module\hall\srcipts\hall.js (creatroom1/creatroom2/club_btn_off/club_btn_on/club_game/club_game_on))
+  在用帧(65):
+    [用] 按钮-button1.png  <- module\login\login.fire
+    [用] 按钮-button2.png  <- module\login\login.fire
+    [用] 按钮-gou.png  <- module\login\login.fire
+    [用] 按钮-tips.png  <- module\login\login.fire
+    [用] 按钮-user-agreement.png  <- module\login\login.fire
+    [用] 菜单-反馈.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 菜单-分享.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 菜单-设置.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 菜单-玩法.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 菜单-邮件.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 菜单-战绩.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 橙色小按钮.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 返回.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 房间-德州扑克.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 房间-经典斗地主.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 房间-tab_selected_xuezhan.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 房间入口-创建.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 加入房间-0.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 加入房间-1.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 加入房间-2.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 加入房间-3.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 加入房间-4.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 加入房间-5.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 加入房间-6.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 加入房间-7.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 加入房间-8.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 加入房间-9.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 加入房间-delete.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 加入房间-retype.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 排行榜-创建好友房标题.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 排行榜-底.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 排行榜-好友排行标题.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 排行榜-送金币.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 排行榜-玩家底.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 跑马灯-底.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 请输入房间号.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 用户栏-房卡.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 用户栏-房卡底框.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 用户栏-金币.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 用户栏-金币底框.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 用户栏-默认头像.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] 用户栏-头像框底部.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] chat_input_bg.png  <- module\createruser\createrole.fire
+    [用] club_bg.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] club_btn_back.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] club_btn_off.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] club_detail_bg.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] club_join_title.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] creatroom1.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] creatroom15.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] creatroom16.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] creatroom17.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] creatroom18.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] creatroom19.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] creatroom2.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] creatroom9.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] jlb.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] lobby_game107.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] lobby_game16.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] lobby_game224.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] lobby_game247.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] lobby_game32.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] login_bg.png  <- module\login\login.fire
+    [用] PopupScene2.png  <- module\hall\club.fire, module\hall\hall.fire
+    [用] PopupScene22.png  <- module\hall\club.fire, module\hall\hall.fire
+  仅代码加载帧(5):
+    [码] club_btn_on.png
+    [码] club_female_l.png
+    [码] club_female_r.png
+    [码] club_game_on.png
+    [码] club_game.png
+========================================
+图集: game_ui  (resources\images\atlas\game_ui)
+  帧总数: 54
+  状态: 代码加载(module\mjgame\scripts\MJRoom.js (mj_btn_start/ready/back/dissolve/exit); MJGameLDH/ZP/ZP4.js (mj_btn_chi))
+  在用帧(49):
+    [用] 房间-#底板复用切图bg.png  <- module\mjgame\mjgame_bmj.fire
+    [用] 房间-tab_unselected_xueliu.png  <- module\mjgame\mjgame_bmj.fire
+    [用] 房间-tab_unselected_xuezhan.png  <- module\mjgame\mjgame_bmj.fire
+    [用] 杠.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] 胡.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] 加载-0.png  <- module\hall\club.fire, module\hall\hall.fire, module\login\login.fire, module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire, prefabs\WaitingConnection.prefab
+    [用] 加载-1.png  <- module\hall\club.fire, module\hall\hall.fire, module\login\login.fire, module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire, prefabs\WaitingConnection.prefab
+    [用] 聊天-icon_chat.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] 碰.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] 切图-自己金色底框.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] 提示_过.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] 条.png  <- module\mjgame\mjgame_bmj.fire
+    [用] 筒.png  <- module\mjgame\mjgame_bmj.fire
+    [用] 玩家头像-中心点切图-玩家头像框底玻璃.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] 万.png  <- module\createruser\createrole.fire, module\hall\club.fire, module\hall\hall.fire, module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] 用户栏-底.png  <- module\hall\club.fire, module\hall\hall.fire, module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] 自摸.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] alert.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] banker_sign.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] btn_agree.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] btn_ready.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] btn_refuse.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] input_bg.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] off_line_sign.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] playway-bg_playway.png  <- module\hall\club.fire, module\hall\hall.fire, module\login\login.fire, module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire, prefabs\WaitingConnection.prefab
+    [用] PopupScene1.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] PopupScene15.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] PopupScene3.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] public_btn_cancel.png  <- module\hall\alert.prefab, module\hall\club.fire, module\hall\hall.fire, module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] public_btn_ok.png  <- module\createruser\createrole.fire, module\hall\alert.prefab, module\hall\club.fire, module\hall\hall.fire, module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] ready.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] ready3.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] ready4.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] replayExit.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] replayPause.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] replayPlay.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] rule_base.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] setting1.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] setting11.png  <- module\hall\club.fire, module\hall\hall.fire, module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] setting12.png  <- module\hall\club.fire, module\hall\hall.fire, module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] setting8.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] setting9.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] sex_female.png  <- module\createruser\createrole.fire, module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] sex_male.png  <- module\createruser\createrole.fire, module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] time1.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] voice_btn.png  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+    [用] X1.png  <- module\mjgame\mjgame_bmj.fire
+    [用] X2.png  <- module\mjgame\mjgame_bmj.fire
+    [用] X3.png  <- module\mjgame\mjgame_bmj.fire
+  仅代码加载帧(5):
+    [码] mj_btn_back.png
+    [码] mj_btn_chi.png
+    [码] mj_btn_exit.png
+    [码] mj_btn_ready.png
+    [码] mj_btn_start.png
+========================================
+图集: club_ui  (resources\images\atlas\club_ui)
+  帧总数: 5
+  状态: 代码加载(module\hall\srcipts\hall.js _clubApplyFrame (club_male_l/r, club_female_l/r))
+  在用帧(5):
+    [用] club_chair_l.png  <- resources\prefabs\club_table_card.prefab
+    [用] club_chair_r.png  <- resources\prefabs\club_table_card.prefab
+    [用] club_male_l.png  <- resources\prefabs\club_table_card.prefab
+    [用] club_male_r.png  <- resources\prefabs\club_table_card.prefab
+    [用] club_table.png  <- resources\prefabs\club_table_card.prefab
+========================================
+图集: table_bg  (resources\images\atlas\table_bg)
+  帧总数: 1
+  在用帧(1):
+    [用] 背景可随意拉伸铺满.jpg  <- module\mjgame\mjgame_bmj.fire, module\mjgame\mjgame_ldh.fire, module\mjgame\mjgame_zp.fire, module\mjgame\mjgame_zp4.fire
+========================================
+图集: emoji_action_texture  (resources\images\chat\emoji_action_texture)
+  帧总数: 86
+  状态: 代码动态拼帧名,全部帧视为在用(未动)
+========================================
+图集: mjEmpty  (resources\images\MJ\mjEmpty)
+  帧总数: 9
+  状态: 代码动态拼帧名,全部帧视为在用(未动)
+========================================
+图集: Z_bottom  (resources\images\MJ\bottom\Z_bottom)
+  帧总数: 38
+  状态: 代码动态拼帧名,全部帧视为在用(未动)
+========================================
+图集: Z_left  (resources\images\MJ\left\Z_left)
+  帧总数: 42
+  状态: 代码动态拼帧名,全部帧视为在用(未动)
+========================================
+图集: Z_my  (resources\images\MJ\my\Z_my)
+  帧总数: 42
+  状态: 代码动态拼帧名,全部帧视为在用(未动)
+========================================
+图集: Z_right  (resources\images\MJ\right\Z_right)
+  帧总数: 42
+  状态: 代码动态拼帧名,全部帧视为在用(未动)
+========================================
+合并说明:
+  原13个UI图集已合并为 hall_ui + game_ui + table_bg(帧uuid保留)
+  textures目录22张散图已整合: club_chair/club_table/club_male→club_ui(新建),
+    club_bg/club_detail_bg/login_bg/jlb/club_join_title/club_btn_back/club_game(x2)/club_btn_off/on/club_female(x2)→hall_ui,
+    mj_btn_chi/ready/back/exit/start→game_ui; textures目录已删除
+  未使用图片4张(mj_table_bg/club_title/mj_turn_arrow/mj_wall_tile)已打包到 d:\babykylin_scmj\backup_unused_imgs_1018 并删除
+  动态拼帧名图集(Z_my/Z_left/Z_right/Z_bottom/mjEmpty/emoji_action_texture)未动

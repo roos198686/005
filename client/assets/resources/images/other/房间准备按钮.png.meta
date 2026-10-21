@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "99420e14-a319-4bf9-852b-cb3790a0c617",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 220,
+  "height": 85,
+  "platformSettings": {},
+  "subMetas": {
+    "房间准备按钮": {
+      "ver": "1.0.6",
+      "uuid": "5a5f30df-ffdc-4696-a047-6a72255cfa60",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "99420e14-a319-4bf9-852b-cb3790a0c617",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 1,
+      "trimX": 3,
+      "trimY": 1,
+      "width": 197,
+      "height": 77,
+      "rawWidth": 203,
+      "rawHeight": 81,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

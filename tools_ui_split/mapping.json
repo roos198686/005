@@ -1,0 +1,3358 @@
+{
+ "5a28651b-1d04-40d3-a671-a6c6acef4902": {
+  "newUuid": "bb255f97-6375-4575-af75-4cef2710ef9b",
+  "rel": "images/ui/beimi-1/_按钮_big__button.png"
+ },
+ "c7c7f379-a023-4842-b583-99d2b7c9bd39": {
+  "newUuid": "05fe200d-194f-440d-b170-6ecfd7c764a9",
+  "rel": "images/ui/beimi-1/_按钮_big_cancel.png"
+ },
+ "389a9c74-0f3f-40c1-8cc5-44ab87799386": {
+  "newUuid": "7a1c612b-10f9-4a67-b0d2-6ed5a7b0b538",
+  "rel": "images/ui/beimi-1/_按钮_big_ok.png"
+ },
+ "e8b52b8b-212f-42db-a065-d31f545bda5d": {
+  "newUuid": "84914e03-48a1-452c-a93f-7af84b55291e",
+  "rel": "images/ui/beimi-1/_按钮_small__button.png"
+ },
+ "59d9bc93-dbac-4315-982f-52b9005542ce": {
+  "newUuid": "20495622-69ec-475e-9612-8fa28be692e6",
+  "rel": "images/ui/beimi-1/_按钮_small_agree.png"
+ },
+ "35f4ae50-0224-4938-8108-f596a1f040ac": {
+  "newUuid": "ae165263-662f-4e46-a317-710114592d2b",
+  "rel": "images/ui/beimi-1/_按钮_small_cancel.png"
+ },
+ "d2d9027f-24bc-4527-91f3-10661107ed53": {
+  "newUuid": "97fe79f1-d21f-421a-aaac-e6af7fbb1ab7",
+  "rel": "images/ui/beimi-1/_按钮_small_ok.png"
+ },
+ "c48da726-f796-4705-8c22-fa2e52b0a4db": {
+  "newUuid": "9e8f63b0-0720-401e-805b-b66bc7c55985",
+  "rel": "images/ui/beimi-1/_按钮_small_refuse.png"
+ },
+ "f401f078-08ef-4516-a9e8-cdca9280e43d": {
+  "newUuid": "9892a12b-490d-49ca-be90-557b7b932c41",
+  "rel": "images/ui/beimi-1/_按钮_small_update.png"
+ },
+ "c8846304-122b-4fa6-99b9-1d290946604c": {
+  "newUuid": "b309a418-df1c-4160-86d4-a208df593357",
+  "rel": "images/ui/beimi-1/b1.png"
+ },
+ "abb4710a-af02-4763-b8ce-aa1faebbc122": {
+  "newUuid": "72bc3280-f8d8-455f-a9d4-3909ad05fe1a",
+  "rel": "images/ui/beimi-1/b2.png"
+ },
+ "8e8353b9-966d-468d-948a-4aeec37daf9c": {
+  "newUuid": "8389035a-f113-40f8-a5ab-1f79b7ed8dab",
+  "rel": "images/ui/beimi-1/close.png"
+ },
+ "4fdbf67c-2700-4402-af0d-34240c20db55": {
+  "newUuid": "f7724e16-d14c-464d-a860-a12ae629beaa",
+  "rel": "images/ui/beimi-1/icon1.png"
+ },
+ "1a0e9cd0-669f-4ef2-83fe-aeb6971c540b": {
+  "newUuid": "94439083-2623-4da0-82bb-4ce8fd9548c9",
+  "rel": "images/ui/beimi-1/icon2.png"
+ },
+ "c78e7097-f3eb-4cbb-a496-4ba0ae2808f5": {
+  "newUuid": "6033469c-1baf-4c4d-bb1b-f58b57a1118d",
+  "rel": "images/ui/beimi-1/icon3.png"
+ },
+ "bc87f926-d515-4c0c-ba8e-7817dee8c17b": {
+  "newUuid": "b5a6176c-e964-4742-aaf3-0a79bb6d1131",
+  "rel": "images/ui/beimi-1/icon4.png"
+ },
+ "f024f886-6ade-48ac-ae61-4a74b575e7b1": {
+  "newUuid": "92cabf9d-68a0-40e9-b695-5f94c84ef8d5",
+  "rel": "images/ui/beimi-1/ready.png"
+ },
+ "dda45c37-802a-45f8-88f7-359c8666582e": {
+  "newUuid": "dafaa662-9ca7-45b3-8a32-5e960e6d305a",
+  "rel": "images/ui/beimi-1/ready1.png"
+ },
+ "d12b490d-4833-47c8-92bc-11fca536788b": {
+  "newUuid": "77c182ba-ee93-4e6e-865c-6e2ece07a40c",
+  "rel": "images/ui/beimi-1/ready2.png"
+ },
+ "a734265d-ea6c-4cce-b27a-1bd86f0c508e": {
+  "newUuid": "e06c2a74-f1b8-40b4-ab86-044bd7dd9229",
+  "rel": "images/ui/beimi-1/ready3.png"
+ },
+ "73abdc98-2cd9-4457-8a05-b8e19538df1e": {
+  "newUuid": "42f0e307-f659-4868-83b7-00b802a90541",
+  "rel": "images/ui/beimi-1/ready4.png"
+ },
+ "70bb8298-269d-4069-a735-2fba630bbc74": {
+  "newUuid": "52e8034b-d838-4889-a3dc-dd669f42b341",
+  "rel": "images/ui/beimi-1/room_numbers1.png"
+ },
+ "8a58e7c7-ede1-48e1-98dd-b0cd5ffc5c0d": {
+  "newUuid": "1b68cecd-d1be-41b1-95b8-f582d079b562",
+  "rel": "images/ui/beimi-1/room_numbers2.png"
+ },
+ "2f547819-5690-4770-bf41-bdb12f1ff32b": {
+  "newUuid": "ecf2e189-ed26-46e7-a909-8f555af8fffa",
+  "rel": "images/ui/beimi-1/room_numbers3.png"
+ },
+ "f150b566-bd23-4ba1-b5ae-d263c75aab94": {
+  "newUuid": "5537db02-ce31-49e7-a249-474428a0e9a4",
+  "rel": "images/ui/beimi-1/rule_base.png"
+ },
+ "15e0e10d-940e-4163-8130-e55d23aad500": {
+  "newUuid": "badd26cb-356e-4f09-a15a-cc36ee0138c1",
+  "rel": "images/ui/beimi-1/rule_close.png"
+ },
+ "82998d59-271c-438a-ba27-77868056749f": {
+  "newUuid": "8c1c974d-fd09-4074-84c1-84969ff0ad28",
+  "rel": "images/ui/beimi-1/rule_open.png"
+ },
+ "54913976-4acf-4ecc-95a4-681b894013a1": {
+  "newUuid": "67102f52-9b08-4ff0-8615-9e69c976124e",
+  "rel": "images/ui/beimi-1/setting1.png"
+ },
+ "a502dd53-d624-437a-aeed-c4c6adae4325": {
+  "newUuid": "a23d48c1-80b3-4344-ac6a-16af65182c21",
+  "rel": "images/ui/beimi-1/setting2.png"
+ },
+ "5b298625-d9b4-4ae8-95fd-ee73f91432e6": {
+  "newUuid": "41cfec09-612e-4c9d-913c-43d0d78abdee",
+  "rel": "images/ui/beimi-1/setting3.png"
+ },
+ "ba05f717-de4f-4960-aa54-998bc9f7a366": {
+  "newUuid": "81631000-be9d-4e78-8531-18c420d01d4b",
+  "rel": "images/ui/beimi-1/倒计时_0.png"
+ },
+ "41ab4bd8-be27-473f-b5ae-64f1132cfc4e": {
+  "newUuid": "34af0033-5642-49b9-89e2-00d4342fdd75",
+  "rel": "images/ui/beimi-1/倒计时_1.png"
+ },
+ "9719e7c1-f7ff-44a6-94cd-eefa6f70f5c1": {
+  "newUuid": "24e3c1c7-b034-436f-a7fc-cac1d08096d8",
+  "rel": "images/ui/beimi-1/倒计时_2.png"
+ },
+ "61a04017-7b29-40dc-a33f-3c270619efe3": {
+  "newUuid": "3222549d-76d4-4f9b-aae8-0c33bb0e72c5",
+  "rel": "images/ui/beimi-1/倒计时_3.png"
+ },
+ "5803fb12-9b7d-46ef-8e23-b0a622e7c314": {
+  "newUuid": "35f0c242-f448-49b1-8bd6-180eb81af9ec",
+  "rel": "images/ui/beimi-1/倒计时_4.png"
+ },
+ "71e3441a-5f3f-473b-971a-479e27597fa9": {
+  "newUuid": "56aa2205-f009-4921-8b88-7278cd897d21",
+  "rel": "images/ui/beimi-1/倒计时_5.png"
+ },
+ "c697c08f-0e73-41e3-9367-152660bb9dc3": {
+  "newUuid": "109585c7-0593-4477-80f5-5f13d47bc384",
+  "rel": "images/ui/beimi-1/倒计时_6.png"
+ },
+ "08c58e0c-5d32-4e67-8428-12c6bbf6dbba": {
+  "newUuid": "d4ee39ba-9fb8-47a9-b736-98082660a042",
+  "rel": "images/ui/beimi-1/倒计时_7.png"
+ },
+ "1420291d-1acb-4714-8094-31ec7372d3e9": {
+  "newUuid": "eee15bf8-2696-4707-966c-95cb1d118ac0",
+  "rel": "images/ui/beimi-1/倒计时_8.png"
+ },
+ "193c09ae-9ccc-4d97-8ce8-47360ffe4314": {
+  "newUuid": "ed342e23-1fdf-40e9-bdff-8af3a4d5bc4a",
+  "rel": "images/ui/beimi-1/倒计时_9.png"
+ },
+ "427ee915-c870-4112-b634-eef32f7abf7b": {
+  "newUuid": "bbc2b1d3-f3b5-495c-93a6-7a3c1d74ec8b",
+  "rel": "images/ui/beimi-1/倒计时_countdown_numbers.png"
+ },
+ "a8e11731-de62-465b-acb5-d962b6d6af3f": {
+  "newUuid": "08246d6b-1dc6-4a12-8959-39fe497f4f09",
+  "rel": "images/ui/beimi-1/分享_button1_big.png"
+ },
+ "bd30bd51-3196-4c00-b9eb-4fd5b0bc215c": {
+  "newUuid": "de691ee2-b917-4741-b699-369dbf7f52cd",
+  "rel": "images/ui/beimi-1/分享_button2_big.png"
+ },
+ "06aa9274-23ba-4469-81d2-bac1af3b3942": {
+  "newUuid": "4b14c3b2-c6fd-4317-8b64-95d54148f83c",
+  "rel": "images/ui/beimi-1/分享_content.png"
+ },
+ "8d7aac3d-f162-4b85-bb0e-ae9780a4253d": {
+  "newUuid": "38476bac-7d84-4272-93e8-0ecef39d658a",
+  "rel": "images/ui/beimi-1/分享_subtitle.png"
+ },
+ "632a40fd-d3a4-430b-bb9c-d3a080e8f99b": {
+  "newUuid": "7ef0ac2c-2a22-4c46-8ff1-3b032b3e59eb",
+  "rel": "images/ui/beimi-1/分享_title_share.png"
+ },
+ "68ea8960-33c6-4562-b2ae-9491f649f23f": {
+  "newUuid": "4a759ec1-0784-47f5-8d8c-78f442dda3c6",
+  "rel": "images/ui/beimi-1/分享_wechat_icon.png"
+ },
+ "1c044c3f-357b-489d-a77a-c9bbccfac40c": {
+  "newUuid": "950d37c3-dc49-4fe5-904e-714c12f0c7b8",
+  "rel": "images/ui/beimi-1/切图_你赢了.png"
+ },
+ "4cfaace1-96d2-4ded-8e1f-4e7bd8de9754": {
+  "newUuid": "a19232b1-5f2b-48c8-845c-59901fece9a0",
+  "rel": "images/ui/beimi-1/切图_你输了.png"
+ },
+ "b4b38c4d-739f-4758-919f-335795558c3b": {
+  "newUuid": "f1504270-0040-4683-b368-c2e26e50b934",
+  "rel": "images/ui/beimi-1/切图_其他头像外框50x50.png"
+ },
+ "97938209-445d-4cab-879e-36a276092955": {
+  "newUuid": "7e35bf3a-25ce-4caa-99d1-b67b676fa741",
+  "rel": "images/ui/beimi-1/切图_其他玩家底框.png"
+ },
+ "77ef2467-0811-4530-9406-86802665b4b2": {
+  "newUuid": "080ccb19-a1f8-41e4-a6a3-73f7009948e7",
+  "rel": "images/ui/beimi-1/切图_加倍小.png"
+ },
+ "6f131f43-6f8f-4fae-abcb-7c4cf045403b": {
+  "newUuid": "42b6f8b4-933f-4a3f-91a6-06e0be6c7467",
+  "rel": "images/ui/beimi-1/切图_数字_+.png"
+ },
+ "8904d309-fff8-46a6-8a82-6f0107105fda": {
+  "newUuid": "3a25902d-a8d5-4dbd-99e0-146a7d6f29ee",
+  "rel": "images/ui/beimi-1/切图_数字_-.png"
+ },
+ "378fc03c-f870-40ee-82db-77c890ae94fc": {
+  "newUuid": "876fbff9-f604-4728-91da-f3508ed01f0d",
+  "rel": "images/ui/beimi-1/切图_数字_0.png"
+ },
+ "0cd64c11-be1b-48e6-b151-65d0926e2079": {
+  "newUuid": "3053cd97-a13d-4893-8c30-2f24a675602a",
+  "rel": "images/ui/beimi-1/切图_数字_1.png"
+ },
+ "87592a1e-b5c3-4c48-863e-455e07502b44": {
+  "newUuid": "b19926ad-4fb6-4c13-9ab8-bd93cae34467",
+  "rel": "images/ui/beimi-1/切图_数字_2.png"
+ },
+ "348e5a1f-d87d-46ef-a8f9-21403f84b830": {
+  "newUuid": "07f69405-474c-444f-ae3c-2f4edaad8dc5",
+  "rel": "images/ui/beimi-1/切图_数字_3.png"
+ },
+ "3416c4ff-14ba-451f-b085-2f13db0ea49b": {
+  "newUuid": "9c205f27-3209-4f33-b0c9-18c328bfd7aa",
+  "rel": "images/ui/beimi-1/切图_数字_4.png"
+ },
+ "7bf6c42d-df22-4f18-a3b8-311c4bc6dd86": {
+  "newUuid": "e67fd633-d759-4b76-b765-65b4dd0867bf",
+  "rel": "images/ui/beimi-1/切图_数字_5.png"
+ },
+ "91137f70-80d6-4abf-bd2b-c9c19460838b": {
+  "newUuid": "0e319fa6-7c82-441c-bda7-4f3e90808380",
+  "rel": "images/ui/beimi-1/切图_数字_6.png"
+ },
+ "0f450e52-4d14-4278-a580-b99c233aa981": {
+  "newUuid": "f5f99797-a153-41fd-ad82-d41673a52fd5",
+  "rel": "images/ui/beimi-1/切图_数字_7.png"
+ },
+ "a2904650-52e6-4647-8e09-30e241b6dbad": {
+  "newUuid": "782a163e-305c-43de-ba1c-874b8e064fb0",
+  "rel": "images/ui/beimi-1/切图_数字_8.png"
+ },
+ "e04efb1b-0f2e-40c6-9d54-d8ae4b453dd4": {
+  "newUuid": "919096d2-4514-4df3-b32f-dcb0c54c9d1d",
+  "rel": "images/ui/beimi-1/切图_数字_9.png"
+ },
+ "c2c4c703-2015-4ef5-820b-905f0a9aecb3": {
+  "newUuid": "cfdf8337-b505-4da1-bb03-00a525933902",
+  "rel": "images/ui/beimi-1/切图_数字_dian.png"
+ },
+ "97b7892f-d6cf-4f94-bc47-45cf81f1483e": {
+  "newUuid": "6632b4a6-77e6-4a1b-b072-ec7c2f4fd864",
+  "rel": "images/ui/beimi-1/切图_数字_qian.png"
+ },
+ "33c4b232-d87a-4365-be25-4da9fe2295f6": {
+  "newUuid": "30b3ed1d-9dbd-4280-b654-f2f7f74f38af",
+  "rel": "images/ui/beimi-1/切图_数字_wan.png"
+ },
+ "c6d46ab7-c77d-4278-8331-1a1ef6f9c655": {
+  "newUuid": "d81f31d7-284c-4091-b858-55ef1eb52c3c",
+  "rel": "images/ui/beimi-1/切图_数字_y_+.png"
+ },
+ "27b3193c-77ae-4822-976d-cf2f911e080d": {
+  "newUuid": "571e3cba-4d94-4cc8-a27a-76b4d1e164cd",
+  "rel": "images/ui/beimi-1/切图_数字_y_-.png"
+ },
+ "ecd48d87-f129-4b59-a362-9d73f391f174": {
+  "newUuid": "ec633e24-bb42-4e74-9d6c-f9edeeee2f00",
+  "rel": "images/ui/beimi-1/切图_数字_y_0.png"
+ },
+ "7cd9029f-487f-424e-95b2-d773786e1107": {
+  "newUuid": "73d0213a-44fe-4056-9da5-42c7cfb28221",
+  "rel": "images/ui/beimi-1/切图_数字_y_1.png"
+ },
+ "3a489b7a-8096-4196-94c0-d646547338ac": {
+  "newUuid": "0f77335b-fdee-45fa-8e0f-60fdf21e96ef",
+  "rel": "images/ui/beimi-1/切图_数字_y_2.png"
+ },
+ "f8469b69-fb1b-4426-9cb7-2a208507c23a": {
+  "newUuid": "3edf2029-26ca-4fab-9f47-09e16d5f5e71",
+  "rel": "images/ui/beimi-1/切图_数字_y_3.png"
+ },
+ "b62be05c-88dd-4682-bf7d-6fd75e43ef32": {
+  "newUuid": "b971e1b3-a4bf-4302-82cd-a886ea1c623e",
+  "rel": "images/ui/beimi-1/切图_数字_y_4.png"
+ },
+ "cf389218-0c43-4078-af39-006618cfe9ff": {
+  "newUuid": "73ea8606-02a8-463b-84da-c33d3c730309",
+  "rel": "images/ui/beimi-1/切图_数字_y_5.png"
+ },
+ "b25cd790-46d3-4e02-9023-c4f034a1899a": {
+  "newUuid": "d6b728d2-5635-42d6-8902-879a61bd49aa",
+  "rel": "images/ui/beimi-1/切图_数字_y_6.png"
+ },
+ "929e80e4-84ce-4d2a-9e3a-b516f94191f9": {
+  "newUuid": "e44f80f1-b7f9-46ab-9cf5-db580b9c6568",
+  "rel": "images/ui/beimi-1/切图_数字_y_7.png"
+ },
+ "d2472496-6e0c-4725-9054-cd3b321c063c": {
+  "newUuid": "be2d178c-df74-4b2d-b365-626938d4c82b",
+  "rel": "images/ui/beimi-1/切图_数字_y_8.png"
+ },
+ "bb185846-8d9f-404f-98fd-5639c78fb90d": {
+  "newUuid": "683d0ef7-7427-49bb-947c-896e2e37b837",
+  "rel": "images/ui/beimi-1/切图_数字_y_9.png"
+ },
+ "892ee08e-2a8f-46a5-8566-7f50a0c6fd6a": {
+  "newUuid": "11669a0d-a90d-448e-a650-f30f179dfa09",
+  "rel": "images/ui/beimi-1/切图_数字_y_dian.png"
+ },
+ "488a1a8c-80b9-4c25-b08b-e9e4063dea7d": {
+  "newUuid": "b60f715b-c258-470d-9a17-7254af67df4b",
+  "rel": "images/ui/beimi-1/切图_数字_y_qian.png"
+ },
+ "c112d613-fbbb-4292-8977-27e6e5327696": {
+  "newUuid": "bd4649b5-4735-48d2-a633-e2edf2454589",
+  "rel": "images/ui/beimi-1/切图_数字_y_wan.png"
+ },
+ "526e5f6a-d751-4e54-837b-de73d61571b9": {
+  "newUuid": "6cb8fb1d-27f2-4e1d-a88a-4394e7aea56a",
+  "rel": "images/ui/beimi-1/切图_自己头像外框74x74.png"
+ },
+ "18642639-ee6c-4ba2-9d0c-f9019c46c766": {
+  "newUuid": "6037ee49-b629-4f92-9ec3-7d0e3ee5cc1c",
+  "rel": "images/ui/beimi-1/切图_自己灰色底框.png"
+ },
+ "5136f940-20ea-406d-b62b-73fc1dc69f8b": {
+  "newUuid": "3fb7c92e-956a-4b72-b728-095e1041c9fc",
+  "rel": "images/ui/beimi-1/切图_自己金色底框.png"
+ },
+ "8addbad8-8c45-4378-90bb-5939d7bcf0f5": {
+  "newUuid": "d1842108-9bea-4f24-b647-799076b55a0c",
+  "rel": "images/ui/beimi-1/加入房间_0.png"
+ },
+ "09e6ed0b-fb0e-48f0-82bd-a6744119567e": {
+  "newUuid": "f5616b63-49d5-4295-88e7-cb9e50a4315b",
+  "rel": "images/ui/beimi-1/加入房间_1.png"
+ },
+ "598028f3-ca72-4491-9ec0-1bfbe10abdd7": {
+  "newUuid": "6043ec5b-7acf-4d2b-a46d-378e43d10f8b",
+  "rel": "images/ui/beimi-1/加入房间_2.png"
+ },
+ "661d111d-9f10-4dda-8143-e1ab2febb603": {
+  "newUuid": "9b231ba2-991c-4e56-88ec-235abfdd7c39",
+  "rel": "images/ui/beimi-1/加入房间_3.png"
+ },
+ "bba9db48-503e-4a4c-8534-ad3cdb28aa92": {
+  "newUuid": "e6e9bda4-000d-4878-b637-421821a42f20",
+  "rel": "images/ui/beimi-1/加入房间_4.png"
+ },
+ "e31349a6-4bc9-4f55-af44-b492b1d7a9ec": {
+  "newUuid": "591f7860-b585-4ffa-9e9a-11dbaa43ff61",
+  "rel": "images/ui/beimi-1/加入房间_5.png"
+ },
+ "f63323c1-a2d9-4974-967b-8051bd1fa540": {
+  "newUuid": "a2ff1678-7790-41b5-94cf-2fd0964afbfa",
+  "rel": "images/ui/beimi-1/加入房间_6.png"
+ },
+ "32821a28-62f2-4678-85d1-45159823c508": {
+  "newUuid": "3e6d9ffe-58ac-44d7-9eca-43c261d95493",
+  "rel": "images/ui/beimi-1/加入房间_7.png"
+ },
+ "ccc4f22b-ebe6-4d89-aaf5-3d5c2581ba8a": {
+  "newUuid": "948e58af-3d61-4d3f-bb67-1d1033073fc3",
+  "rel": "images/ui/beimi-1/加入房间_8.png"
+ },
+ "24a18b76-3911-42c3-b598-df4951d131d2": {
+  "newUuid": "6b9ae4b7-c33f-4356-a4ef-d0ddf003841e",
+  "rel": "images/ui/beimi-1/加入房间_9.png"
+ },
+ "29ab670a-0a92-4329-bbdd-a8f633fd62ff": {
+  "newUuid": "8a61e50e-a53f-43d1-8718-070fb64a2582",
+  "rel": "images/ui/beimi-1/加入房间_circle.png"
+ },
+ "25b02eca-e48f-4c82-b499-cc000dc0cd5f": {
+  "newUuid": "9ef27152-f4bf-4433-8a17-d592993543b4",
+  "rel": "images/ui/beimi-1/加入房间_delete.png"
+ },
+ "16c1adf2-bcb4-4898-ada5-aa7da8201cd6": {
+  "newUuid": "7c7a90cd-e598-464b-9686-e65bf1836176",
+  "rel": "images/ui/beimi-1/加入房间_retype.png"
+ },
+ "ae83d751-3a7d-4838-a62c-abcbfd2285fd": {
+  "newUuid": "a42c5906-6b57-4aa3-aa71-63de1800bbd5",
+  "rel": "images/ui/beimi-1/加入房间_text.png"
+ },
+ "abcef37a-6e8e-4310-9781-4220b30c1eb4": {
+  "newUuid": "24e3d74a-8c6e-4962-a3b0-53bb484b40de",
+  "rel": "images/ui/beimi-1/加入房间_tips.png"
+ },
+ "bb9ad988-61f7-4d62-80fe-0ed697fd3e06": {
+  "newUuid": "26b13062-57e6-491e-9966-ab94c8c3cae2",
+  "rel": "images/ui/beimi-1/加入房间_title_join.png"
+ },
+ "87df0352-847a-4e13-87a0-c9dbe2ce69ad": {
+  "newUuid": "38c8542e-e721-4402-a1e0-faa04d9b9812",
+  "rel": "images/ui/beimi-1/加载_0.png"
+ },
+ "22493444-48ab-4dda-9326-5cb197b7e143": {
+  "newUuid": "dc35a142-65f5-4872-a45d-27133db7197a",
+  "rel": "images/ui/beimi-1/加载_1.png"
+ },
+ "261fd0a6-6289-4518-999f-610588c52a46": {
+  "newUuid": "f7385f3e-9acb-4b4c-950d-a220dbe35046",
+  "rel": "images/ui/beimi-1/反馈_不得少于8个字.png"
+ },
+ "083a814b-90b1-460b-a056-4d3ddbd67ea3": {
+  "newUuid": "f97cafcf-c11e-4282-bbe2-356e1fd2617d",
+  "rel": "images/ui/beimi-1/反馈_反馈-按下.png"
+ },
+ "a108b379-fa3e-480b-8025-dde860c798f6": {
+  "newUuid": "06c98525-6da9-4295-886c-67e4614557a4",
+  "rel": "images/ui/beimi-1/反馈_反馈.png"
+ },
+ "905dcb4e-6065-4491-8c5b-6612437ee721": {
+  "newUuid": "56fdb07e-a84a-443d-834e-d79ff9c2c6bd",
+  "rel": "images/ui/beimi-1/反馈_发送_小.png"
+ },
+ "a8116a73-271d-4594-88aa-56c723a67417": {
+  "newUuid": "5730e072-0957-4c04-b6cb-80972bffdf41",
+  "rel": "images/ui/beimi-1/反馈_感谢您的反馈.png"
+ },
+ "fc44512b-5762-401d-ae3c-a6d4dc88847b": {
+  "newUuid": "df73a755-f8c8-4ac7-a049-5bf1a0662437",
+  "rel": "images/ui/beimi-1/反馈_提交_小.png"
+ },
+ "f1d62c12-e923-4ff4-89e4-8e19a84b6142": {
+  "newUuid": "5b52dd4f-7a46-4efe-9754-9c588d2f5771",
+  "rel": "images/ui/beimi-1/反馈_答复-按下.png"
+ },
+ "64110040-84b3-48b0-94b0-5b497f07f9c7": {
+  "newUuid": "94acc840-a49e-441c-996e-9abc1d4d069f",
+  "rel": "images/ui/beimi-1/反馈_答复.png"
+ },
+ "9b453598-5558-4dad-9198-9ccea907d479": {
+  "newUuid": "97faa23b-df5b-4a5a-afa6-5b3bd6a44a46",
+  "rel": "images/ui/beimi-1/商城_B0C49FAA-拷贝.png"
+ },
+ "726a61aa-9182-49cd-b35b-24e2313a0e4d": {
+  "newUuid": "de0cc591-7137-44b6-a8d1-a094390849ac",
+  "rel": "images/ui/beimi-1/商城_shop_special_title.png"
+ },
+ "3409b252-8f2b-4c48-b074-890b690173f7": {
+  "newUuid": "0046cad4-f2ef-43a2-871b-305215e212fa",
+  "rel": "images/ui/beimi-1/商城_好友同玩！.png"
+ },
+ "299b46a7-25cc-4db5-8541-6c52084259ef": {
+  "newUuid": "e8bd487b-7ba3-45c7-a449-ae246edfa10e",
+  "rel": "images/ui/beimi-1/商城_房卡（大）备份-拷贝.png"
+ },
+ "9dccfb71-5506-444f-86a1-a1ae2c0af19e": {
+  "newUuid": "17601feb-bcf0-4a59-b622-3434ea70835a",
+  "rel": "images/ui/beimi-1/商城_购买房卡请联系微信：jiumei091.png"
+ },
+ "0ffbcf4c-d969-4d12-abea-fc8f23eadab7": {
+  "newUuid": "6d50d245-1594-443c-b338-4b32da8ffa10",
+  "rel": "images/ui/beimi-1/底分.png"
+ },
+ "26e0343e-b647-4fe0-8c66-2f9eaeaad8ac": {
+  "newUuid": "428cfcc1-5fb9-4be1-bb6c-200e57bc5617",
+  "rel": "images/ui/beimi-1/底分字_0.png"
+ },
+ "639379b5-4245-4253-a8c0-11fb7e49622b": {
+  "newUuid": "e5de75b7-e4b1-4fcf-8673-e759f9fcc0ea",
+  "rel": "images/ui/beimi-1/底分字_1.png"
+ },
+ "077a9ffb-5690-44e8-aba6-406454015805": {
+  "newUuid": "3a84487d-1db9-47b0-8547-be4f45c91df0",
+  "rel": "images/ui/beimi-1/底分字_2.png"
+ },
+ "bf76f212-8a6c-4cb3-aa05-66db82432223": {
+  "newUuid": "c146ecc3-067f-432e-808f-7992dd9f37c2",
+  "rel": "images/ui/beimi-1/底分字_3.png"
+ },
+ "1b2413f1-303a-4594-adcd-b1e1e7ac68b7": {
+  "newUuid": "58c4dabd-ebb9-4b2e-bbb6-fa2bb9cf0523",
+  "rel": "images/ui/beimi-1/底分字_4.png"
+ },
+ "4b110fba-22bf-4046-8d8e-a51449c1a99e": {
+  "newUuid": "4ad5f22f-4511-4619-b33d-ed98cced358f",
+  "rel": "images/ui/beimi-1/底分字_5.png"
+ },
+ "91739c94-d4bd-47ad-b683-ee3a3d12c576": {
+  "newUuid": "b24f04f6-f2a2-4692-ab9b-5ba995ea8a1e",
+  "rel": "images/ui/beimi-1/底分字_6.png"
+ },
+ "7b85b0f5-d3eb-498b-b080-b05ba28c3476": {
+  "newUuid": "c76285b4-b088-41ea-8bc7-8d2e9b9714c1",
+  "rel": "images/ui/beimi-1/底分字_7.png"
+ },
+ "949834e8-288e-4a16-b7b9-38e4336a244a": {
+  "newUuid": "f3c60716-146d-4138-8997-66978f7d289c",
+  "rel": "images/ui/beimi-1/底分字_8.png"
+ },
+ "fbcd1780-b9d8-4231-b97c-250802e30533": {
+  "newUuid": "32621179-9ce9-461e-a9eb-6b52698bce31",
+  "rel": "images/ui/beimi-1/底分字_9.png"
+ },
+ "53830c48-7192-4bef-802c-2887c2cbb076": {
+  "newUuid": "63053bbf-2bf4-463d-a5aa-786d6934eee3",
+  "rel": "images/ui/beimi-1/底分字_绿色_g-.png"
+ },
+ "2c508b77-5b7b-4a1a-a279-daa029dc842f": {
+  "newUuid": "ca15c3b9-be20-4a84-9e51-978ad1df2ba3",
+  "rel": "images/ui/beimi-1/底分字_绿色_g.png"
+ },
+ "0c7ec1d0-54b0-48b9-9c9a-8b5ec107683f": {
+  "newUuid": "39b60a10-eb31-443f-87ed-64430033af3a",
+  "rel": "images/ui/beimi-1/底分字_绿色_g0.png"
+ },
+ "6c4243d2-a499-4f4b-ad38-e1a2cae4e6c4": {
+  "newUuid": "f91e86ba-b6dd-472d-9d20-a34b837d3035",
+  "rel": "images/ui/beimi-1/底分字_绿色_g1.png"
+ },
+ "7019f0e5-01c3-4da2-885f-a12a1277a9bb": {
+  "newUuid": "18edf63e-fee2-40f5-9959-78ad36ebc61d",
+  "rel": "images/ui/beimi-1/底分字_绿色_g2.png"
+ },
+ "fde5d975-97d1-4ddf-83bc-5eb38854cff7": {
+  "newUuid": "98925aed-ebfd-4992-a308-18fd66b6fb2e",
+  "rel": "images/ui/beimi-1/底分字_绿色_g3.png"
+ },
+ "21b041f6-3bc6-4ad0-8594-98355ca7ee0e": {
+  "newUuid": "9bad7d1b-50cd-457d-a8c6-0ea63f4db008",
+  "rel": "images/ui/beimi-1/底分字_绿色_g4.png"
+ },
+ "6fcf644f-60e5-4006-ac61-a7c6210bc936": {
+  "newUuid": "24b36ab4-e64e-4f4e-bd26-8eb444025138",
+  "rel": "images/ui/beimi-1/底分字_绿色_g5.png"
+ },
+ "f8d8a5aa-a30c-4390-8570-5a9f3a1f7773": {
+  "newUuid": "65e46e26-f1fc-446f-8ebb-5247eadc5236",
+  "rel": "images/ui/beimi-1/底分字_绿色_g6.png"
+ },
+ "14e91e80-cc9a-48ff-b9d6-f0c32ce90ac3": {
+  "newUuid": "a38cea34-0a59-4a2f-bfd9-a1402a24acb0",
+  "rel": "images/ui/beimi-1/底分字_绿色_g7.png"
+ },
+ "94a2ddc8-8389-4f95-af33-b119748df436": {
+  "newUuid": "fe79db08-1040-494f-8ca2-e1d99346bb86",
+  "rel": "images/ui/beimi-1/底分字_绿色_g8.png"
+ },
+ "e406ed43-a566-45f6-8aa7-ea0679214b1c": {
+  "newUuid": "b3bb9533-7772-4c83-9c66-d4fcf66c62ff",
+  "rel": "images/ui/beimi-1/底分字_绿色_g9.png"
+ },
+ "64e6a35e-d208-4624-9a4c-dc2d62ee2157": {
+  "newUuid": "f15567d3-b481-46de-b78e-847e24597010",
+  "rel": "images/ui/beimi-1/底分字_绿色_gg.png"
+ },
+ "85919917-d12e-431d-ba44-25505ea5b819": {
+  "newUuid": "d295513b-534a-4d0f-951d-5892b7dc2054",
+  "rel": "images/ui/beimi-1/底分字_绿色_g万.png"
+ },
+ "ea03dbfb-619b-44a9-9d11-bc644f431c01": {
+  "newUuid": "bfc5bc7a-769a-4a47-9428-16fe93818486",
+  "rel": "images/ui/beimi-1/底分字_绿色_g千.png"
+ },
+ "ef2db887-b11b-4fa4-981b-6a93a3ba5957": {
+  "newUuid": "71706fe4-d08e-484e-9eb5-0f8dc1c7b4a8",
+  "rel": "images/ui/beimi-1/底分字_蓝色_b-.png"
+ },
+ "375e3ce5-8d3d-486c-adb0-e4c4bad45811": {
+  "newUuid": "fdd140b0-4a47-4648-94f6-b8801daf4cb4",
+  "rel": "images/ui/beimi-1/底分字_蓝色_b.png"
+ },
+ "ad3cc5bf-1060-4f7b-9c31-24dc3cb21bb1": {
+  "newUuid": "881d87e0-cf9d-4008-958e-47dfe7c7a4da",
+  "rel": "images/ui/beimi-1/底分字_蓝色_b0.png"
+ },
+ "da7fc6cf-5ba8-458b-b7ba-cb3693537bc6": {
+  "newUuid": "6e2c7f6a-3a64-43db-a282-314d63c1e6c5",
+  "rel": "images/ui/beimi-1/底分字_蓝色_b1.png"
+ },
+ "3a33ed91-b22a-4c2e-8ca6-bbe9861bcbbb": {
+  "newUuid": "6d38323d-ec7b-4e7f-a3cf-b5f10b9e07d9",
+  "rel": "images/ui/beimi-1/底分字_蓝色_b2.png"
+ },
+ "111f6145-c256-4b70-baaa-671840e29fd4": {
+  "newUuid": "11f0407f-172e-4217-9d47-438bce75fb40",
+  "rel": "images/ui/beimi-1/底分字_蓝色_b3.png"
+ },
+ "5dc666f2-e2bd-4284-9465-6d0a3cc8c012": {
+  "newUuid": "db4cace7-134c-44fb-ac59-bddf9a4141ed",
+  "rel": "images/ui/beimi-1/底分字_蓝色_b4.png"
+ },
+ "746560ec-650a-44e0-b1d9-256b71a7d0ca": {
+  "newUuid": "fe89dddc-9c73-48ee-b0f4-1f04f4df3999",
+  "rel": "images/ui/beimi-1/底分字_蓝色_b5.png"
+ },
+ "249c76e5-249d-42cb-82b7-b248bf3aacc5": {
+  "newUuid": "7205f157-a3d0-4a3a-8f07-5ad43963d3e2",
+  "rel": "images/ui/beimi-1/底分字_蓝色_b6.png"
+ },
+ "24635b3a-db81-4f8a-849a-dd1c5ef78cd6": {
+  "newUuid": "21519396-0ffe-4b5d-bb37-c98ccbe7b224",
+  "rel": "images/ui/beimi-1/底分字_蓝色_b7.png"
+ },
+ "2da7197b-41d9-49cb-a804-29a6c45b108d": {
+  "newUuid": "e5d07508-ce62-4d4b-9070-6304c1abb42c",
+  "rel": "images/ui/beimi-1/底分字_蓝色_b8.png"
+ },
+ "6e77d2dc-6d10-4bb6-9941-4d7f14a0029a": {
+  "newUuid": "547cdf8d-aa67-400d-98a1-db4bd58db06a",
+  "rel": "images/ui/beimi-1/底分字_蓝色_b9.png"
+ },
+ "e3cac197-3873-4a8e-90c8-23bd9ee49ce1": {
+  "newUuid": "368d0648-035f-4963-ab88-bc0719b48c8a",
+  "rel": "images/ui/beimi-1/底分字_蓝色_bb.png"
+ },
+ "33bc7ca5-6265-40e9-ae0b-06b3ba61c792": {
+  "newUuid": "3e1cf4cb-935b-49e6-beea-3c24a67f74f4",
+  "rel": "images/ui/beimi-1/底分字_蓝色_b万.png"
+ },
+ "fdd97417-0bd0-4d1d-9aef-02fe2194822c": {
+  "newUuid": "f0b6f4a5-a566-4324-ab40-87f0b137e27e",
+  "rel": "images/ui/beimi-1/底分字_蓝色_b千.png"
+ },
+ "0911cbe2-ee43-46f9-8e17-51a91e3b4fb1": {
+  "newUuid": "41702e0a-d96d-47b2-a639-98d6ba7e6844",
+  "rel": "images/ui/beimi-1/底分字_青色_c-.png"
+ },
+ "befbb8b6-e3c7-458a-a332-97d7c207ea10": {
+  "newUuid": "deedce22-7383-4457-8922-3d5a7a75e5aa",
+  "rel": "images/ui/beimi-1/底分字_青色_c.png"
+ },
+ "21f0b59e-e957-468d-b3ad-55e2e8f7d5a3": {
+  "newUuid": "bc3dba3f-169c-427a-9e94-ce4d721eb58f",
+  "rel": "images/ui/beimi-1/底分字_青色_c0.png"
+ },
+ "90f9b44a-1ffd-4bc0-b614-0b651a7e4157": {
+  "newUuid": "6fad7d86-5905-482b-bf6e-9cb1d21004e1",
+  "rel": "images/ui/beimi-1/底分字_青色_c1.png"
+ },
+ "f0276a78-d7bc-4280-9c8f-094e85a062d4": {
+  "newUuid": "1343129c-1be0-4a15-b07f-a9cb0127c9a7",
+  "rel": "images/ui/beimi-1/底分字_青色_c2.png"
+ },
+ "c4d63117-9541-4fa9-9118-eaf792d31bcb": {
+  "newUuid": "730aa88c-fe32-443d-9aa9-e27f9861f7d6",
+  "rel": "images/ui/beimi-1/底分字_青色_c3.png"
+ },
+ "2e568408-f91e-42e7-8062-37d299f75e2a": {
+  "newUuid": "03aea4bf-579e-4559-b2e7-e41e762d2980",
+  "rel": "images/ui/beimi-1/底分字_青色_c4.png"
+ },
+ "a0e9c07c-5444-49da-8bba-6493d44e15cc": {
+  "newUuid": "8f35f5e7-dc9d-46a6-8d22-18bbc3c68e82",
+  "rel": "images/ui/beimi-1/底分字_青色_c5.png"
+ },
+ "c13a939c-b0d9-4ebf-90d5-69e982ab9ac2": {
+  "newUuid": "9633b6af-a0bd-40b5-9b1b-413b551a7371",
+  "rel": "images/ui/beimi-1/底分字_青色_c6.png"
+ },
+ "19814948-37d8-496f-ac25-ae89584ffad9": {
+  "newUuid": "d7efe4f7-8486-4ff8-9e7c-df13c39d8d80",
+  "rel": "images/ui/beimi-1/底分字_青色_c7.png"
+ },
+ "17c33920-e0d1-44f9-a3b0-bb75df13d982": {
+  "newUuid": "f8686fd7-8187-4e70-b6aa-f3cf837ad034",
+  "rel": "images/ui/beimi-1/底分字_青色_c8.png"
+ },
+ "4374d830-d480-45d8-aa3c-b97dbcc86fc0": {
+  "newUuid": "dd4dceb9-9977-4e8b-99ce-56a272045708",
+  "rel": "images/ui/beimi-1/底分字_青色_c9.png"
+ },
+ "17ca47f0-91a6-4423-a95c-1424ae6bf4e8": {
+  "newUuid": "509a06af-5383-4087-8ebd-2c9f82677c58",
+  "rel": "images/ui/beimi-1/底分字_青色_cc.png"
+ },
+ "3b1c54e7-702f-4fe5-ae1b-19ac222cdc20": {
+  "newUuid": "f3744ad8-1aaa-4b76-a72b-a02a7ad0d2c7",
+  "rel": "images/ui/beimi-1/底分字_青色_c万.png"
+ },
+ "4e40a178-c919-4506-b708-bcc2b053e7aa": {
+  "newUuid": "a198be08-7262-4c3e-bd3e-fda2b5400fdc",
+  "rel": "images/ui/beimi-1/底分字_青色_c千.png"
+ },
+ "149ae400-ba15-4ab2-8c7a-3b0345fd181d": {
+  "newUuid": "91bb25aa-80cc-44ef-969b-aa83c1d3aede",
+  "rel": "images/ui/beimi-1/底分字_黄色_y-.png"
+ },
+ "0819e635-d5b3-41a2-8b54-c324b1fb2d3b": {
+  "newUuid": "f5f7b42f-88e8-46ab-a475-aa847492946a",
+  "rel": "images/ui/beimi-1/底分字_黄色_y.png"
+ },
+ "d2178105-46c9-4f6b-9e8c-8300ecb624b0": {
+  "newUuid": "10ba3989-f312-4f06-8373-85203e875ee0",
+  "rel": "images/ui/beimi-1/底分字_黄色_y0.png"
+ },
+ "fd3e5e4d-917f-475d-bf23-53ffdc449b8d": {
+  "newUuid": "f6f5bfef-bbd1-48f8-a41d-f1bb33cb7547",
+  "rel": "images/ui/beimi-1/底分字_黄色_y1.png"
+ },
+ "11c28169-269a-4960-8c6e-7b57fa634fc0": {
+  "newUuid": "fc95cb36-a53a-4ea1-b200-77615c090d16",
+  "rel": "images/ui/beimi-1/底分字_黄色_y2.png"
+ },
+ "f19abc8b-f7d0-45aa-bfe8-045feb87bcfe": {
+  "newUuid": "a9402166-33c2-434f-88ce-cce9c3a33e9c",
+  "rel": "images/ui/beimi-1/底分字_黄色_y3.png"
+ },
+ "c64e5f27-bddb-446a-a773-1b5a2fdc5252": {
+  "newUuid": "af4011eb-6e08-47fb-8154-d0aa92eacded",
+  "rel": "images/ui/beimi-1/底分字_黄色_y4.png"
+ },
+ "24c03a97-b573-4343-bb62-067472496949": {
+  "newUuid": "aa7ffc83-1620-4a0f-978d-0acbaeced9da",
+  "rel": "images/ui/beimi-1/底分字_黄色_y5.png"
+ },
+ "96075bc7-2d57-4f65-91e6-6af8ecae4530": {
+  "newUuid": "0af37087-bd3e-4442-9a17-8c5d3d7595fd",
+  "rel": "images/ui/beimi-1/底分字_黄色_y6.png"
+ },
+ "e9702991-98d8-41a3-a317-7402165ea4b2": {
+  "newUuid": "77db145e-21e5-4544-8f49-998d51244bc8",
+  "rel": "images/ui/beimi-1/底分字_黄色_y7.png"
+ },
+ "46cdabb7-475e-46c5-9cd5-1a2e1e76f207": {
+  "newUuid": "32db7315-cdee-4647-b996-7c8288f99f88",
+  "rel": "images/ui/beimi-1/底分字_黄色_y8.png"
+ },
+ "82589284-35e7-41a1-b9f3-65a0440ad81b": {
+  "newUuid": "a5ed7641-5cba-4235-a75d-d19f1e72bc43",
+  "rel": "images/ui/beimi-1/底分字_黄色_y9.png"
+ },
+ "ff0133ca-3239-4ba0-b941-4727e318aa13": {
+  "newUuid": "74260166-ffbe-4d2d-8a48-1423da0a2a37",
+  "rel": "images/ui/beimi-1/底分字_黄色_yy.png"
+ },
+ "a5683802-6be3-4239-baa8-c61e8f0a2f12": {
+  "newUuid": "82a79c61-5d07-4225-a40a-f7b7a8f6ea7a",
+  "rel": "images/ui/beimi-1/底分字_黄色_y万.png"
+ },
+ "1950b57b-1765-4e6c-aad9-cfb9cef69ea1": {
+  "newUuid": "ba4dadc5-7e56-4f56-9cb4-e2d267514363",
+  "rel": "images/ui/beimi-1/底分字_黄色_y千.png"
+ },
+ "03da754b-3804-4eb2-8b2d-39c7707e52bc": {
+  "newUuid": "96a3f6f5-2fd8-40bf-a80c-07e038ffa2c3",
+  "rel": "images/ui/beimi-1/房间入口-创建.png"
+ },
+ "fee35500-b0eb-4f78-ba20-12e60059d74f": {
+  "newUuid": "e906d221-6186-464f-abd6-9577784f6dc5",
+  "rel": "images/ui/beimi-1/房间入口-加入.png"
+ },
+ "90e1e083-5c3d-42bb-bd63-5417c6740c8d": {
+  "newUuid": "126c69ec-e59a-4e55-9c7c-e098db5d19ea",
+  "rel": "images/ui/beimi-1/房间入口-推倒胡.png"
+ },
+ "0fe53198-e895-4671-b368-8a5471b626ce": {
+  "newUuid": "fb1a66a1-f8ed-4be5-887f-26c02bd80c62",
+  "rel": "images/ui/beimi-1/房间入口-斗地主.png"
+ },
+ "c6fe6d51-9085-4877-bdf3-dd2eb4c1e65a": {
+  "newUuid": "7f8efce0-a85b-43e1-a24f-b4ec72a722b6",
+  "rel": "images/ui/beimi-1/房间入口-血战.png"
+ },
+ "44de4e78-dc79-4486-b83b-6c84d13d94bf": {
+  "newUuid": "cf6d05f5-4a35-4bb8-ad04-75d0c7e4858e",
+  "rel": "images/ui/beimi-1/房间入口-血流.png"
+ },
+ "dab8554b-234b-4c06-a785-0c4d1b9ad237": {
+  "newUuid": "f8cd2a5b-f1cc-4e08-a441-03d3329e3b98",
+  "rel": "images/ui/beimi-1/按钮_button1.png"
+ },
+ "1c96acca-aba1-44ab-8a20-fcbba175aaef": {
+  "newUuid": "52e92c34-5f3e-469b-8847-e499c22c3e3f",
+  "rel": "images/ui/beimi-1/按钮_button2.png"
+ },
+ "c9a398d7-4738-4ed1-8ee2-fdbdd9b244ae": {
+  "newUuid": "17a1e630-e06f-415c-9d15-e0af436bdcef",
+  "rel": "images/ui/beimi-1/按钮_gou.png"
+ },
+ "deda4788-54c2-4e54-a212-1df2825e194b": {
+  "newUuid": "c0eee92b-cc0d-47fd-b519-25697add93ce",
+  "rel": "images/ui/beimi-1/按钮_login.png"
+ },
+ "9dce1b21-f6b6-4f8c-ad09-ba9308eca61a": {
+  "newUuid": "15dcf999-34a8-4282-8903-d50ee8269ac0",
+  "rel": "images/ui/beimi-1/按钮_shadow.png"
+ },
+ "af06b0ea-353b-4c8b-80b0-1ee8c80ba350": {
+  "newUuid": "4c982fe5-6567-4edb-a371-4ed16f323fab",
+  "rel": "images/ui/beimi-1/按钮_tips.png"
+ },
+ "5731dfc1-2610-45f0-853f-6ae50b86fd93": {
+  "newUuid": "7d58d283-208c-4f59-bdb1-bb2ce2e71197",
+  "rel": "images/ui/beimi-1/按钮_user-agreement.png"
+ },
+ "80c3d899-6fda-4e81-8ad6-df47272aaa88": {
+  "newUuid": "ef6f7646-1e7d-4dd4-b26e-292e2c87cb99",
+  "rel": "images/ui/beimi-1/按钮_注册.png"
+ },
+ "8dff6012-5ae9-482d-b6d6-654562c795d5": {
+  "newUuid": "d1462810-dae2-4e68-b91a-f2442bff3e24",
+  "rel": "images/ui/beimi-1/排行榜-创建好友房标题.png"
+ },
+ "d8845d63-fe20-41f6-bc31-4ddb65eee388": {
+  "newUuid": "73f3f402-c8cd-473a-91be-a256ae68705e",
+  "rel": "images/ui/beimi-1/排行榜-好友排行标题.png"
+ },
+ "6a14c169-229a-4972-85dd-13b72d0d05ee": {
+  "newUuid": "79ebf977-3b69-49d1-ad24-5b2448a857dd",
+  "rel": "images/ui/beimi-1/排行榜-已送倒计时底.png"
+ },
+ "ff1c2c8c-6f09-4512-bee1-209d2cb1e63e": {
+  "newUuid": "9a944b82-ea4e-4d57-a82d-37e632f3b8f0",
+  "rel": "images/ui/beimi-1/排行榜-玩家底.png"
+ },
+ "e0b16bad-a5a0-4561-8002-e6c444e68dd9": {
+  "newUuid": "5346cf02-3601-43a2-9a48-3947ba07cedc",
+  "rel": "images/ui/beimi-1/排行榜-送金币.png"
+ },
+ "3d043831-93d7-4954-8622-e2d1efbc2a92": {
+  "newUuid": "6c76f490-543d-4eb3-9452-a51b51e28b25",
+  "rel": "images/ui/beimi-1/排行榜-邀请好友.png"
+ },
+ "f39ece43-c520-452b-b93a-6b348a24fa51": {
+  "newUuid": "6ba1ba28-ea87-497f-92a3-d10f4900129d",
+  "rel": "images/ui/beimi-1/文本1.png"
+ },
+ "6ee59241-48d3-4cfe-a8a8-eea64a79d78e": {
+  "newUuid": "9f64691b-e021-4c8e-a356-9ded52842730",
+  "rel": "images/ui/beimi-1/文本2.png"
+ },
+ "6cf586dd-b4b4-41e5-8db9-5fa983fdc1c7": {
+  "newUuid": "04c4faa9-39b4-4c05-b638-e6a87092bae3",
+  "rel": "images/ui/beimi-1/文本3.png"
+ },
+ "fa6cbc49-5544-4da0-8b5d-d4cdfd90ecb0": {
+  "newUuid": "b0f0805e-0d3d-4d22-a1d6-6a93d0932ca7",
+  "rel": "images/ui/beimi-1/橙色小按钮.png"
+ },
+ "3ac9f6fe-8f46-4f3f-8934-edb25a022c32": {
+  "newUuid": "4486f192-1e1d-4012-a18c-761252346c70",
+  "rel": "images/ui/beimi-1/橙色小按钮_随名.png"
+ },
+ "3bdd9f26-5b12-46a1-b44f-24e80920f5fb": {
+  "newUuid": "94da0eff-db9f-4666-addf-c32fb2c57bef",
+  "rel": "images/ui/beimi-1/橙色小按钮_验证码.png"
+ },
+ "e3c2af86-1442-4ecb-8786-840f0db58ac7": {
+  "newUuid": "c40b9880-ed5c-4cc2-ac4f-40de55564148",
+  "rel": "images/ui/beimi-1/游客登录.png"
+ },
+ "ada87d60-5ebc-45f6-9210-e70754a9a9e1": {
+  "newUuid": "7d81f04d-c8d6-49f4-9a3d-c20a7c58cc0b",
+  "rel": "images/ui/beimi-1/游戏更新_提示.png"
+ },
+ "f07d00af-597b-4ce5-b30a-550c490e0a05": {
+  "newUuid": "c5332d41-e133-4518-9f9a-4066540b2063",
+  "rel": "images/ui/beimi-1/牌局结束_a1.png"
+ },
+ "318e3a4e-a678-4b80-9065-51c61933d2d5": {
+  "newUuid": "5030e1f3-cef3-4752-8067-79b82ce1a853",
+  "rel": "images/ui/beimi-1/牌局结束_a2.png"
+ },
+ "36abefaa-f6ec-4d5a-89f9-3e67eaf8e943": {
+  "newUuid": "435ef5b3-c84e-4c9b-8d01-1ceaaaa67fcc",
+  "rel": "images/ui/beimi-1/牌局结束_a3.png"
+ },
+ "9ed8c212-aba9-470c-a578-355a195b244e": {
+  "newUuid": "3055cd69-e8e1-4069-9569-89ff84bddffe",
+  "rel": "images/ui/beimi-1/牌局结束_a4.png"
+ },
+ "20af635e-6a94-409f-9571-7051d295fb12": {
+  "newUuid": "787ef5ee-2df4-44c9-aa4b-1e702d1f4fcf",
+  "rel": "images/ui/beimi-1/牌局结束_button_next.png"
+ },
+ "c0c06b40-f4c5-4551-80dc-597fd0712ff8": {
+  "newUuid": "230f83c3-3f38-4975-8dbd-67c3df3f829a",
+  "rel": "images/ui/beimi-1/牌局结束_button_share.png"
+ },
+ "f879b898-cc71-4b29-92a8-66d06c669bf2": {
+  "newUuid": "c1e04adb-df01-4895-870f-f6a10cd6be4d",
+  "rel": "images/ui/beimi-1/牌局结束_result1.png"
+ },
+ "f219b785-3715-48be-90e3-892e20ade3cc": {
+  "newUuid": "973b5148-0223-41a4-9da1-6ed0c7a62d5d",
+  "rel": "images/ui/beimi-1/牌局结束_result2.png"
+ },
+ "2fa57f2f-23d3-4a83-80e1-b2d0368c8515": {
+  "newUuid": "fdc5acf7-c3d1-4032-976b-d80789614fec",
+  "rel": "images/ui/beimi-1/牌局结束_title.png"
+ },
+ "ef44773a-c55b-43f0-8b0b-cf3ff3cb29ca": {
+  "newUuid": "14543c79-fc45-4a15-906a-eb5a34c30cba",
+  "rel": "images/ui/beimi-1/牌局结束_win.png"
+ },
+ "ab265488-9a2f-4764-9f5f-62f7fac170a4": {
+  "newUuid": "2452d803-c6e5-4f88-bfab-9d0cff8fb749",
+  "rel": "images/ui/beimi-1/玩家信息_IP.png"
+ },
+ "2988b9d9-ceec-43c8-b936-5be5a9bf3f68": {
+  "newUuid": "3384a7fd-2854-4554-a5d0-a9488555a027",
+  "rel": "images/ui/beimi-1/玩家信息_avatar1.png"
+ },
+ "a4d39a2f-a36e-4a4c-b4ce-52c1a64ac284": {
+  "newUuid": "5611db30-b568-46b0-88e3-0662b82ad37a",
+  "rel": "images/ui/beimi-1/玩家信息_avatar2.png"
+ },
+ "a81f0cdd-52ba-4f96-9810-c481034cf45e": {
+  "newUuid": "191bc314-e883-4694-9f1a-3198f460c9be",
+  "rel": "images/ui/beimi-1/玩家信息_avatar_遮盖锯齿边框_对齐中心点.png"
+ },
+ "878ef4d7-0bb7-40af-a1b3-d2ee010a4a37": {
+  "newUuid": "b32b850f-f11c-4f35-af5e-6b07081d2283",
+  "rel": "images/ui/beimi-1/玩家信息_base_coin.png"
+ },
+ "64350e41-d452-430a-8b56-2a2a60ed4582": {
+  "newUuid": "8fd9c5d6-8ee6-4848-872b-4e0dd5b292f7",
+  "rel": "images/ui/beimi-1/玩家信息_base_name.png"
+ },
+ "ca93ec5d-2671-4301-a4ec-6bdedcd21166": {
+  "newUuid": "91e1656c-0986-4429-a47c-e2f239eccddc",
+  "rel": "images/ui/beimi-1/玩家信息_coin.png"
+ },
+ "741176af-b724-4bc4-bce4-fe43a16c0b9e": {
+  "newUuid": "8908abf0-42b6-4b1a-bddc-2eb2464726bc",
+  "rel": "images/ui/beimi-1/玩家信息_line.png"
+ },
+ "1173d478-f3d9-47b1-ad52-53903450838f": {
+  "newUuid": "63124a3e-8e33-497f-a1ec-6e623c40a7aa",
+  "rel": "images/ui/beimi-1/玩家信息_title.png"
+ },
+ "26273a52-cae9-4596-af1c-4c18828ae8af": {
+  "newUuid": "596de4bd-167b-49a3-a5f1-16f5868315a9",
+  "rel": "images/ui/beimi-1/玩家头像_banker.png"
+ },
+ "5c4a8896-7857-4721-b048-2a69305edb5e": {
+  "newUuid": "dc6ab09a-94ad-4497-ab92-b8215fb27a8d",
+  "rel": "images/ui/beimi-1/玩家头像_room_creater.png"
+ },
+ "c50437e2-a34a-4546-b693-b0cc2d1a40cd": {
+  "newUuid": "89bf416d-1412-491f-a2c7-89c6faf62eb2",
+  "rel": "images/ui/beimi-1/玩家头像_中心点切图_玩家头像切图大小.png"
+ },
+ "8412c579-3f04-462e-86cf-b64582a63d44": {
+  "newUuid": "4080db5e-cf98-450b-a62c-0f71e81916fd",
+  "rel": "images/ui/beimi-1/玩家头像_中心点切图_玩家头像框底玻璃.png"
+ },
+ "aa510c6f-7c6f-41ca-abb8-5e074f6d61c7": {
+  "newUuid": "d5427887-4856-459b-b6a5-c308a2cf1286",
+  "rel": "images/ui/beimi-1/玩家头像_中心点切图_玩家头像默认.png"
+ },
+ "c2205c91-00c2-4ac3-a25c-542ebf269d34": {
+  "newUuid": "e7e82765-916f-422c-add8-cdca3c40accb",
+  "rel": "images/ui/beimi-1/玩家头像_贴边切图_玩家头像切图大小_贴边.png"
+ },
+ "ddeebfdf-57bc-4785-80e3-4554ee3595fe": {
+  "newUuid": "dcc5e45a-62cc-4636-814c-e4f4d49dafd7",
+  "rel": "images/ui/beimi-1/玩家头像_贴边切图_玩家头像框底玻璃_贴边.png"
+ },
+ "9e15bce1-cc32-425f-afbb-68a18046b8c1": {
+  "newUuid": "b527bfc0-91d3-4614-b2ae-b6d99756a52c",
+  "rel": "images/ui/beimi-1/玩家头像_贴边切图_玩家头像默认_贴边.png"
+ },
+ "93b959e8-1ed6-4830-8c99-95f289b1cc88": {
+  "newUuid": "99553716-4048-4b8e-b62a-da3f2b0be407",
+  "rel": "images/ui/beimi-1/用户栏-头像框底部.png"
+ },
+ "7203e619-d77a-465e-bcfa-41cfdd476d40": {
+  "newUuid": "daeee4e8-b6e6-45b9-8132-c5c2e4cad5e4",
+  "rel": "images/ui/beimi-1/用户栏-底.png"
+ },
+ "2cc0fc4a-a5fc-48d5-8918-d02174a26fc1": {
+  "newUuid": "31c53400-ee1f-4abe-a654-9b238dcee5b9",
+  "rel": "images/ui/beimi-1/用户栏-房卡.png"
+ },
+ "7d5064ce-3ee8-4355-a71c-0389e54c6784": {
+  "newUuid": "1794cfc0-372a-4c97-8c5a-4884a965ba47",
+  "rel": "images/ui/beimi-1/用户栏-房卡底框.png"
+ },
+ "136d1696-be87-49e4-b09e-ff961c134a48": {
+  "newUuid": "1f593572-0c45-4a3c-b61d-eb9e683c61f3",
+  "rel": "images/ui/beimi-1/用户栏-文字_0.png"
+ },
+ "75adf52c-4fea-48a4-acec-a452f7a1b182": {
+  "newUuid": "8ac1711c-ff7a-4c8c-9dba-011b03ae253c",
+  "rel": "images/ui/beimi-1/用户栏-文字_1.png"
+ },
+ "c4962c58-7702-4326-924d-6a1f4904a406": {
+  "newUuid": "e0c27eda-46f9-4e50-b2c1-bb7cda41c901",
+  "rel": "images/ui/beimi-1/用户栏-文字_2.png"
+ },
+ "cd88c298-ef25-4c93-934f-1d56d900199d": {
+  "newUuid": "f84651b7-a6c6-41ac-ba50-98e33e595a61",
+  "rel": "images/ui/beimi-1/用户栏-文字_3.png"
+ },
+ "c853e2ca-9d4f-480f-8970-c267c6147ea5": {
+  "newUuid": "46b9c8a6-b7ce-45dd-bbb0-5a2916a6a85a",
+  "rel": "images/ui/beimi-1/用户栏-文字_4.png"
+ },
+ "39c37e72-e280-4c73-809a-1d5a951e2296": {
+  "newUuid": "cf7439ca-0fa0-4238-a7ec-f6d7ab428407",
+  "rel": "images/ui/beimi-1/用户栏-文字_5.png"
+ },
+ "45839356-b900-4c05-9469-e69e728238d7": {
+  "newUuid": "1cad31f8-67e4-4306-8e35-7e033a1350fd",
+  "rel": "images/ui/beimi-1/用户栏-文字_6.png"
+ },
+ "ac266388-f2e6-4359-9a9c-d67805b9fb89": {
+  "newUuid": "b7e54b23-4076-4dad-a480-602ea1ca5390",
+  "rel": "images/ui/beimi-1/用户栏-文字_7.png"
+ },
+ "f0b6f5ea-9a68-4820-949a-c3162a4ed81d": {
+  "newUuid": "d843a0b6-d61a-44dd-bd8a-d93d3c26ed59",
+  "rel": "images/ui/beimi-1/用户栏-文字_8.png"
+ },
+ "97f202dc-0b61-4c4c-a26f-a342bb5e662a": {
+  "newUuid": "c4ae6d55-8682-4c7d-b0e5-f201cf2ac9e5",
+  "rel": "images/ui/beimi-1/用户栏-文字_9.png"
+ },
+ "3de216ae-01bf-4108-9644-9efbde33c4c4": {
+  "newUuid": "4f2f9bb5-adfb-4370-8479-2c9b55d3dbb0",
+  "rel": "images/ui/beimi-1/用户栏-文字_万.png"
+ },
+ "07582979-5f73-491f-bd1f-e51da62ea8ed": {
+  "newUuid": "4c33d6f2-579c-4f2f-9f57-17746a405cd0",
+  "rel": "images/ui/beimi-1/用户栏-文字_张.png"
+ },
+ "8e6f6a9f-9101-47fc-94ef-eb072674a9f6": {
+  "newUuid": "e1cf8064-92fc-424f-b5aa-797a43545433",
+  "rel": "images/ui/beimi-1/用户栏-文字_房卡：.png"
+ },
+ "b4b9e9e6-892f-4bd6-8d50-0f9360f25ac5": {
+  "newUuid": "83a2f7ad-5059-4e52-b39a-148f2714cd6c",
+  "rel": "images/ui/beimi-1/用户栏-金币.png"
+ },
+ "5149f636-e98a-4ab2-a68b-77ee098d69af": {
+  "newUuid": "c876754d-40ae-4d24-bf72-6fa55879b15d",
+  "rel": "images/ui/beimi-1/用户栏-金币底框.png"
+ },
+ "4a838a37-7a7e-4351-8b4b-350511fd002d": {
+  "newUuid": "080dfbbc-d58d-4256-80c9-c9e317a1cc49",
+  "rel": "images/ui/beimi-1/用户栏-默认头像.png"
+ },
+ "ddc8563d-ad32-455a-93ac-ae926ac38cf8": {
+  "newUuid": "8158e750-eb35-4d81-9060-92347601fb08",
+  "rel": "images/ui/beimi-1/电量时间wifi_wifi-拷贝.png"
+ },
+ "44b955d0-e5e3-42df-8aec-53c2b4eb4d80": {
+  "newUuid": "24574def-4b6d-4e46-82c6-0a5b80011d03",
+  "rel": "images/ui/beimi-1/电量时间wifi_wifi.png"
+ },
+ "af3ea757-d7a2-4339-94ba-b1415db4ed3c": {
+  "newUuid": "21c20d49-adaf-4006-8875-f2d5ba20eb43",
+  "rel": "images/ui/beimi-1/电量时间wifi_半电.png"
+ },
+ "b958750e-7970-4c5e-b79c-48f64804a9f1": {
+  "newUuid": "e2070827-003b-43d0-8f49-5480baba0b17",
+  "rel": "images/ui/beimi-1/电量时间wifi_圆角矩形-19.png"
+ },
+ "9586c061-3d35-4c19-a96b-42402d83cc63": {
+  "newUuid": "af971299-ba5c-40d6-81ea-5e7286641601",
+  "rel": "images/ui/beimi-1/电量时间wifi_没电.png"
+ },
+ "d80a93bd-30d9-4b30-bee0-eb574fa05401": {
+  "newUuid": "3cfb45ec-d6d5-4d0d-a68a-6d864bda0b0f",
+  "rel": "images/ui/beimi-1/电量时间wifi_满电.png"
+ },
+ "c315101a-07e2-4d6e-834b-6eddb6a325db": {
+  "newUuid": "a82f84a5-7714-4ac7-811a-6f9f8e655524",
+  "rel": "images/ui/beimi-1/系统公告_button_big.png"
+ },
+ "082446fd-9296-46b0-9cb1-e7d6451c8fc3": {
+  "newUuid": "cb8e731e-459d-4f7d-be3e-342f62972079",
+  "rel": "images/ui/beimi-1/系统公告_content.png"
+ },
+ "e3c55753-bcd4-4c2d-92e2-a52ec39318f7": {
+  "newUuid": "2de3b38a-fc12-4c60-83b5-db0ca6d01c7b",
+  "rel": "images/ui/beimi-1/系统公告_free_event.png"
+ },
+ "596db06b-a377-43bb-b67b-348dec625462": {
+  "newUuid": "df9d9692-1f09-42a7-b0aa-f1c99103012d",
+  "rel": "images/ui/beimi-1/系统公告_subtitle.png"
+ },
+ "a56814ce-3390-4d34-bdda-277d5adc7f98": {
+  "newUuid": "08486fd4-3134-4a80-9b88-fd95d7773195",
+  "rel": "images/ui/beimi-1/系统公告_title.png"
+ },
+ "ce3857cd-5ee3-4207-9326-f414cf80bae5": {
+  "newUuid": "1bbf3701-70bd-4600-9fd3-c44c99b3c90b",
+  "rel": "images/ui/beimi-1/结算_a1.png"
+ },
+ "a3b5c682-d091-4d9f-b67f-f9f1eec217b4": {
+  "newUuid": "3d3e23fc-a7e0-4bec-9a75-59c544e4a2ca",
+  "rel": "images/ui/beimi-1/结算_a2.png"
+ },
+ "ebe5f31d-6641-43c9-9e14-fe0de4a28050": {
+  "newUuid": "eecc8a5d-3b0d-45fb-b450-92dd95a3aacb",
+  "rel": "images/ui/beimi-1/结算_a3.png"
+ },
+ "f8656ebf-7689-4ad7-bce7-730b6624e8e1": {
+  "newUuid": "ef06afe3-f28a-41bd-953f-c53ed9c0ff60",
+  "rel": "images/ui/beimi-1/结算_a4.png"
+ },
+ "eeb5c67a-2880-4fa3-84c9-112d3e88c4bd": {
+  "newUuid": "8812df31-b923-4fbc-af6f-379185133a19",
+  "rel": "images/ui/beimi-1/结算_bankrupt.png"
+ },
+ "2418b3bb-a237-44fb-92cb-873400c64dee": {
+  "newUuid": "908b4bb0-a359-4319-a341-c8e7d782d9f4",
+  "rel": "images/ui/beimi-1/结算_button_next.png"
+ },
+ "b9c6a9ef-601d-4079-97c2-6cc6112d3cd0": {
+  "newUuid": "147ba2fe-3d59-4a72-b51f-3ede9f47b426",
+  "rel": "images/ui/beimi-1/结算_button_share.png"
+ },
+ "babffb1a-e759-4a86-b65c-95cf44725ff0": {
+  "newUuid": "9bc87039-5c0e-43cf-8504-9cd16b707877",
+  "rel": "images/ui/beimi-1/结算_result_draw.png"
+ },
+ "2263b520-52ec-4569-a7f2-df94e5e9d10b": {
+  "newUuid": "98b153bc-70e7-47c8-811e-f244bca5db13",
+  "rel": "images/ui/beimi-1/结算_result_lose.png"
+ },
+ "116dfa73-67a3-4ac6-972c-414b3989aee9": {
+  "newUuid": "1bbf3742-ad6e-48ac-9b31-c4033759398a",
+  "rel": "images/ui/beimi-1/结算_result_win.png"
+ },
+ "3a950470-ccb7-4760-9849-3c2356ce3d7a": {
+  "newUuid": "55c5b2d3-60d7-4958-a4fb-0555b7adbb91",
+  "rel": "images/ui/beimi-1/结算_winner.png"
+ },
+ "94caf1fc-12d9-4c4d-b4e9-2369ebfa8cbc": {
+  "newUuid": "c4763b5c-1b25-40f6-8c8f-0e3a38def905",
+  "rel": "images/ui/beimi-1/聊天_diaglog_box2.png"
+ },
+ "65a35b77-bd0f-4011-b625-0fbe49908221": {
+  "newUuid": "6cf70daf-0bfc-4d28-a703-35641c9984b2",
+  "rel": "images/ui/beimi-1/聊天_dialog1.png"
+ },
+ "11941456-4820-49e3-86b9-5981f7a162d2": {
+  "newUuid": "47498144-a21d-458b-84af-829811975a80",
+  "rel": "images/ui/beimi-1/聊天_dialog10.png"
+ },
+ "0f622c1b-c25a-47f7-acba-a1c5273a5e14": {
+  "newUuid": "bfced3e4-e471-46e8-ba7b-b4f91923a7e9",
+  "rel": "images/ui/beimi-1/聊天_dialog11.png"
+ },
+ "fd9c2c17-5763-405a-b554-698f4c6253d2": {
+  "newUuid": "2169ace5-d235-4318-b8a6-136b88c8eb09",
+  "rel": "images/ui/beimi-1/聊天_dialog2.png"
+ },
+ "da5efd37-ae6b-459b-be6f-78ef69acca0d": {
+  "newUuid": "a88d484a-0c39-4bac-ae4c-b778853c06c4",
+  "rel": "images/ui/beimi-1/聊天_dialog3.png"
+ },
+ "7c29fb2b-87ea-4605-84e7-adf1862e02fb": {
+  "newUuid": "1d803641-e14d-4944-ae55-722146fb19bc",
+  "rel": "images/ui/beimi-1/聊天_dialog4.png"
+ },
+ "44df8265-4674-46bc-b8d6-a005a6176942": {
+  "newUuid": "ce77365e-0efc-4beb-82e2-86012f5db97f",
+  "rel": "images/ui/beimi-1/聊天_dialog5.png"
+ },
+ "3f00af8f-1049-43dc-a1c0-2e3d0f40fe3f": {
+  "newUuid": "7038804e-e8fe-405d-aded-b42cc3699f29",
+  "rel": "images/ui/beimi-1/聊天_dialog6.png"
+ },
+ "c3466708-e466-41c0-a509-898df6e3ae7e": {
+  "newUuid": "83481e6c-1a99-4762-b8ee-8134128877f2",
+  "rel": "images/ui/beimi-1/聊天_dialog7.png"
+ },
+ "17956660-a87b-43fe-8d5c-1c106ea673d1": {
+  "newUuid": "60430692-2fac-4710-ad24-0f80f2029a21",
+  "rel": "images/ui/beimi-1/聊天_dialog8.png"
+ },
+ "1990d659-1449-4d11-84b8-40cfc9b8efbe": {
+  "newUuid": "48c4a2ba-d4b5-4c05-9849-08395cd13d53",
+  "rel": "images/ui/beimi-1/聊天_dialog9.png"
+ },
+ "2fd0de4e-52ec-449f-8d18-80d610d9fc5c": {
+  "newUuid": "e5dcaf4f-ec14-48d0-8b38-2f6076952bae",
+  "rel": "images/ui/beimi-1/聊天_dialog_box1.png"
+ },
+ "a1e6432d-1227-496a-878b-e4be3c6c944d": {
+  "newUuid": "7971e1f4-3bf4-48a5-bb73-dbf971c5cbb2",
+  "rel": "images/ui/beimi-1/聊天_dialog_box3.png"
+ },
+ "858a98d9-5613-4035-a9cb-a692938a36cc": {
+  "newUuid": "e7660306-435b-448e-b905-eb65b333a83e",
+  "rel": "images/ui/beimi-1/聊天_dialog_line.png"
+ },
+ "50c655d8-4d88-47db-b548-94b21ad952a1": {
+  "newUuid": "7208e3d4-3697-421f-88f9-0790b00ce9e4",
+  "rel": "images/ui/beimi-1/聊天_dialog_off.png"
+ },
+ "a61522d7-70fc-4897-a47c-7db5cc1858bd": {
+  "newUuid": "61085990-2aa3-4b5f-8626-79d9063488d2",
+  "rel": "images/ui/beimi-1/聊天_dialog_on.png"
+ },
+ "47d0fc84-2af8-4072-94b5-73177b112848": {
+  "newUuid": "8df1214c-06da-4567-a59d-bcd75170deb3",
+  "rel": "images/ui/beimi-1/聊天_expression_off.png"
+ },
+ "3d6121f8-8425-478e-ae80-6e458a28e337": {
+  "newUuid": "c5de3c95-40d1-4287-ba1e-65250bd9e72a",
+  "rel": "images/ui/beimi-1/聊天_expression_on.png"
+ },
+ "4bb1e702-fdc3-4947-ac53-3c264f7e42a8": {
+  "newUuid": "208216bb-9b5c-4863-bc51-f3efa2026658",
+  "rel": "images/ui/beimi-1/聊天_icon_chat.png"
+ },
+ "69a777f1-4cad-4e1f-a2f2-2c2da9d07601": {
+  "newUuid": "b928dc55-4a85-4dc8-8015-51490a46ed1c",
+  "rel": "images/ui/beimi-1/聊天_input.png"
+ },
+ "e641f5a9-88b5-45c0-9bce-18a1f582424c": {
+  "newUuid": "5d906f2f-9348-48c7-ac4a-514d28182047",
+  "rel": "images/ui/beimi-1/聊天_send.png"
+ },
+ "40eaff59-aff9-441a-83a2-1ecae645ea56": {
+  "newUuid": "f0c7ea13-bd76-49bf-b7b4-4f6b192a1f16",
+  "rel": "images/ui/beimi-1/背景_game_title6.png"
+ },
+ "60d54d14-8e4c-4a16-b0c5-f8530c331807": {
+  "newUuid": "95de2b39-cc8b-44c0-9ca1-4fd5b331f929",
+  "rel": "images/ui/beimi-1/背景_game_title7.png"
+ },
+ "df25d94f-cb26-4b85-8986-cca350adf56f": {
+  "newUuid": "d3be93f1-c9cb-408f-98c8-f09950ac5ce5",
+  "rel": "images/ui/beimi-1/背景_table_corner1.png"
+ },
+ "4d678a4d-43eb-47eb-ac2e-8ec651fe639f": {
+  "newUuid": "853c8a64-ca7d-4dc5-b2ac-0a78bcd94c62",
+  "rel": "images/ui/beimi-1/背景_table_corner2.png"
+ },
+ "0928e069-db3c-4227-aaa3-1fa9bab8241b": {
+  "newUuid": "7912c7ad-5d61-4e81-bbb9-6e46980ff9bc",
+  "rel": "images/ui/beimi-1/背景_table_corner3.png"
+ },
+ "83d2682c-b180-49f6-a44f-a2cb117d4770": {
+  "newUuid": "785be630-243b-48a6-9194-a40cbe980ec1",
+  "rel": "images/ui/beimi-1/背景_table_corner4.png"
+ },
+ "73bd294d-b08c-4232-824e-b4bbdd0e3fc5": {
+  "newUuid": "6c7dceb6-7fec-46a1-8624-3d209fc7f4c7",
+  "rel": "images/ui/beimi-1/菜单-分享.png"
+ },
+ "6030cf78-def6-4eb8-8c9d-4d57a1a4e4ad": {
+  "newUuid": "7bc4f8cc-e8e9-47f5-9658-1c16662d612f",
+  "rel": "images/ui/beimi-1/菜单-反馈.png"
+ },
+ "7f0a9afa-812d-4994-9b67-bbce7ad11e56": {
+  "newUuid": "6ce51ddf-c4cc-4ba5-a8c6-c811864f9e94",
+  "rel": "images/ui/beimi-1/菜单-商城.png"
+ },
+ "06a34eb7-a8ab-4d02-b38c-74013afb6006": {
+  "newUuid": "25b90c5b-f99e-43e7-886a-f631a1357494",
+  "rel": "images/ui/beimi-1/菜单-底.png"
+ },
+ "e65ac0b6-d32d-44c1-8579-a69b0caec9f2": {
+  "newUuid": "1d1c9970-0724-4c76-83fb-bef75e909ade",
+  "rel": "images/ui/beimi-1/菜单-战绩.png"
+ },
+ "de68dca1-f597-48b5-a017-87df2b0c378d": {
+  "newUuid": "69d29d1e-4a90-47e4-98ee-167c76069ebe",
+  "rel": "images/ui/beimi-1/菜单-玩法.png"
+ },
+ "3c21f212-559c-4961-8a38-8c9eca6678a2": {
+  "newUuid": "a08fd403-c572-47a0-9463-03110e7f2404",
+  "rel": "images/ui/beimi-1/菜单-红点提示.png"
+ },
+ "a9019605-8527-46cc-acf7-6ec481721115": {
+  "newUuid": "9f08d251-2a4f-4055-8186-6931a0ab581a",
+  "rel": "images/ui/beimi-1/菜单-设置.png"
+ },
+ "2ed29f36-ffdc-49f6-b476-61f482130a35": {
+  "newUuid": "cb28e101-7323-4c28-8fc2-af889855f953",
+  "rel": "images/ui/beimi-1/菜单-邮件.png"
+ },
+ "26a17f49-7e69-48e9-8bc5-a4a041820284": {
+  "newUuid": "92311a7d-7c5d-471b-a6c9-916393bdcd74",
+  "rel": "images/ui/beimi-1/血流麻将.png"
+ },
+ "509aa9d7-8bf0-4e51-9d17-723b375bed14": {
+  "newUuid": "78a017f7-3c67-4404-9b97-076387932c7a",
+  "rel": "images/ui/beimi-1/角标_换三张.png"
+ },
+ "22c32a0d-e742-48c0-b2b8-e31be660a4d0": {
+  "newUuid": "bd488212-f9b8-4275-9b79-5ce003c983dd",
+  "rel": "images/ui/beimi-1/解散房间提示.png"
+ },
+ "260dabd0-39f6-4a67-bd48-a4630d019293": {
+  "newUuid": "373f0a7f-1388-4dad-b1d5-2a556a53e5ab",
+  "rel": "images/ui/beimi-1/设置_adjust_button.png"
+ },
+ "e4d0f946-923c-4a09-95aa-c9116e7a49b8": {
+  "newUuid": "889449af-1c90-4368-8d7c-6ffa9059331c",
+  "rel": "images/ui/beimi-1/设置_dark.png"
+ },
+ "8ef9efff-8141-429d-96e9-7ea37b43ad29": {
+  "newUuid": "50b6e738-20cf-4b71-8c54-04931925ec56",
+  "rel": "images/ui/beimi-1/设置_light.png"
+ },
+ "071cf976-d51a-424d-a757-700a4d6df80f": {
+  "newUuid": "3f373ea0-1367-42f2-bd35-550f13480169",
+  "rel": "images/ui/beimi-1/设置_log_out.png"
+ },
+ "4f4547b6-fd56-4d9f-9181-003eb59ae760": {
+  "newUuid": "78391c28-81cc-4fa6-909a-1c0a42ec8e81",
+  "rel": "images/ui/beimi-1/设置_music1.png"
+ },
+ "6826b2ab-7a2e-4ef3-982d-98399f133e6d": {
+  "newUuid": "81e4d21c-bd76-4e2c-a58e-ee2235384e69",
+  "rel": "images/ui/beimi-1/设置_music2.png"
+ },
+ "c6480b0c-5380-4f7c-a2c5-c471b9d370f1": {
+  "newUuid": "d21a0889-aba7-42ea-82f7-646ea8d67d70",
+  "rel": "images/ui/beimi-1/设置_off.png"
+ },
+ "4ab8d62a-69d6-49d3-9b66-03372da22f01": {
+  "newUuid": "bf103f26-73ec-4717-bafc-2572d6ddfb7a",
+  "rel": "images/ui/beimi-1/设置_on.png"
+ },
+ "d2f00fee-6430-4146-9f03-660356b4364a": {
+  "newUuid": "e2b686a4-55ac-4024-8e06-1fbf3ab47746",
+  "rel": "images/ui/beimi-1/设置_title_setting.png"
+ },
+ "291a4c34-eab4-4962-a8f1-8534d840b812": {
+  "newUuid": "c1e898d2-c7af-4449-991d-a969f043aae2",
+  "rel": "images/ui/beimi-1/跑马灯-底.png"
+ },
+ "e242f6ef-b8e7-406d-8a94-ece01fdebcaf": {
+  "newUuid": "0a355397-68cc-4715-916b-2a5f7965a593",
+  "rel": "images/ui/beimi-1/输入框_短.png"
+ },
+ "d1f6f7fb-5cb5-4f12-ba3b-fa0246843c9d": {
+  "newUuid": "2799fe91-e025-4fb6-9fa8-7f3ab4ecf548",
+  "rel": "images/ui/beimi-1/输入框_长.png"
+ },
+ "07a50506-0230-4002-b9ae-06fce7e670a9": {
+  "newUuid": "26a0a55a-d902-4330-ad1c-8ddf6a9f18c3",
+  "rel": "images/ui/beimi-1/返回.png"
+ },
+ "9872e432-bee1-4041-907e-1fce56307a34": {
+  "newUuid": "92836760-239a-4578-8b08-0d00f653a6e0",
+  "rel": "images/ui/beimi-1/邮件_content1.png"
+ },
+ "bbfef144-7ac3-454d-8886-2c5b3a529d93": {
+  "newUuid": "0917e018-befb-4ac3-8f45-01bdcd315dbe",
+  "rel": "images/ui/beimi-1/邮件_content2.png"
+ },
+ "fd4de1c3-5f08-4921-98db-f2ab658bed3b": {
+  "newUuid": "23f3b9d2-8417-4391-89ad-30be09dc39cb",
+  "rel": "images/ui/beimi-1/邮件_消息-按下.png"
+ },
+ "d328f54f-cd1b-46fd-ae37-76ecc51125ef": {
+  "newUuid": "6cb50846-05ad-4d82-b50b-eeef988385fc",
+  "rel": "images/ui/beimi-1/邮件_消息.png"
+ },
+ "f3fdaa2a-69c7-4af7-8315-471b084201fd": {
+  "newUuid": "903fddaa-8c6b-4047-9f91-72e47cc03616",
+  "rel": "images/ui/beimi-1/邮件_联系我们-按下.png"
+ },
+ "da795345-8d8d-4ec9-b14a-e3510e4954b3": {
+  "newUuid": "b14b9908-6b5e-49ed-8311-d61ac4460421",
+  "rel": "images/ui/beimi-1/邮件_联系我们.png"
+ },
+ "fa148ac8-df75-40fd-ad7a-9c5b67892b2d": {
+  "newUuid": "58fd9450-efd0-46a1-9028-a6092ca63b87",
+  "rel": "images/ui/beimi-1/骰子_10.png"
+ },
+ "96609bd7-ab44-4489-ab12-046352bbf771": {
+  "newUuid": "1c0311c2-fc43-4cb7-bc89-1008f7cf2b0a",
+  "rel": "images/ui/beimi-1/骰子_11.png"
+ },
+ "42f0ebb5-9374-4735-9ec9-1fdeb56cc8b0": {
+  "newUuid": "da9176e0-d172-4387-a925-be034dac6667",
+  "rel": "images/ui/beimi-1/骰子_12.png"
+ },
+ "5ded30f0-27f4-41d6-9ec0-a9194962aca5": {
+  "newUuid": "9502f11d-dbff-4c8d-95ca-a39dc4eabec0",
+  "rel": "images/ui/beimi-1/骰子_13.png"
+ },
+ "a8babf5c-f306-4035-9eb2-05333d0aa398": {
+  "newUuid": "db7af645-bfc4-42d9-8e1d-7de84e77c877",
+  "rel": "images/ui/beimi-1/骰子_14.png"
+ },
+ "945e170c-3731-446a-bcdb-f3015e6373ff": {
+  "newUuid": "8362a59e-4024-41c9-8d3a-04f02933771e",
+  "rel": "images/ui/beimi-1/骰子_15.png"
+ },
+ "d7d90ec6-525c-4378-ac4f-1af3c733a6b6": {
+  "newUuid": "c7af6931-c9a2-4a81-b6f3-176f593b2143",
+  "rel": "images/ui/beimi-1/骰子_16.png"
+ },
+ "86ad4867-1aee-4a4c-80eb-3407fb6dea52": {
+  "newUuid": "02548237-22ca-4ceb-818a-335f69851c96",
+  "rel": "images/ui/beimi-1/骰子_2.png"
+ },
+ "da6fb941-2698-4ccc-9fac-9609b8e73e9f": {
+  "newUuid": "efcdcc40-d6d4-4a0c-8129-8723b73407e1",
+  "rel": "images/ui/beimi-1/骰子_3.png"
+ },
+ "4593f8fa-9052-4b41-9775-82f7300386d9": {
+  "newUuid": "9a8ebaa5-fe2d-42d9-ac30-17d290fca93e",
+  "rel": "images/ui/beimi-1/骰子_4.png"
+ },
+ "7526eff2-2cf3-4bdb-a28a-1e6941c66e54": {
+  "newUuid": "59193f7d-f2d1-4858-a3d0-4887c7e7d0ea",
+  "rel": "images/ui/beimi-1/骰子_5.png"
+ },
+ "f483f5e7-8aa7-45c8-b55b-ab823168a5ac": {
+  "newUuid": "25fa7ac1-93d4-4021-b186-445defed6f48",
+  "rel": "images/ui/beimi-1/骰子_6.png"
+ },
+ "678e92e4-1581-42da-971d-60a31bb72923": {
+  "newUuid": "6950c800-d59a-40a2-a65e-f54eeb4af9fd",
+  "rel": "images/ui/beimi-1/骰子_7.png"
+ },
+ "fb339689-85b9-4fa9-a8d5-a363aac0f84c": {
+  "newUuid": "8fce80a2-8e9e-4622-9f0c-423b45231fb0",
+  "rel": "images/ui/beimi-1/骰子_8.png"
+ },
+ "57f8b9ad-1e98-4ef5-8143-645a170e2741": {
+  "newUuid": "48a6a8ae-cd05-4f2d-845b-238865f311ea",
+  "rel": "images/ui/beimi-1/骰子_9.png"
+ },
+ "ed5634e0-08c4-4142-9f37-e1e3145365cc": {
+  "newUuid": "62da7b5a-e651-47df-b3e1-f1b04ad2f403",
+  "rel": "images/ui/beimi-6/X1.png"
+ },
+ "c676d189-5b71-4c78-9e20-18eeb0a3c5d8": {
+  "newUuid": "f7236654-ea92-4e34-89ca-a8467342791e",
+  "rel": "images/ui/beimi-6/X2.png"
+ },
+ "477c43a5-84bd-4edb-be50-291abae30cd6": {
+  "newUuid": "74f6dc88-d750-4cf1-891f-9ac0b4b83baa",
+  "rel": "images/ui/beimi-6/X3.png"
+ },
+ "0c9153f1-b5d7-4933-8385-f465593be197": {
+  "newUuid": "3701d9cb-042a-4154-8edf-86b063b47c9b",
+  "rel": "images/ui/beimi-6/Y1.png"
+ },
+ "d15faaa9-45da-4cc6-94d3-d02ef86bedbc": {
+  "newUuid": "5ae8e33b-79bc-4383-a965-ce5da7937d20",
+  "rel": "images/ui/beimi-6/Y2.png"
+ },
+ "dfd0d3ee-4d56-4ad2-a8af-51bbe284379e": {
+  "newUuid": "d282aeff-edfa-4025-ba53-914fbc8d13f3",
+  "rel": "images/ui/beimi-6/Y3.png"
+ },
+ "1b2765d4-f1e8-4021-9496-4b02b80e89c1": {
+  "newUuid": "c5df7c5d-5586-4c03-bb53-645a23d81164",
+  "rel": "images/ui/beimi-6/Y4.png"
+ },
+ "d350fe2b-a94a-4885-b4e5-37b22325a09d": {
+  "newUuid": "681e8ac6-91ad-4473-a3e3-7cedbb3cfa1b",
+  "rel": "images/ui/beimi-6/Z1.png"
+ },
+ "87c0afb0-4b11-4f0f-8b7d-a7f6046578bf": {
+  "newUuid": "a80a7d81-6522-4400-96d7-788d475f22ce",
+  "rel": "images/ui/beimi-6/Z2.png"
+ },
+ "59e51360-8bbd-4475-9551-c3b751091a31": {
+  "newUuid": "5ff33b6e-773d-4f38-9b97-b46bf47037cd",
+  "rel": "images/ui/beimi-6/Z3.png"
+ },
+ "0de36dff-7bcc-4d95-8ce4-54cc85612129": {
+  "newUuid": "4f862ef6-f29e-4c83-ace2-cd2052f0f1bc",
+  "rel": "images/ui/beimi-6/Z4.png"
+ },
+ "d9b0e663-4782-43d0-b10a-58c436d3de0f": {
+  "newUuid": "9a0d2a2c-bc2e-4ad0-a48e-5007be0af73b",
+  "rel": "images/ui/beimi-6/effect_A.png"
+ },
+ "ff895450-001f-4af5-ae4f-897443dee105": {
+  "newUuid": "8de722d2-e795-4ca1-b294-d2201990217b",
+  "rel": "images/ui/beimi-6/effect_B.png"
+ },
+ "97e37024-74d2-4b22-b420-3800ea2c8878": {
+  "newUuid": "7a22467a-30f2-4fc6-81e0-853b18cde3f1",
+  "rel": "images/ui/beimi-6/effect_a1.png"
+ },
+ "3a9c97f2-bfc6-456c-8fd9-0d0cf1ed9ccd": {
+  "newUuid": "6300e5b2-3b20-4492-b0a4-f4c277c65657",
+  "rel": "images/ui/beimi-6/effect_a2.png"
+ },
+ "6454d236-6ee8-4c65-85b5-19315ff293fe": {
+  "newUuid": "2a4709b9-b70d-41c6-a25f-a5c34412e53f",
+  "rel": "images/ui/beimi-6/effect_a3.png"
+ },
+ "1639f028-d632-4f59-8d4f-44aadfb7c431": {
+  "newUuid": "aaa5deb6-cee1-4629-b199-5ec7aa9d7062",
+  "rel": "images/ui/beimi-6/effect_a4.png"
+ },
+ "ee9ee286-afae-4127-9522-1652c69d1ae3": {
+  "newUuid": "c358728f-2e2f-4577-8aae-63db56b55741",
+  "rel": "images/ui/beimi-6/effect_a5.png"
+ },
+ "cc100d98-837a-4e2d-8013-839251ddbe8a": {
+  "newUuid": "a5f07f17-7c7a-4dbe-aa33-7ed09bc6f9dd",
+  "rel": "images/ui/beimi-6/effect_a6.png"
+ },
+ "3e6b1b01-c7bc-4211-95b5-554f049912c5": {
+  "newUuid": "a2bc647f-a7f2-4fd1-b9ce-58df912d25b6",
+  "rel": "images/ui/beimi-6/effect_a7.png"
+ },
+ "860e9e50-d861-4178-b42d-d938f52fb7cc": {
+  "newUuid": "1c379133-a131-4496-a463-332b06b238ed",
+  "rel": "images/ui/beimi-6/effect_a8.png"
+ },
+ "abb7c8e9-00c2-4179-8aa9-cdad222f54a2": {
+  "newUuid": "12174c51-b0be-4890-8d95-a93c18b89679",
+  "rel": "images/ui/beimi-6/effect_b1.png"
+ },
+ "a4d4c540-854a-405e-b522-dd07d28e4970": {
+  "newUuid": "1ad49164-16c9-4d36-80d3-111232d7ce51",
+  "rel": "images/ui/beimi-6/effect_b10.png"
+ },
+ "7167c1d5-8b69-4713-ad28-b09231ddbb04": {
+  "newUuid": "57d8f7b7-f248-4ea1-80d9-fd8629a27ff6",
+  "rel": "images/ui/beimi-6/effect_b11.png"
+ },
+ "13d3fbc1-e17d-46fb-ada8-2a84e131a456": {
+  "newUuid": "010704df-a81f-4d6f-9682-0339d081cb01",
+  "rel": "images/ui/beimi-6/effect_b12.png"
+ },
+ "1abfd6bb-20fe-4006-9401-c31c380df726": {
+  "newUuid": "2c34a446-50c1-48b6-adeb-8e432d1f5d50",
+  "rel": "images/ui/beimi-6/effect_b13.png"
+ },
+ "31170171-2935-4f37-9be0-8a0ddd8d033a": {
+  "newUuid": "ee831478-ded0-4d92-80e2-88d2fbeac966",
+  "rel": "images/ui/beimi-6/effect_b14.png"
+ },
+ "1f8ead1f-7a32-4428-8e91-96ac7bcf227b": {
+  "newUuid": "108811e9-dd0a-4a23-8bd7-cc04a4a00de0",
+  "rel": "images/ui/beimi-6/effect_b15.png"
+ },
+ "e844e874-844b-42e2-b7af-584fac9088f8": {
+  "newUuid": "b18931c1-a9fd-4e81-9ba9-a74dc93bc881",
+  "rel": "images/ui/beimi-6/effect_b16.png"
+ },
+ "50308963-f41e-4dc5-876e-b97d3f0fb17b": {
+  "newUuid": "88bc315d-2bfa-4f1a-9fa2-0aefb20f8b80",
+  "rel": "images/ui/beimi-6/effect_b2.png"
+ },
+ "2d049624-a63c-4a04-9133-562d9f07942f": {
+  "newUuid": "4e585efd-c87c-4b1d-80e2-9d59df49a85e",
+  "rel": "images/ui/beimi-6/effect_b3.png"
+ },
+ "22c7eb77-12ef-429e-ad46-219783198ee4": {
+  "newUuid": "2304fd27-500b-4594-bd0e-aeac622b8b9f",
+  "rel": "images/ui/beimi-6/effect_b4.png"
+ },
+ "29487f44-b73b-4a6f-b052-2daa22c31435": {
+  "newUuid": "6314a7d6-cedd-4dae-94a2-81fece794ea5",
+  "rel": "images/ui/beimi-6/effect_b5.png"
+ },
+ "4c8bec78-6c11-4281-9458-0b85d8fdc91b": {
+  "newUuid": "9b33b6ec-ced7-4f2d-877b-385b45821275",
+  "rel": "images/ui/beimi-6/effect_b6.png"
+ },
+ "a3f04c6a-79e1-4e71-9739-fc1831422493": {
+  "newUuid": "0c209978-defa-4157-a293-bf66494152f0",
+  "rel": "images/ui/beimi-6/effect_b7.png"
+ },
+ "610f0a1f-0212-4346-808c-0c6208f56b5f": {
+  "newUuid": "2bd11480-bbfa-4f34-93e0-4553ce8ecf67",
+  "rel": "images/ui/beimi-6/effect_b8.png"
+ },
+ "44b248f9-e208-40e3-953e-1ab74526d0ab": {
+  "newUuid": "3a45a28a-7c66-4c0d-815b-31d6512a9b00",
+  "rel": "images/ui/beimi-6/effect_b9.png"
+ },
+ "4b910852-9cb2-4159-a159-15c24335c666": {
+  "newUuid": "fda42261-072e-472a-8cdd-a990f76c5fad",
+  "rel": "images/ui/beimi-6/glass_a1.png"
+ },
+ "432290ae-7af9-43e8-8b0c-c0dc4d43c11e": {
+  "newUuid": "b8d53782-7918-4a96-924b-4e5bf1cb23e2",
+  "rel": "images/ui/beimi-6/glass_a2.png"
+ },
+ "403d48b4-c0ce-42f3-855c-fd0c38e4386a": {
+  "newUuid": "73141266-fca7-4411-b989-74f389f5777b",
+  "rel": "images/ui/beimi-6/glass_a3.png"
+ },
+ "30e3f78b-6918-4a75-9138-388606faa5f9": {
+  "newUuid": "a74be72b-a04b-4df8-8ced-3c342572760c",
+  "rel": "images/ui/beimi-6/glass_b0.png"
+ },
+ "9dd84d4a-fa59-4eb9-baec-c97a376d6e70": {
+  "newUuid": "e209cbab-769a-4767-9f74-0dc79482c5c3",
+  "rel": "images/ui/beimi-6/glass_b1.png"
+ },
+ "ff698b97-66d8-4bb1-88db-7dabaf02b477": {
+  "newUuid": "05e9c3d0-3c41-4eb3-b827-4e9e41a94640",
+  "rel": "images/ui/beimi-6/glass_b2.png"
+ },
+ "54b3ee6d-0ca7-4062-b3ac-d051e43a032e": {
+  "newUuid": "aa324003-d14e-4e1c-ba32-98dee6d46597",
+  "rel": "images/ui/beimi-6/glass_b3.png"
+ },
+ "983af47f-e98f-4200-bb9a-aeabdbc11134": {
+  "newUuid": "716e1795-15b6-4b0e-bfae-70f152d8eac7",
+  "rel": "images/ui/beimi-6/glass_b4.png"
+ },
+ "3aabbfd6-3ecc-4cb8-a7c6-c711510a23b8": {
+  "newUuid": "34a5c323-7f25-47a0-ac17-3512b1ec5c61",
+  "rel": "images/ui/beimi-6/glass_b5.png"
+ },
+ "b2d6fbd8-4ea5-4211-a3db-a45d60549c8d": {
+  "newUuid": "efacb970-83f0-42ed-98b3-f8409f2cb2b7",
+  "rel": "images/ui/beimi-6/glass_b6.png"
+ },
+ "1708f6ff-42a0-48eb-8def-bdeeeadd841c": {
+  "newUuid": "c42f96f5-a486-4ddd-b6e9-5bc7f334ac33",
+  "rel": "images/ui/beimi-6/glass_b7.png"
+ },
+ "be6e43a0-c1bf-4b91-b9ac-64755bae0b33": {
+  "newUuid": "d5c5cd53-5ae8-4a13-a684-24226a7204c3",
+  "rel": "images/ui/beimi-6/glass_b8.png"
+ },
+ "bb0e5717-27cb-42a9-afac-18718a3f8dca": {
+  "newUuid": "5b32f479-83d5-453f-b4ff-8a6a9afb9813",
+  "rel": "images/ui/beimi-6/glass_b9.png"
+ },
+ "21313953-0cf5-43b7-90de-532849ec218c": {
+  "newUuid": "e6902501-588d-4d10-a281-95c4ef5e6454",
+  "rel": "images/ui/beimi-6/glass_c1.png"
+ },
+ "858d24be-c673-454e-bdf7-469122c1df29": {
+  "newUuid": "6affb292-a652-41d7-b070-df21e8af213d",
+  "rel": "images/ui/beimi-6/glass_c2.png"
+ },
+ "a6e08d9f-f1a7-47bd-adc2-9edb46777587": {
+  "newUuid": "399ced06-9f1e-432c-af09-f01f0ebfd79c",
+  "rel": "images/ui/beimi-6/time1.png"
+ },
+ "7273c70a-c063-4052-b0ea-e8ca54317779": {
+  "newUuid": "4b165e97-0464-4997-83a9-f03e2967fa6e",
+  "rel": "images/ui/beimi-6/time11.png"
+ },
+ "0dbe0234-e41f-40e1-b89b-8333f3367f36": {
+  "newUuid": "4e8e1122-fea1-456b-865d-689db3bb1855",
+  "rel": "images/ui/beimi-6/time2.png"
+ },
+ "bc6977d6-fd88-470a-adcb-90845e1ced73": {
+  "newUuid": "81658572-257c-4309-97b0-5fcb865e5872",
+  "rel": "images/ui/beimi-6/time22.png"
+ },
+ "27c420d6-bd1d-42a7-ba6c-c750d547995f": {
+  "newUuid": "79cc6a7e-d2f3-4f0c-b2c9-37588cd32fda",
+  "rel": "images/ui/beimi-6/time3.png"
+ },
+ "e6b69ebe-5ffc-4dbc-95d1-5e6d556eaece": {
+  "newUuid": "6444e68c-6b5c-460a-907c-09b11812d6f9",
+  "rel": "images/ui/beimi-6/time33.png"
+ },
+ "e4b8eecb-855b-4e58-aa76-ea56a3bdbda2": {
+  "newUuid": "aaaaf4a5-041b-43b3-bd33-8c1fa83e7bce",
+  "rel": "images/ui/beimi-6/time4.png"
+ },
+ "abba13a1-5858-41f4-ab25-53dfa5811132": {
+  "newUuid": "0b028425-7761-4738-8e85-0afea0c059d9",
+  "rel": "images/ui/beimi-6/time44.png"
+ },
+ "80607cb0-66aa-42af-9be2-0a3c0efdc744": {
+  "newUuid": "fff4f081-9f7e-4ba9-9a29-783403f9237d",
+  "rel": "images/ui/beimi-6/time5.png"
+ },
+ "22fee873-756e-48b3-94ec-54565d8c69d3": {
+  "newUuid": "a922918e-ccb7-4bc4-9135-ca56329d56f0",
+  "rel": "images/ui/beimi-6/time55.png"
+ },
+ "bf44f596-ff9d-4b1a-9f09-f615b35e1cb0": {
+  "newUuid": "efe4ff0b-119a-4a4a-b774-79dfd61ca21c",
+  "rel": "images/ui/beimi-6/万.png"
+ },
+ "7b89a6b8-e354-47fb-bc6a-d0e980cd0702": {
+  "newUuid": "d5cb2574-a9e8-4edf-bb12-f0f8e706964d",
+  "rel": "images/ui/beimi-6/初级1.png"
+ },
+ "e29300c5-4431-40d4-a33e-fc0d61c04b3d": {
+  "newUuid": "5fdd2e96-3863-4302-9262-ff4d7f7d358e",
+  "rel": "images/ui/beimi-6/初级2.png"
+ },
+ "2663e0c6-0dae-4833-90e2-f27e1bb55f39": {
+  "newUuid": "e1163207-151f-4f9e-8a4c-63f396ab1037",
+  "rel": "images/ui/beimi-6/吃.png"
+ },
+ "d1d4f419-ef54-4ac3-be78-44dd8ea037de": {
+  "newUuid": "f6af4b41-1ad9-42ff-88e7-f2c86441c9b7",
+  "rel": "images/ui/beimi-6/吃特效1.png"
+ },
+ "4214c548-fcf9-4afe-9d6e-d8cc359ad628": {
+  "newUuid": "b3078409-bd46-403e-b0d5-0890a98c19a5",
+  "rel": "images/ui/beimi-6/吃特效2.png"
+ },
+ "6462cb8a-cf8b-49c2-86c5-caeebad0a45c": {
+  "newUuid": "7ef98a1b-d2a8-46bc-956e-b35f0bac79f4",
+  "rel": "images/ui/beimi-6/吃特效3.png"
+ },
+ "5adc76e6-7671-484b-b8d4-e692ee3fef29": {
+  "newUuid": "4fa492d0-6018-4d5a-8d06-0016e0834562",
+  "rel": "images/ui/beimi-6/吃特效4.png"
+ },
+ "d56418fb-ea41-4fc4-978f-65dc2bd3c0e6": {
+  "newUuid": "c90eea79-a894-4d2c-9807-175af71379cb",
+  "rel": "images/ui/beimi-6/吃特效5.png"
+ },
+ "944b5449-db38-4e20-9691-ad44bb7300ba": {
+  "newUuid": "7f33d5f5-0a75-4ece-ac70-d11572bf22b2",
+  "rel": "images/ui/beimi-6/吃特效6.png"
+ },
+ "f68d5136-f524-4b1d-b42a-c1abf14683ff": {
+  "newUuid": "4230eedc-b098-488b-8cf3-313f163ad225",
+  "rel": "images/ui/beimi-6/提示_吃.png"
+ },
+ "75948991-191c-4403-aa50-263c21cb94de": {
+  "newUuid": "41547ecf-2742-458e-b922-281ddf0498b7",
+  "rel": "images/ui/beimi-6/提示_杠.png"
+ },
+ "89c13b76-29e8-4280-8029-0875a00bec09": {
+  "newUuid": "5fa63586-72f2-43ff-af5f-218992e9dc29",
+  "rel": "images/ui/beimi-6/提示_碰.png"
+ },
+ "c25a21fb-77ca-4350-b559-8815f72f8bd1": {
+  "newUuid": "e523f3ce-3eca-4d61-b937-27acdb860b15",
+  "rel": "images/ui/beimi-6/提示_胡.png"
+ },
+ "d9f83df3-855f-4d5f-9391-1a14116bcc9d": {
+  "newUuid": "1fb07458-ba8e-4277-a314-e19896edf511",
+  "rel": "images/ui/beimi-6/提示_过.png"
+ },
+ "00d67683-7aff-44db-900b-78d7102a851d": {
+  "newUuid": "116a0073-4bda-4eaf-9f9e-f5aec42491e9",
+  "rel": "images/ui/beimi-6/提示框.png"
+ },
+ "83257c61-50e8-4344-8c18-7cf2b2991429": {
+  "newUuid": "6ba0f072-5d3a-4603-be45-217433bcb843",
+  "rel": "images/ui/beimi-6/提示牌.png"
+ },
+ "45ee8f5c-f1c3-47da-a1cf-2a08edb67ba8": {
+  "newUuid": "23c6a77c-df53-4960-80ff-61d57fa78297",
+  "rel": "images/ui/beimi-6/杠.png"
+ },
+ "f5a5d164-5df5-43d1-999e-740f05a21821": {
+  "newUuid": "4710815b-de2b-4972-8d6f-42804fd5c017",
+  "rel": "images/ui/beimi-6/杠特效1.png"
+ },
+ "41281d9b-1838-4f1c-84ba-d2e618694465": {
+  "newUuid": "8f32923b-5b9d-4d24-94d5-d3ac857d38b2",
+  "rel": "images/ui/beimi-6/杠特效2.png"
+ },
+ "2cf72ef4-1fc5-41ff-89bf-2e8030719256": {
+  "newUuid": "f9eda39b-a29a-4686-873e-31944a36817b",
+  "rel": "images/ui/beimi-6/杠特效3.png"
+ },
+ "399c5121-5419-46ad-8816-9af26d6d898f": {
+  "newUuid": "e5cdaa96-d7fb-4d60-97e0-d025ef00075a",
+  "rel": "images/ui/beimi-6/杠特效4.png"
+ },
+ "b4985604-aff0-41b9-bd35-66e426c1dbf7": {
+  "newUuid": "0a15e32e-c7d3-447e-be11-2f97757380bf",
+  "rel": "images/ui/beimi-6/条.png"
+ },
+ "5fad03b2-08ba-4382-b426-c2fe7f22c253": {
+  "newUuid": "de3baafa-f12e-4afe-93a9-99608ff748e5",
+  "rel": "images/ui/beimi-6/碰.png"
+ },
+ "fc1fbeb8-8980-4d08-8a80-ae075cb54e47": {
+  "newUuid": "72c0e8f8-39fd-405e-aa2f-4c3f9b9b99eb",
+  "rel": "images/ui/beimi-6/碰特效1.png"
+ },
+ "b87cb882-7bed-47f2-9ba0-00cf9623fbb0": {
+  "newUuid": "4cbe3679-284a-4bea-81e5-0a184ec3baf1",
+  "rel": "images/ui/beimi-6/碰特效2.png"
+ },
+ "eac3b8ff-180b-40b9-8bdc-8c1256bc5af6": {
+  "newUuid": "ae64ca38-f09c-4682-a39d-ee452ec95488",
+  "rel": "images/ui/beimi-6/碰特效3.png"
+ },
+ "9d9471c6-1af0-49a5-9334-a1c19c0fac61": {
+  "newUuid": "cb1c7346-85b2-465d-ba8d-f8b925523237",
+  "rel": "images/ui/beimi-6/碰特效4.png"
+ },
+ "5ca80a24-562c-4fc4-8e19-f507f6aad287": {
+  "newUuid": "492f27be-de1a-45c7-82f6-919709502506",
+  "rel": "images/ui/beimi-6/筒.png"
+ },
+ "a126513f-093d-4aa9-b2ae-8c508be75fd1": {
+  "newUuid": "47a5ec6d-244b-4618-b280-01fef9715882",
+  "rel": "images/ui/beimi-6/胡.png"
+ },
+ "c4bdd06c-e7a4-48b8-b44c-050bfc7f1014": {
+  "newUuid": "73715abf-f40f-49e4-88a9-9b06c51e7461",
+  "rel": "images/ui/beimi-6/胡特效1.png"
+ },
+ "49fb4a05-16ee-4479-9727-0b7c6cb5987c": {
+  "newUuid": "d8960d2c-c136-4829-849e-4a9586120317",
+  "rel": "images/ui/beimi-6/胡特效2.png"
+ },
+ "03e70738-2bef-4fa1-ba11-1039c7df5f7d": {
+  "newUuid": "ff5b65c6-6989-4cfe-b92d-94bcaf9ea990",
+  "rel": "images/ui/beimi-6/胡特效3.png"
+ },
+ "da77c4d8-4675-429c-92a0-12aa443a4af1": {
+  "newUuid": "96d0b34c-71e0-4173-a650-6220bbc8ec02",
+  "rel": "images/ui/beimi-6/胡特效4.png"
+ },
+ "701f2ca1-8dc3-468e-a421-4deaaef41abb": {
+  "newUuid": "bbd19b30-c6a3-486b-a2ef-e115b24015fa",
+  "rel": "images/ui/beimi-6/自摸.png"
+ },
+ "5706e17a-0cf3-4821-a2e4-e3ff22437870": {
+  "newUuid": "dcbdc746-45f6-496f-9a0b-930eb5745938",
+  "rel": "images/ui/beimi-6/自摸特效1.png"
+ },
+ "ec2e811b-f198-47c2-8f3c-dbceed735b29": {
+  "newUuid": "2e57c66e-ce81-4960-8ade-631ecfa56f5b",
+  "rel": "images/ui/beimi-6/自摸特效2.png"
+ },
+ "7488a8ea-274f-475b-82f2-6c4ac775cfef": {
+  "newUuid": "76571845-39bd-4e20-b802-62d42b7af9c5",
+  "rel": "images/ui/beimi-6/自摸特效3.png"
+ },
+ "f83c1d33-2d2a-451d-a2df-59aa210fb512": {
+  "newUuid": "1f032731-4629-4869-a9be-1f6d403200a1",
+  "rel": "images/ui/beimi-6/自摸特效4.png"
+ },
+ "724d9da7-74d0-4322-a841-ceab97d5b92a": {
+  "newUuid": "7cb93d46-0fb2-48c2-b375-686d63b89414",
+  "rel": "images/ui/beimi-6/自摸特效5.png"
+ },
+ "73fd8790-b371-4db0-b83b-02570973499e": {
+  "newUuid": "e3e5eb21-dba5-486c-82fb-6d0a42181e70",
+  "rel": "images/ui/beimi-6/自摸特效6.png"
+ },
+ "1f136be3-b0fd-49c7-9ef7-3c45e934ce40": {
+  "newUuid": "a58bfe34-b050-43e5-8e71-1893e0862e5d",
+  "rel": "images/ui/beimi-6/自摸特效7.png"
+ },
+ "d532e820-9299-4ea3-9633-33b7eb88f6d3": {
+  "newUuid": "cfe6287c-48be-4ccd-a2c2-72dea2e34d38",
+  "rel": "images/ui/beimi-6/自摸特效8.png"
+ },
+ "49053e95-afda-4a7f-a2c7-d29067d203a2": {
+  "newUuid": "8667ad85-67f2-4ae7-998a-f595a3cd3cb9",
+  "rel": "images/ui/beimi-6/高级1.png"
+ },
+ "f40da543-f2e1-4d94-b3ae-5c280ea6b716": {
+  "newUuid": "ed612d9f-a839-4689-9e9a-498482a6a5ab",
+  "rel": "images/ui/beimi-6/高级2.png"
+ },
+ "019a354d-18a9-4436-914f-26c95cd8b9eb": {
+  "newUuid": "e3a45854-f75e-48bf-aa7f-8227b472cb6c",
+  "rel": "images/ui/beimi-image-other/4.png"
+ },
+ "1d4a062f-34ea-4de1-a9cf-aae2e0f2376f": {
+  "newUuid": "2d075203-11e0-48d2-8252-dc908320cfab",
+  "rel": "images/ui/beimi-image-other/5.png"
+ },
+ "b88a2664-cc3c-499a-870d-cfd82911976a": {
+  "newUuid": "f050e936-ea06-4cde-9d8c-904c797cc0b8",
+  "rel": "images/ui/beimi-image-other/6.png"
+ },
+ "253332ae-d11c-49fe-8060-84bc6649812e": {
+  "newUuid": "4d106000-89d6-4be7-861a-e9040073d3af",
+  "rel": "images/ui/beimi-image-other/7.png"
+ },
+ "3d9a39ac-11bf-436f-a3e4-0d0100034864": {
+  "newUuid": "d22cee81-6841-4312-a531-5bd998709cf8",
+  "rel": "images/ui/beimi-image-other/8.png"
+ },
+ "bdd00e71-9d85-4fa9-b213-1bc718dc545d": {
+  "newUuid": "b70862cb-9e01-41d3-8beb-0edbb1614333",
+  "rel": "images/ui/beimi-image-other/9.png"
+ },
+ "1e72d114-afa5-4a8c-aa54-302f93c71ee0": {
+  "newUuid": "f2346a49-961a-4858-a5f8-52345a9f866b",
+  "rel": "images/ui/beimi-image-other/LOGO2.png"
+ },
+ "26f36deb-13f2-4c70-9505-7cc4d5fbaa63": {
+  "newUuid": "9a4ef104-3b44-4b2a-a296-6e4213e86013",
+  "rel": "images/ui/beimi-image-other/account.png"
+ },
+ "cebcf73d-7e4d-4fea-b675-9e480602ef7b": {
+  "newUuid": "4746af28-0c98-47b5-a12b-70d5b6303b8c",
+  "rel": "images/ui/beimi-image-other/alert.png"
+ },
+ "be987294-95c5-43fc-b6d0-d02e30ba863d": {
+  "newUuid": "cc87cbbb-012b-4ce7-813e-78787dac42f1",
+  "rel": "images/ui/beimi-image-other/banker.png"
+ },
+ "0b08f701-2a04-45e3-a1a6-3b99f4cd6055": {
+  "newUuid": "e3aeaac5-28b5-4172-a8e3-05fca0c85dd1",
+  "rel": "images/ui/beimi-image-other/base.png"
+ },
+ "f2818a0f-44eb-4b46-a01b-332f8b1f2a6a": {
+  "newUuid": "42c262ce-08bf-4663-a73d-b87e72afecc1",
+  "rel": "images/ui/beimi-image-other/create_room.png"
+ },
+ "026dec79-6bcd-470b-8d70-8de2a9f2570c": {
+  "newUuid": "ed4b0b14-3fcd-4c6a-aa8f-40bdd6be41fa",
+  "rel": "images/ui/beimi-image-other/guestbtn.png"
+ },
+ "c7f8ed4b-d288-4761-9bc0-00cb389d243e": {
+  "newUuid": "0920d569-dc5a-4773-be5f-b7bbbe38634c",
+  "rel": "images/ui/beimi-image-other/input_bg.png"
+ },
+ "d5036410-8603-4340-b2c4-797263d18c78": {
+  "newUuid": "ae89b9e3-9885-4b3c-bc61-385472482067",
+  "rel": "images/ui/beimi-image-other/join_room.png"
+ },
+ "dfefb0fe-479e-4ee2-a821-2e3b3ee594a2": {
+  "newUuid": "5a61ea47-b15a-4493-9c44-f5e9bc4b4d9f",
+  "rel": "images/ui/beimi-image-other/login.png"
+ },
+ "b2eca323-e8ee-4a53-9a13-26977162d37f": {
+  "newUuid": "50819836-1d92-4486-9463-fd9652f4f4e3",
+  "rel": "images/ui/beimi-image-other/loginbtn.png"
+ },
+ "0a054fdf-0e9d-41d7-bc7e-db63e6e8cbbc": {
+  "newUuid": "932b796f-932a-4282-b2a7-6f28ad0b8a78",
+  "rel": "images/ui/beimi-image-other/logo.png"
+ },
+ "c06d30e0-c19a-4a9d-b623-962d392e9453": {
+  "newUuid": "92e39396-b697-4273-add3-b3edf1b1bf59",
+  "rel": "images/ui/beimi-image-other/mask.png"
+ },
+ "fda1d862-8529-4e7d-8b9d-93aaf5df6da7": {
+  "newUuid": "337cdf7e-d183-4631-85b8-3eddce59fda1",
+  "rel": "images/ui/beimi-image-other/myself.png"
+ },
+ "6a2518c8-dd9c-4b36-be8e-239632494937": {
+  "newUuid": "8c03849e-fca6-4e3b-893d-913fd5127a46",
+  "rel": "images/ui/beimi-image-other/number.png"
+ },
+ "f2a87352-72ac-465a-b648-ab626f2b71ec": {
+  "newUuid": "5726dda6-f1c5-4645-860a-961a9796ddd0",
+  "rel": "images/ui/beimi-image-other/password.png"
+ },
+ "d9790d86-b472-4236-8181-4b67f38b1ffe": {
+  "newUuid": "cd70823b-6f47-4af9-9504-1c3810c6d5cc",
+  "rel": "images/ui/beimi-image-other/playway_bg_light_effects.png"
+ },
+ "af076d28-ffdb-404e-819b-4510b881156a": {
+  "newUuid": "db3c90a2-14de-4c1b-a013-a8c75af0a13e",
+  "rel": "images/ui/beimi-image-other/playway_bg_playway.png"
+ },
+ "381b2972-81e1-4673-be40-1571c1814436": {
+  "newUuid": "1c019c0e-c24c-46e2-a823-e47aa949a4d1",
+  "rel": "images/ui/beimi-image-other/playway_gongao_text_bg.png"
+ },
+ "d42a7af7-3950-41d6-af12-613ad34bc03e": {
+  "newUuid": "57d4d03a-c33a-4287-b266-10f7c47116d8",
+  "rel": "images/ui/beimi-image-other/playway_options_bg.png"
+ },
+ "cad9ebb2-7a33-4bd2-8c2a-2ba055ee9a43": {
+  "newUuid": "03e5d2df-0cff-4eed-89ef-ae2bc24b410b",
+  "rel": "images/ui/beimi-image-other/playway_options_selected.png"
+ },
+ "a4c35978-6224-4854-ae1d-4102f227a209": {
+  "newUuid": "b82fb7fa-7f56-4323-a249-1776427a0add",
+  "rel": "images/ui/beimi-image-other/playway_options_unselected.png"
+ },
+ "4020395c-b6c7-42ec-a713-71c6c3fa6d98": {
+  "newUuid": "fda4d641-ac5f-43f6-8489-61981cd28af8",
+  "rel": "images/ui/beimi-image-other/playway_playway_selected.png"
+ },
+ "30c1c8d0-f89c-4692-8831-d8f01736aa98": {
+  "newUuid": "a18d45b9-06d2-4000-b8bd-746c6b6fa1a6",
+  "rel": "images/ui/beimi-image-other/playway_playway_unselected.png"
+ },
+ "2c2a76cb-3b8e-4cc1-a46d-62afcdf3584a": {
+  "newUuid": "90c92339-f447-4f90-8d29-22e58e5ebdc0",
+  "rel": "images/ui/beimi-image-other/playway_record_selected.png"
+ },
+ "c8e28861-d166-48ac-9b1a-bd5d25d4a55e": {
+  "newUuid": "47773256-0fac-48f9-aaaa-bf4b089aaf03",
+  "rel": "images/ui/beimi-image-other/playway_record_unselected.png"
+ },
+ "6f82352e-4238-466c-99cd-dd36390630d3": {
+  "newUuid": "efbf5e3a-4f5a-43bb-aa53-16cec68380a8",
+  "rel": "images/ui/beimi-image-other/playway_tab_bg.png"
+ },
+ "ef80d2fe-1d11-4645-9533-2c6f5111ce06": {
+  "newUuid": "e52366e6-96a0-4bfd-a059-6fd1ae134e4b",
+  "rel": "images/ui/beimi-image-other/playway_tab_selected.png"
+ },
+ "a287e881-1fd9-4522-91b1-8579822416a7": {
+  "newUuid": "14d17fea-407d-4876-8bba-466f3a62771b",
+  "rel": "images/ui/beimi-image-other/playway_tab_unselected.png"
+ },
+ "bfd006eb-d42e-4b47-bfd5-2c9b4efc2262": {
+  "newUuid": "933e8d38-a9c3-4858-937d-5e67d3e0ad78",
+  "rel": "images/ui/beimi-image-other/playway_text_title.png"
+ },
+ "f0b0adcb-0920-4f75-b645-154bb40bec6f": {
+  "newUuid": "2d8da896-3457-4f15-b6c8-75889cbc7103",
+  "rel": "images/ui/beimi-image-other/roomtip.png"
+ },
+ "3b06e8f2-0ad6-49a3-8a5d-9533458a1a92": {
+  "newUuid": "a16c9dd8-db85-4ccd-a664-7b9b2c081b49",
+  "rel": "images/ui/beimi-image-other/summary_你赢了.png"
+ },
+ "2f420693-5a7d-4cc1-973f-f082c50df751": {
+  "newUuid": "9f92b30e-edc4-4e6e-9f37-7ca986aff6ee",
+  "rel": "images/ui/beimi-image-other/summary_你输了.png"
+ },
+ "e0b492d3-0056-47bf-b2cb-193677c03903": {
+  "newUuid": "f7da33a0-c177-4c6d-8570-5a32d451acc1",
+  "rel": "images/ui/beimi-image-other/summary_其他头像外框50x50.png"
+ },
+ "bd0b1f96-61cf-4465-9e33-248290fe16c4": {
+  "newUuid": "c91e3523-6807-48c9-beb1-502583502131",
+  "rel": "images/ui/beimi-image-other/summary_其他玩家底框.png"
+ },
+ "13fce6ce-64ce-4125-afd3-ed99ad02da56": {
+  "newUuid": "c123eb54-8d59-487d-b6b5-a3415b7256fc",
+  "rel": "images/ui/beimi-image-other/summary_加倍小.png"
+ },
+ "f472ef4a-674d-4f25-a9d7-b25a809c8197": {
+  "newUuid": "ec79deff-fd9d-4e8f-a1e6-833b10d88215",
+  "rel": "images/ui/beimi-image-other/summary_失败角色.png"
+ },
+ "4ce8fae3-402f-47c1-bcc8-b11e68c77ad0": {
+  "newUuid": "10df0226-d6fe-441b-972f-18ac5d00eef7",
+  "rel": "images/ui/beimi-image-other/summary_自己头像外框74x74.png"
+ },
+ "11699a8f-f139-4197-b25e-1db9e9a35193": {
+  "newUuid": "cb2bde7e-0e2a-459c-9f82-ffeb78938f55",
+  "rel": "images/ui/beimi-image-other/summary_自己灰色底框.png"
+ },
+ "4a51bd0c-788f-4283-9fd6-6eafca73822b": {
+  "newUuid": "2f6f6dc4-7c4e-437b-a560-a1c4c7a15b72",
+  "rel": "images/ui/beimi-image-other/summary_自己金色底框.png"
+ },
+ "13ed1ff0-7614-4de2-bdce-792fd321a178": {
+  "newUuid": "344331f9-91c0-4898-b468-0f23592f38f7",
+  "rel": "images/ui/beimi-image-other/timer_char.png"
+ },
+ "15ab0c79-6051-4bad-b781-289bcf181b66": {
+  "newUuid": "57a98d39-8800-411b-b3f3-a8af08dc2c49",
+  "rel": "images/ui/beimi-image-other/weixinaccount.png"
+ },
+ "538fef69-ea8b-4bb9-9914-fed7c540ae6e": {
+  "newUuid": "90ca6a87-35af-4862-9389-8309291f5dc9",
+  "rel": "images/ui/beimi-image-other/不洗牌.png"
+ },
+ "db1382cc-098e-4cac-a4cb-501534a6752b": {
+  "newUuid": "5d8180a7-6ca4-42a3-b6c1-ea667ac55aaa",
+  "rel": "images/ui/beimi-image-other/不要.png"
+ },
+ "a9c4ae5f-fb3e-4690-aae3-584fe81ef0fb": {
+  "newUuid": "3b458365-3673-42d8-ae32-4aecb9eb2d82",
+  "rel": "images/ui/beimi-image-other/你赢了.png"
+ },
+ "55f8612c-daae-4532-bbdc-a3ad60b68381": {
+  "newUuid": "52a42df3-943a-44f7-a77e-3f163c547c17",
+  "rel": "images/ui/beimi-image-other/你输了.png"
+ },
+ "432f020a-f8a2-4c1b-98f6-eed9845d3c8b": {
+  "newUuid": "8a3e3c6c-2229-4f5c-84f3-b5489c6931dd",
+  "rel": "images/ui/beimi-image-other/其他头像外框50x50.png"
+ },
+ "f69d147b-0dfe-4056-8a8b-cee819b6eeb1": {
+  "newUuid": "8fd64e3a-b263-4bfb-a2eb-ed54f8a28329",
+  "rel": "images/ui/beimi-image-other/其他玩家底框.png"
+ },
+ "7cfbf0ab-41c7-401e-8765-e703c6a39d49": {
+  "newUuid": "8a5c38aa-0821-4cda-9e03-5306ed8ba327",
+  "rel": "images/ui/beimi-image-other/创建房间_选择游戏类型.png"
+ },
+ "42847714-3b66-48d4-a9c0-6cc6cc7a4f94": {
+  "newUuid": "20b336b8-794f-4de6-8d81-7f5cd2d8f584",
+  "rel": "images/ui/beimi-image-other/加倍小.png"
+ },
+ "27ca871c-3122-49ad-a119-735eb82c8802": {
+  "newUuid": "bc8d3aab-4080-46d4-b756-57c3399a0d13",
+  "rel": "images/ui/beimi-image-other/动作提示.png"
+ },
+ "d4e6c568-ffcb-4438-941b-da26b7c194f4": {
+  "newUuid": "9e4f2bc3-076e-420b-97f1-a02a6bcb023d",
+  "rel": "images/ui/beimi-image-other/失败角色.png"
+ },
+ "bf238eb0-aa2c-4350-aeae-97bfc9941bb3": {
+  "newUuid": "5d09b749-8999-4b7e-9e47-2be471ec1763",
+  "rel": "images/ui/beimi-image-other/广东麻将.png"
+ },
+ "0196a7c4-b238-452d-bea5-b965cef9b3c1": {
+  "newUuid": "cf7d2715-73e1-413a-8e52-4f00577cf522",
+  "rel": "images/ui/beimi-image-other/底牌.png"
+ },
+ "046bf67e-e808-4b0f-9c04-8a2486120e27": {
+  "newUuid": "5f3d8191-7dc9-4bd4-9c13-264f26592900",
+  "rel": "images/ui/beimi-image-other/德州扑克.png"
+ },
+ "ec1314a6-4c74-4d62-8493-d87fe842c875": {
+  "newUuid": "b712c052-a222-4af9-b298-4303bd594140",
+  "rel": "images/ui/beimi-image-other/房间__光效复用切图bg_light_effects.png"
+ },
+ "4187b054-5a58-47cd-82a7-1b2865dd58cb": {
+  "newUuid": "28fca2ca-06ea-4050-9f85-2248fb48eece",
+  "rel": "images/ui/beimi-image-other/房间__底板复用切图bg.png"
+ },
+ "4726880f-b0c1-47fe-a5e8-8b0a1b7666ac": {
+  "newUuid": "f187ba7e-c319-41dc-815c-682a87291e24",
+  "rel": "images/ui/beimi-image-other/房间__底板复用切图text_bg.png"
+ },
+ "fae59119-6c18-4947-9676-8504114cd59a": {
+  "newUuid": "5f122e91-bfd9-40a9-a97f-2916241e5a55",
+  "rel": "images/ui/beimi-image-other/房间__按钮复用切图Btn_.png"
+ },
+ "38d1aea2-116e-40f2-9843-d26ed844a5b1": {
+  "newUuid": "8313d8ff-17fd-4e66-a0ed-92da68eb7ec5",
+  "rel": "images/ui/beimi-image-other/房间_Btn_text_creat.png"
+ },
+ "d2962cdb-ba89-45d7-b358-3f836ab34cfc": {
+  "newUuid": "7610c65a-fb53-4a1d-9f55-7b2dfbd0f5f0",
+  "rel": "images/ui/beimi-image-other/房间_Btn_text_free.png"
+ },
+ "e37d0c30-9754-45ef-a0f4-e2fc130832be": {
+  "newUuid": "23fccc02-304d-4d8e-9290-8e1f51d4fd88",
+  "rel": "images/ui/beimi-image-other/房间_bg_options.png"
+ },
+ "14e26016-b958-44d2-ac86-99a5d65c1f15": {
+  "newUuid": "0fb55417-a009-4e7f-b552-541f36763ea5",
+  "rel": "images/ui/beimi-image-other/房间_bg_tab.png"
+ },
+ "c2eb6559-2d73-4bb4-968a-659a1c64b220": {
+  "newUuid": "ee9f107a-c393-420c-9c11-ea8cbd8cfa71",
+  "rel": "images/ui/beimi-image-other/房间_icon_description.png"
+ },
+ "bc20cdf8-06b7-487d-bcb7-f659d928df9a": {
+  "newUuid": "22476d7c-2368-4878-b411-58841705f8b8",
+  "rel": "images/ui/beimi-image-other/房间_icon_roomcard.png"
+ },
+ "7d966795-488d-465e-a49a-011bebfcda39": {
+  "newUuid": "3eb079cb-7e66-49fd-ae2b-100aa0405b43",
+  "rel": "images/ui/beimi-image-other/房间_icon_roomcard_free.png"
+ },
+ "f886c254-1a4a-4199-8654-02c7777be107": {
+  "newUuid": "cf88dbbe-0f9f-4872-867e-e93bf6942d5e",
+  "rel": "images/ui/beimi-image-other/房间_icon_roomcard_free2.png"
+ },
+ "3a9c066b-d2be-41a8-9a92-9a9acb2985d3": {
+  "newUuid": "362b57e3-197d-4fb5-90b2-f72e3f3fc3b3",
+  "rel": "images/ui/beimi-image-other/房间_icon_tips.png"
+ },
+ "9e78508d-964d-4a23-a6dd-b918998290b7": {
+  "newUuid": "f048c934-f634-4695-838e-f83bd743a7e8",
+  "rel": "images/ui/beimi-image-other/房间_options_selected.png"
+ },
+ "4ef53919-e3be-4ccd-a0cc-7ae4b3d20b40": {
+  "newUuid": "4c3979ee-43d2-4ef6-a0cf-1c8636f5d92b",
+  "rel": "images/ui/beimi-image-other/房间_options_unselected.png"
+ },
+ "af22b0d3-8e52-4ff2-a551-8134977a60f1": {
+  "newUuid": "ae9b5ee5-7914-4ba6-8450-e500aaaca211",
+  "rel": "images/ui/beimi-image-other/房间_tab_selected.png"
+ },
+ "c61e7223-f468-45c8-a954-52cb7b01775d": {
+  "newUuid": "9c70ed8e-2bb7-4c2f-a51b-e0619124c7d3",
+  "rel": "images/ui/beimi-image-other/房间_tab_selected_tuidaohu.png"
+ },
+ "4d875cdc-8603-46a7-a12e-d590821a668b": {
+  "newUuid": "f01bb610-f11b-4bbf-81e9-0664c64513c8",
+  "rel": "images/ui/beimi-image-other/房间_tab_selected_xueliu.png"
+ },
+ "13f8c47e-e4a8-4ccf-a959-f4eff86fcb6b": {
+  "newUuid": "cdba35df-ae56-45bc-b56d-56fec27990d4",
+  "rel": "images/ui/beimi-image-other/房间_tab_selected_xuezhan.png"
+ },
+ "96b5f295-02b0-4ea9-a30c-5811a8390f8c": {
+  "newUuid": "a1cabdba-0d5c-43ba-816e-baeb13d3f484",
+  "rel": "images/ui/beimi-image-other/房间_tab_unselected.png"
+ },
+ "b2cadb19-1c11-4209-96fc-d0aff59e9746": {
+  "newUuid": "c75d0de4-828c-4f6f-9529-1af718cb30f3",
+  "rel": "images/ui/beimi-image-other/房间_tab_unselected_tuidaohu.png"
+ },
+ "f1348e2d-a79d-41d5-9df0-3875e6fd3e2a": {
+  "newUuid": "48b31e05-2d82-4354-8520-57e7f5446a05",
+  "rel": "images/ui/beimi-image-other/房间_tab_unselected_xueliu.png"
+ },
+ "70f518a0-f5a2-4717-a452-947ef39ef31a": {
+  "newUuid": "134858b7-cbdb-4013-a9d8-985383043193",
+  "rel": "images/ui/beimi-image-other/房间_tab_unselected_xuezhan.png"
+ },
+ "c47064c0-a15d-4151-b781-bc075a6f74d3": {
+  "newUuid": "71399eca-e8a9-47d3-997e-ae995924d2a7",
+  "rel": "images/ui/beimi-image-other/房间_十三水.png"
+ },
+ "6bab6dfb-c045-45e9-894e-a837dadd08fa": {
+  "newUuid": "9efc22a8-453e-4591-a505-83fa3adcc931",
+  "rel": "images/ui/beimi-image-other/房间_广东麻将.png"
+ },
+ "cf1c60b6-f3b4-43f4-b598-c68460f6bbb0": {
+  "newUuid": "7f56d5a8-12ce-4a0d-b1e3-98e4b42f7660",
+  "rel": "images/ui/beimi-image-other/房间_德州扑克.png"
+ },
+ "b2fc544b-c29d-4268-944f-23397b9d6482": {
+  "newUuid": "72e06bcc-8cdf-469a-ba85-d8e8fbc80bab",
+  "rel": "images/ui/beimi-image-other/房间_经典斗地主.png"
+ },
+ "4f4ce4cf-549d-43ae-b949-6654293f8644": {
+  "newUuid": "a6af8773-c787-4216-819c-b084d55ea1e2",
+  "rel": "images/ui/beimi-image-other/房间_诈金花.png"
+ },
+ "0db61054-83e4-4ffb-9bef-e57eeae9b03a": {
+  "newUuid": "a7997cd3-0798-42c1-a44d-ab79d013b035",
+  "rel": "images/ui/beimi-image-other/房间_跑胡子.png"
+ },
+ "46ae3937-d0ab-4325-93c1-35cdfc75f723": {
+  "newUuid": "dc03448a-e78e-4555-aae9-537e5e8b7dfb",
+  "rel": "images/ui/beimi-image-other/房间_邀请好友.png"
+ },
+ "b964c110-970b-4063-b7df-070bd5aaf5c7": {
+  "newUuid": "57ee51f5-df29-4ca1-b405-2992df681d49",
+  "rel": "images/ui/beimi-image-other/房间_邀请好友BG.png"
+ },
+ "034c82bd-5c37-42a6-b73c-062a3bbf47a5": {
+  "newUuid": "5d037df3-625c-4e14-a08c-d610178a894c",
+  "rel": "images/ui/beimi-image-other/房间_麻将.png"
+ },
+ "0d9111a5-e2f1-4d24-84ec-ce9715ce671a": {
+  "newUuid": "1b338732-aea9-4b39-bfa5-4d21317df439",
+  "rel": "images/ui/beimi-image-other/数字_+.png"
+ },
+ "455b18b0-7331-4c76-8c67-5d2bb2f44ec5": {
+  "newUuid": "c8850b10-1156-4d83-b299-071c8c5788a9",
+  "rel": "images/ui/beimi-image-other/数字_-.png"
+ },
+ "94e78646-6cb1-4588-a616-d64a3c61de88": {
+  "newUuid": "25bc4c76-0d36-49d7-ac05-5869eeafe414",
+  "rel": "images/ui/beimi-image-other/数字_0.png"
+ },
+ "fef34c1c-eff7-4c73-8aed-5ffa3d9df11d": {
+  "newUuid": "1e3bc86b-65f5-4bb7-ac53-a3df22ebf3c5",
+  "rel": "images/ui/beimi-image-other/数字_1.png"
+ },
+ "7c91613a-3091-45d4-89ed-35fd8194d169": {
+  "newUuid": "5e961789-212f-4c62-842e-ce7158d11450",
+  "rel": "images/ui/beimi-image-other/数字_2.png"
+ },
+ "20590e35-2cec-4e50-90a3-9faf8daac8b9": {
+  "newUuid": "e7f8cf29-3ff4-4111-9651-4515337aa894",
+  "rel": "images/ui/beimi-image-other/数字_3.png"
+ },
+ "982aac8f-9c2c-459b-a8ae-9d965cccca20": {
+  "newUuid": "54d3b3a0-ee89-407c-bde7-506c42016d45",
+  "rel": "images/ui/beimi-image-other/数字_4.png"
+ },
+ "d62f0091-e054-431d-963d-5cc75610b78d": {
+  "newUuid": "1733a94f-befd-4f96-bf76-aa92785ec77e",
+  "rel": "images/ui/beimi-image-other/数字_5.png"
+ },
+ "21661535-0536-44bc-9c05-de8255c1a51d": {
+  "newUuid": "a40c646b-0855-4b6e-b1af-4bcc2587554c",
+  "rel": "images/ui/beimi-image-other/数字_6.png"
+ },
+ "9ef243e3-34d2-4183-971a-683e049017a0": {
+  "newUuid": "8289a272-e191-4b52-bfa3-a95163a21f4e",
+  "rel": "images/ui/beimi-image-other/数字_7.png"
+ },
+ "d87493e0-6acc-4ae2-ab44-a2fb63812893": {
+  "newUuid": "b46033ca-b678-47c0-9ca4-36602ec08c9f",
+  "rel": "images/ui/beimi-image-other/数字_8.png"
+ },
+ "b187230e-61e4-409d-afe2-bb44bd6713b6": {
+  "newUuid": "21699286-08f9-4fce-ab62-ddba3aedf65c",
+  "rel": "images/ui/beimi-image-other/数字_9.png"
+ },
+ "b53332f1-e923-4d99-9377-61161accd762": {
+  "newUuid": "13595e5a-c1f8-4c30-82e0-6a3f4077f1e2",
+  "rel": "images/ui/beimi-image-other/数字_dian.png"
+ },
+ "1e12b5c3-ca16-47e9-8290-a9ab81d85fc3": {
+  "newUuid": "ac6cc9c9-a813-4b11-944a-4a1619079641",
+  "rel": "images/ui/beimi-image-other/数字_qian.png"
+ },
+ "4fcbf707-0123-4873-96cd-cc944268aae4": {
+  "newUuid": "bca622e1-060b-462d-afa8-e46fd2e99dc6",
+  "rel": "images/ui/beimi-image-other/数字_wan.png"
+ },
+ "75f3899c-fe50-403f-9d92-161d73618b7f": {
+  "newUuid": "4e283b3c-9a3e-4f49-afc0-aa3626073e94",
+  "rel": "images/ui/beimi-image-other/数字_y_+.png"
+ },
+ "491e5e5f-0d83-4db1-9a34-2ed40d2575aa": {
+  "newUuid": "7ecb060e-cd68-4b20-8aed-8173483896e9",
+  "rel": "images/ui/beimi-image-other/数字_y_-.png"
+ },
+ "eb22e003-3fd3-4118-acbe-1209340aaa34": {
+  "newUuid": "f075867b-1bc9-46fb-a78f-5d9ab0f6d585",
+  "rel": "images/ui/beimi-image-other/数字_y_0.png"
+ },
+ "cd8ab191-e697-48cb-8448-557686dc935c": {
+  "newUuid": "7968d3c3-4987-4822-a39d-052d30cfaa1c",
+  "rel": "images/ui/beimi-image-other/数字_y_1.png"
+ },
+ "76fba00c-9868-418c-9775-467a984f24af": {
+  "newUuid": "36ba0f2a-6cc8-4605-811c-1e7f0f13ab90",
+  "rel": "images/ui/beimi-image-other/数字_y_2.png"
+ },
+ "49964a24-b5f7-4956-a0c1-7e3ddd2bb5ed": {
+  "newUuid": "81b284fb-ca89-45ae-9fd0-98d9fa7d4633",
+  "rel": "images/ui/beimi-image-other/数字_y_3.png"
+ },
+ "98d3b494-9673-4f1f-b7d1-7b23c3a2af10": {
+  "newUuid": "3c14d582-c4a9-4e97-bbfc-80c043c2e24c",
+  "rel": "images/ui/beimi-image-other/数字_y_4.png"
+ },
+ "e111009d-8081-415d-baea-72173dc689dc": {
+  "newUuid": "f8b8ecc3-d856-4429-8d02-3dba017e0fb9",
+  "rel": "images/ui/beimi-image-other/数字_y_5.png"
+ },
+ "cf9a4544-07d0-404e-8fa0-7a07e735d5c7": {
+  "newUuid": "9d525429-9843-4693-84ac-5f13d2311b3d",
+  "rel": "images/ui/beimi-image-other/数字_y_6.png"
+ },
+ "affb7606-7c1e-488d-9e56-7bf1a6822f62": {
+  "newUuid": "bfe9805b-265b-4c0d-a7fd-45634b33266e",
+  "rel": "images/ui/beimi-image-other/数字_y_7.png"
+ },
+ "cd87b4b8-55fc-428a-b237-57cfd88d17b8": {
+  "newUuid": "206870e4-4683-49d9-a145-66d1ea8c502f",
+  "rel": "images/ui/beimi-image-other/数字_y_8.png"
+ },
+ "f06bb7ca-c96a-419d-950f-63fffda5fc82": {
+  "newUuid": "974b5f46-6384-4d11-8a97-48485787f4a6",
+  "rel": "images/ui/beimi-image-other/数字_y_9.png"
+ },
+ "640aed7f-1ad3-485d-b3fb-f1f6dd3944b6": {
+  "newUuid": "32f5e616-3789-4b1c-a6fe-256b24f3d4d9",
+  "rel": "images/ui/beimi-image-other/数字_y_dian.png"
+ },
+ "276f58e0-76db-45db-b797-e9c5694125bb": {
+  "newUuid": "9b167442-0397-4639-9b84-5e746bd15269",
+  "rel": "images/ui/beimi-image-other/数字_y_qian.png"
+ },
+ "d7c480d6-fdf6-44de-9d5a-09334a2e3de7": {
+  "newUuid": "f01ba645-a3d0-4d20-a770-cd619c820c55",
+  "rel": "images/ui/beimi-image-other/数字_y_wan.png"
+ },
+ "72f1eeb5-9773-4146-b89e-5f74fa98c1fe": {
+  "newUuid": "b316ee45-21e1-4011-bb61-1ad80db8d35a",
+  "rel": "images/ui/beimi-image-other/斗地主-房间模式.png"
+ },
+ "a1e2b1f7-d99e-48f9-a15f-4dc30c794420": {
+  "newUuid": "0764af3f-ab91-4730-95ce-f65aef122e2f",
+  "rel": "images/ui/beimi-image-other/斗地主-癞子玩法.png"
+ },
+ "ce5d9976-c91e-432d-bf7a-b4746e24356d": {
+  "newUuid": "13efd61a-c823-4c1c-89bb-4a872954e0b6",
+  "rel": "images/ui/beimi-image-other/斗地主.png"
+ },
+ "27455ca7-65e2-45b7-aebb-d8135cf696b1": {
+  "newUuid": "2b9e4762-55ee-4428-ba3a-4128a181e83f",
+  "rel": "images/ui/beimi-image-other/游客.png"
+ },
+ "4fdfa61a-5522-49ed-b3dd-ba76630d9acc": {
+  "newUuid": "b8d8c67f-2ac2-4d5c-9e56-6941d6ec79a6",
+  "rel": "images/ui/beimi-image-other/牌-大.png"
+ },
+ "2add3f6a-8c75-41e4-82fa-8569d3bcc328": {
+  "newUuid": "8fc2f8ef-53bf-4bd6-9233-e2f729089c2d",
+  "rel": "images/ui/beimi-image-other/玩法-经典斗地主.png"
+ },
+ "195f7de7-968e-45a0-a415-1a7af8c827f7": {
+  "newUuid": "100a3b15-453d-4a82-9eac-46dbf6b4528c",
+  "rel": "images/ui/beimi-image-other/玩法-金币.png"
+ },
+ "242785d1-ad91-4d79-ae75-29cb82edd705": {
+  "newUuid": "c8c35b56-7d5e-4e6d-a373-bec09dcf32f9",
+  "rel": "images/ui/beimi-image-other/癞子玩法.png"
+ },
+ "ebac6936-20de-4683-a94e-71f982cfa048": {
+  "newUuid": "c4f32e49-6aca-415d-a177-96ff7dd17c04",
+  "rel": "images/ui/beimi-image-other/经典斗地主.png"
+ },
+ "b177a081-41c2-4fbb-bbfa-8d084752a390": {
+  "newUuid": "5da7c0b8-f7d0-48d1-aea4-5dcc2cfa75af",
+  "rel": "images/ui/beimi-image-other/背-小.png"
+ },
+ "44dc7ac0-3a69-43ee-82c6-ec40cf28e5d9": {
+  "newUuid": "c4d0854b-26c1-4caa-9f68-9c05ca0584ab",
+  "rel": "images/ui/beimi-image-other/自己头像外框74x74.png"
+ },
+ "0d8595f5-f9a8-48b6-b498-55714a54450a": {
+  "newUuid": "eac0f226-a406-4dcd-a277-48a5eec1c836",
+  "rel": "images/ui/beimi-image-other/自己灰色底框.png"
+ },
+ "4e676971-5f96-4f1d-8e61-41d08661b65c": {
+  "newUuid": "21181f25-3b1c-4467-a583-3e835ab2d1eb",
+  "rel": "images/ui/beimi-image-other/自己金色底框.png"
+ },
+ "e5d2dabb-ac9d-437b-b596-5ccd0a76ae78": {
+  "newUuid": "a9ebf598-5517-4d2b-84d4-3a9e881d6c8e",
+  "rel": "images/ui/beimi-image-other/血战麻将.png"
+ },
+ "d99f21fc-89b4-4ed2-bd38-29fcd9c64727": {
+  "newUuid": "a9b9ddf4-7a4e-4399-a5e3-375aa664c782",
+  "rel": "images/ui/beimi-image-other/要不起.png"
+ },
+ "8e94a4d1-61bd-44a9-a899-f5ba845c6554": {
+  "newUuid": "12a75513-e983-435a-a021-b141d3c62ebf",
+  "rel": "images/ui/beimi-image-other/请输入房间号.png"
+ },
+ "4e92fd7a-0dff-4c5b-8d45-c86349d5e484": {
+  "newUuid": "55f0df2a-015e-49d0-8a37-5738c8b252ac",
+  "rel": "images/ui/beimi-image-other/邀请在线好友.png"
+ },
+ "bc43b382-a6dc-43b0-8ac8-2bbb3026f612": {
+  "newUuid": "79597b4a-de53-4d9b-abcb-39a3081ae39d",
+  "rel": "images/ui/beimi-image-other/邀请好友.png"
+ },
+ "30839b0f-456f-4fca-bb95-6a21965f2600": {
+  "newUuid": "ab78c408-9845-4a31-aa18-4ccb9c9c2694",
+  "rel": "images/ui/beimi-image-other/邀请微信好友.png"
+ },
+ "018ce89c-13dc-4657-a939-4913cf267078": {
+  "newUuid": "0ab5ec27-3d62-4009-8c59-3b567afd3047",
+  "rel": "images/ui/beimi-other/反馈_玩家反馈框.png"
+ },
+ "5db2b96b-2ec9-46c6-85bf-1f2fccdc03c5": {
+  "newUuid": "fc4e6a45-365e-4508-9911-51d8f66c2ac4",
+  "rel": "images/ui/beimi-other/反馈_系统回复框.png"
+ },
+ "394def69-85cb-4d28-80e9-e798b5c0550d": {
+  "newUuid": "73fa79d5-a791-453b-95db-1306f69d9312",
+  "rel": "images/ui/beimi-other/失败角色.png"
+ },
+ "7a7c2b73-a1d1-4e41-b26b-41c4bf04f7e1": {
+  "newUuid": "19640458-aa29-4c3f-b51c-12edfcaff696",
+  "rel": "images/ui/beimi-other/排行榜-底.png"
+ },
+ "c1a1d655-cb55-42bc-9e74-b86ab36d6229": {
+  "newUuid": "d2c6079f-cabb-4454-aab1-21b7c4307185",
+  "rel": "images/ui/beimi-other/牌局结束_base_loser.png"
+ },
+ "a3d512c9-481c-4c9d-b1e2-0c909bd08b51": {
+  "newUuid": "2c5fad44-d691-4bc6-a16e-9443354b817b",
+  "rel": "images/ui/beimi-other/牌局结束_base_winner.png"
+ },
+ "b0d36e98-17c3-4aa3-be0d-fe2c2c5e8c57": {
+  "newUuid": "1cb1a9cb-1c0c-496e-9c4e-c581030d85fe",
+  "rel": "images/ui/beimi-other/玻璃底框.png"
+ },
+ "0031d579-bde5-4974-b8e6-49c036cc1b9a": {
+  "newUuid": "f0ddb0e9-8796-47b6-a038-ef52057e71f3",
+  "rel": "images/ui/beimi-other/聊天_base.png"
+ },
+ "6629ebc5-da8e-4050-8a04-8df86ab4d57e": {
+  "newUuid": "16bae0aa-c6e0-45c3-8250-2af5f7ae74f1",
+  "rel": "images/ui/beimi-other/背景_龙纹居中.png"
+ },
+ "ea9c6e2c-44a4-4ba6-8e57-f94abd08f2ae": {
+  "newUuid": "e5f9c6b5-f3aa-4746-a1c0-892359ff78ed",
+  "rel": "images/ui/beimi-other/角色.png"
+ },
+ "cd55cff5-b9c3-4056-b20a-adfb3200930e": {
+  "newUuid": "1e373404-bbd1-4eed-ab13-0ff7b52fb87e",
+  "rel": "images/ui/beimi-other/邮件_mail_base.png"
+ },
+ "eeb219b0-e212-454a-8831-9073b4098f81": {
+  "newUuid": "35ad06fb-e19e-40ce-9665-17382611a8c0",
+  "rel": "images/ui/beimi-scene/bg1.png"
+ },
+ "29fc2191-7fcb-497a-ae31-df97394b970c": {
+  "newUuid": "73a2492e-778b-4b35-8a7a-15aea470bc95",
+  "rel": "images/ui/beimi-scene/背景.png"
+ },
+ "acae5e0c-47f0-4528-a384-de5d671e3995": {
+  "newUuid": "cb323ccb-51f4-4364-8ef1-e540dfec9455",
+  "rel": "images/ui/beimi-scene/背景1.png"
+ },
+ "da570e8e-727f-48aa-9098-2d7888071cd6": {
+  "newUuid": "22a01f14-09b0-452c-ae30-01dd20d3c67d",
+  "rel": "images/ui/beimi-scene/背景可随意拉伸铺满.png"
+ },
+ "01a22285-98f5-4ac9-848c-e475e111cdab": {
+  "newUuid": "156f9939-93ca-4c97-8ef1-bba09fca986f",
+  "rel": "images/ui/chat/chat_bg.png"
+ },
+ "e0870651-1aa1-4096-b5f0-a896d2f135c2": {
+  "newUuid": "1c26e26d-6b38-4e42-ae45-c2d62ffc6e15",
+  "rel": "images/ui/chat/chat_btn_normal.png"
+ },
+ "4f6c519a-1c69-4e0b-bd32-a96bf64c7b3e": {
+  "newUuid": "ad63509f-406a-4fc0-ae70-7ebd5415269b",
+  "rel": "images/ui/chat/chat_btn_select.png"
+ },
+ "0f2ee71d-bc54-4e51-848a-d44de114632d": {
+  "newUuid": "d460b1f5-7a6a-4c99-bbea-dcec8fda8695",
+  "rel": "images/ui/chat/chat_btn_send.png"
+ },
+ "b0d188fa-9091-4eb4-bbec-e4d1a067603c": {
+  "newUuid": "8f5a6a14-59a1-43da-bc9a-4771a30d0cd5",
+  "rel": "images/ui/chat/chat_input_bg.png"
+ },
+ "541a98ad-2117-4de2-ac99-c2f16bc4566f": {
+  "newUuid": "ca5cbeb4-4497-4950-a293-7deb77e1e7c8",
+  "rel": "images/ui/chat/chat_list_line.png"
+ },
+ "df15098a-1b3f-4f83-a72a-808e31462c80": {
+  "newUuid": "79fd0fa5-d8fd-4bf4-b08b-e6b41a3d33d9",
+  "rel": "images/ui/chat/chat_text_normal.png"
+ },
+ "b2133a39-6762-4763-b87f-acb7b2aca982": {
+  "newUuid": "e68e95bd-8ab3-4003-b49b-801f58a43a07",
+  "rel": "images/ui/chat/chat_text_select.png"
+ },
+ "c322ead1-1eff-414b-a097-efeb09e2d2c9": {
+  "newUuid": "849d48f7-4945-4a6f-a529-7a92672c48dc",
+  "rel": "images/ui/chat/emoji_btn_normal.png"
+ },
+ "133e3bd2-516f-4cb1-a1b7-299c56d16172": {
+  "newUuid": "77080bb9-2a82-4dc5-91bb-024989014d15",
+  "rel": "images/ui/chat/emoji_btn_select.png"
+ },
+ "dd760edc-7264-41f5-a85d-53d04d33f60b": {
+  "newUuid": "077f2a4c-2827-49f9-be0c-a210cafe1cac",
+  "rel": "images/ui/chat/emoji_text_normal.png"
+ },
+ "df46252f-100b-4a5b-b2db-40ca35749b94": {
+  "newUuid": "19806d4f-cd70-415f-a910-29bd77afad7f",
+  "rel": "images/ui/chat/emoji_text_select.png"
+ },
+ "6989cc05-d5b8-4058-a5b1-3ea86afd0723": {
+  "newUuid": "925faee4-1ecc-4144-b410-ddbe1caa5fe2",
+  "rel": "images/ui/createroom/creatroom1.png"
+ },
+ "d82d6a06-283c-44fc-8f22-c80eaf721b2c": {
+  "newUuid": "66597813-64f3-461a-8dbb-ec86b3b26ab2",
+  "rel": "images/ui/createroom/creatroom10.png"
+ },
+ "90b6ea63-c36d-4b26-8e5c-59d88af210ca": {
+  "newUuid": "ef72774f-9d52-4d39-8afb-0903fce0ecf8",
+  "rel": "images/ui/createroom/creatroom11.png"
+ },
+ "78169690-5a9b-4a13-926d-b1d4057ccf31": {
+  "newUuid": "ac6b5080-ce78-45ad-b823-58c8364767f5",
+  "rel": "images/ui/createroom/creatroom12.png"
+ },
+ "314f99f3-de83-4652-88d5-2c69b48ace1c": {
+  "newUuid": "61e55e9e-16cb-46ef-9e37-8e8bccd238f4",
+  "rel": "images/ui/createroom/creatroom13.png"
+ },
+ "3264df96-d0c7-426e-bca4-564171ac1da3": {
+  "newUuid": "288943ff-7376-4b4b-ae67-5ebe90cda254",
+  "rel": "images/ui/createroom/creatroom14.png"
+ },
+ "cccf159b-e0b3-4fa0-b41c-bd0702ea385a": {
+  "newUuid": "0b4d3a30-9ae0-4fc8-a40c-7497ebff8be3",
+  "rel": "images/ui/createroom/creatroom15.png"
+ },
+ "6e21f12f-3260-43b8-b87b-64d02c9b0dbd": {
+  "newUuid": "c9d313cd-0ca9-46f8-bb62-9a1133860bca",
+  "rel": "images/ui/createroom/creatroom16.png"
+ },
+ "f1fa73a2-5c47-4642-a53b-25c3fafdfa55": {
+  "newUuid": "43a1c552-0ccf-49de-942c-65edc02eea14",
+  "rel": "images/ui/createroom/creatroom17.png"
+ },
+ "0d90e562-d087-423d-8d2a-222494d60b5d": {
+  "newUuid": "ee03578e-604b-4913-847d-7632926b30bc",
+  "rel": "images/ui/createroom/creatroom18.png"
+ },
+ "73a09c72-9386-400c-b4fd-af89ed15272e": {
+  "newUuid": "afd70028-b074-4a54-b9c3-7597cd47c461",
+  "rel": "images/ui/createroom/creatroom19.png"
+ },
+ "6b575e2f-206e-4c69-b1b7-f1b51f1eb70e": {
+  "newUuid": "ce4190d8-25fc-4d05-b759-f4d6c449b13a",
+  "rel": "images/ui/createroom/creatroom2.png"
+ },
+ "11247005-7954-4558-8520-c4d12615ded5": {
+  "newUuid": "9203df5b-b515-4452-a872-55d98915c504",
+  "rel": "images/ui/createroom/creatroom3.png"
+ },
+ "ab1b2ce6-b7a2-47e9-9545-5b05ae9a6c7a": {
+  "newUuid": "73751029-3fbd-4079-a288-b6692eb5b971",
+  "rel": "images/ui/createroom/creatroom4.png"
+ },
+ "68558e01-9b9b-4fc4-b300-e7354ec4ba09": {
+  "newUuid": "2e954bf8-5d88-473b-97b1-05cb4380ecf0",
+  "rel": "images/ui/createroom/creatroom5.png"
+ },
+ "6fa848ab-1cc3-4387-9bc6-dd9ad1fc3954": {
+  "newUuid": "762adbfc-6409-4b20-8fc6-25001c7cb863",
+  "rel": "images/ui/createroom/creatroom6.png"
+ },
+ "84fe8791-00c9-4ec8-b7d2-acec0a8ba4df": {
+  "newUuid": "fcb8e1e1-d5d6-4eb6-bcc6-02d02a11a126",
+  "rel": "images/ui/createroom/creatroom7.png"
+ },
+ "a64d5a63-6b98-4bc7-8da8-fea26f535a9a": {
+  "newUuid": "2f8e19d9-6de4-461c-897a-ac5ef695c69d",
+  "rel": "images/ui/createroom/creatroom8.png"
+ },
+ "cd72bb8a-ea1a-4773-b51f-8cc336c933bf": {
+  "newUuid": "1a337ec1-d239-4968-ab85-d2233b2076a4",
+  "rel": "images/ui/createroom/creatroom9.png"
+ },
+ "00022e71-47b2-481a-9ac5-2ec3328532aa": {
+  "newUuid": "7a8640cd-0838-4ee8-a906-ff2364467e15",
+  "rel": "images/ui/lobbyGameIcon/lobby_game107.png"
+ },
+ "beec3f25-dbef-4473-8ec0-3e6d5bf83926": {
+  "newUuid": "c5e09621-64f5-4c93-8a68-6ecaa0a08b25",
+  "rel": "images/ui/lobbyGameIcon/lobby_game11.png"
+ },
+ "65d5dc5f-cb0f-4e87-8158-5a921398ecdf": {
+  "newUuid": "0025264b-5519-40d0-8ad1-909ecded8e70",
+  "rel": "images/ui/lobbyGameIcon/lobby_game13.png"
+ },
+ "96e9274b-6a73-4f89-857e-9e2fcc523ee8": {
+  "newUuid": "3e808835-8b28-4055-bba3-4fb83e858763",
+  "rel": "images/ui/lobbyGameIcon/lobby_game15.png"
+ },
+ "d22c89b9-27d6-4813-8287-95b68e741ad2": {
+  "newUuid": "c787e43f-4441-4020-bc87-0f4ee3506f88",
+  "rel": "images/ui/lobbyGameIcon/lobby_game16.png"
+ },
+ "e2fe7d79-a04b-4712-9eb1-0389c1b99376": {
+  "newUuid": "c9696b00-5e34-4f8b-a4ea-9cfd80110783",
+  "rel": "images/ui/lobbyGameIcon/lobby_game224.png"
+ },
+ "a6ddd50c-1354-4d23-9865-a4b59ed43677": {
+  "newUuid": "af2ac1ab-c876-4f78-bfc8-a448bf4f0cc8",
+  "rel": "images/ui/lobbyGameIcon/lobby_game247.png"
+ },
+ "5a27ac75-aa5b-4bb7-b2ca-faaae3975cb4": {
+  "newUuid": "c5fe596d-2b60-40f0-93da-a696104d31c4",
+  "rel": "images/ui/lobbyGameIcon/lobby_game26.png"
+ },
+ "6e8f2584-a849-4492-8648-0daa06ed53a9": {
+  "newUuid": "1a5e3157-178a-4d32-a472-366e1fbe903b",
+  "rel": "images/ui/lobbyGameIcon/lobby_game32.png"
+ },
+ "320d5d6e-c3bb-47aa-a835-b62e6e6fb621": {
+  "newUuid": "5ad2150b-9a5a-4c39-b1f4-7bbff3dbcc1c",
+  "rel": "images/ui/lobbyGameIcon/lobby_game45.png"
+ },
+ "2a69cb30-f648-4f89-8b28-7fa60107c2b9": {
+  "newUuid": "8ce2901e-b8de-45c3-8335-baa0bc7cef5e",
+  "rel": "images/ui/lobbyGameIcon/lobby_game48.png"
+ },
+ "7f59e4db-c0e1-4de1-bc65-ea603fa13b85": {
+  "newUuid": "adbb31f8-8dd5-402b-8361-83d791e04fdc",
+  "rel": "images/ui/lobbyGameIcon/lobby_game62.png"
+ },
+ "6d1ece73-0163-4b7a-95ef-7f2ca9907b3d": {
+  "newUuid": "531c5b84-e868-4003-8b6f-8343d60f41a2",
+  "rel": "images/ui/lobbyGameIcon/lobby_game62000.png"
+ },
+ "26b5cfa7-9b6b-455c-a9d5-5c4872e8a038": {
+  "newUuid": "9c71d051-6232-486c-ad99-fb27344180f4",
+  "rel": "images/ui/lobbyGameIcon/lobby_game69.png"
+ },
+ "117b2217-bced-43ed-9d3d-3247cffa0937": {
+  "newUuid": "1331c563-59d5-453c-9661-c41a13531f9e",
+  "rel": "images/ui/lobbyGameIcon/lobby_game79000.png"
+ },
+ "ae53a65f-4209-442f-9103-642d0b73076f": {
+  "newUuid": "d90dc162-6728-402e-a878-e11fbc080f3b",
+  "rel": "images/ui/lobbyGameIcon/lobby_game82.png"
+ },
+ "08cf2877-a032-4288-b46c-efdb44409390": {
+  "newUuid": "29c80a30-5267-4967-b186-29196b69c983",
+  "rel": "images/ui/lobbyGameIcon/lobby_game98.png"
+ },
+ "7051e3b2-29ef-4894-9460-297ce8b674e3": {
+  "newUuid": "602689dd-cdb6-478b-b124-6d3739ab2eaf",
+  "rel": "images/ui/play_scene/alarm_clock.png"
+ },
+ "9b987f8b-02ea-445a-9b28-0bb41f79e674": {
+  "newUuid": "308db2b5-53a8-4409-b2ec-66c642af45e4",
+  "rel": "images/ui/play_scene/banker_sign.png"
+ },
+ "6b7d351f-d37a-4bd5-88c1-5b9470023405": {
+  "newUuid": "a65dd33b-56a9-4a78-9288-5f5f7bee4098",
+  "rel": "images/ui/play_scene/btn_agree.png"
+ },
+ "f1652f1a-0a55-434b-b9e0-98415cdb52b5": {
+  "newUuid": "2dff2235-5b48-48c1-a6ff-be246768afa0",
+  "rel": "images/ui/play_scene/btn_back_sala.png"
+ },
+ "fc3f1c58-da10-4f00-8a6a-95aab205aaa8": {
+  "newUuid": "b5d01178-e6e8-4ba8-aced-459e7381ff21",
+  "rel": "images/ui/play_scene/btn_dismiss_room.png"
+ },
+ "c9b285b5-516d-4829-975c-6b5a76742ac6": {
+  "newUuid": "f0defefe-50a4-45a4-b260-e66f970579c6",
+  "rel": "images/ui/play_scene/btn_gang.png"
+ },
+ "b482f468-197a-4938-bec6-387dc72bf053": {
+  "newUuid": "84ebfe85-32c4-42f4-9485-e0831c9f6bfd",
+  "rel": "images/ui/play_scene/btn_message.png"
+ },
+ "6ae66ba6-5f59-4247-9d2a-2bb5dd094664": {
+  "newUuid": "9b44c13a-cc94-47bf-96df-bf98528ec506",
+  "rel": "images/ui/play_scene/btn_pass.png"
+ },
+ "954aeed4-bcd4-4ec2-b4c6-8477fc58c67c": {
+  "newUuid": "71b5cc9b-a7b9-469b-96e1-9730125d9d95",
+  "rel": "images/ui/play_scene/btn_peng.png"
+ },
+ "2cc85708-e9f6-4160-b5b8-2ce453f1aa15": {
+  "newUuid": "c6638a9e-8ecf-490f-b52d-a884f463bba1",
+  "rel": "images/ui/play_scene/btn_ready.png"
+ },
+ "01a399a0-5e01-4f88-a70d-fa1331a75e94": {
+  "newUuid": "c75c7fbc-e0ae-4045-8088-2e68650e6f1b",
+  "rel": "images/ui/play_scene/btn_refuse.png"
+ },
+ "06c1efac-dee1-464a-a1ac-55979e040068": {
+  "newUuid": "829e6a63-de03-4ac4-a3ac-99a6cbece378",
+  "rel": "images/ui/play_scene/btn_setting.png"
+ },
+ "f77d01d1-79c9-4405-93b4-be1803bb53a6": {
+  "newUuid": "0e20e18d-ae79-4157-9b7f-2c8df72b929b",
+  "rel": "images/ui/play_scene/btn_weixin_invite.png"
+ },
+ "3de32d9f-4ba8-4318-af01-5faea9f8f77a": {
+  "newUuid": "75a70ea4-b9e7-4708-bfec-fac8a5d553eb",
+  "rel": "images/ui/play_scene/btn_win.png"
+ },
+ "0442438b-a98a-49a6-bd25-c510e13950fd": {
+  "newUuid": "5cae2b90-0fb4-4f6b-b539-6420deda7b6b",
+  "rel": "images/ui/play_scene/decision_sign_1.png"
+ },
+ "792a0be4-705e-4343-941d-f04e8bb1e102": {
+  "newUuid": "8d077e24-a651-4587-a1d3-e4e10bce0137",
+  "rel": "images/ui/play_scene/decision_sign_2.png"
+ },
+ "da764774-e56d-43f2-8afe-295ddd8d3a85": {
+  "newUuid": "fe9997a8-d8db-437d-aae0-1b73e797959b",
+  "rel": "images/ui/play_scene/decision_sign_3.png"
+ },
+ "a62f9616-e4f9-403f-b834-a5e880b285e9": {
+  "newUuid": "86d52571-ff39-480b-8889-748f9c6918f9",
+  "rel": "images/ui/play_scene/decision_sign_4.png"
+ },
+ "ccac9af3-4730-4261-908a-750a72e1712b": {
+  "newUuid": "86ce359f-f58f-42b2-8705-1c10f1ec6c59",
+  "rel": "images/ui/play_scene/dismiss_room_title.png"
+ },
+ "fc71f1d2-7e2a-4f1a-a84f-e048f509f125": {
+  "newUuid": "242d64eb-9203-4398-b090-c907debc5a0e",
+  "rel": "images/ui/play_scene/fan_pao_bg.png"
+ },
+ "227c150f-5eaa-443d-8719-639efcfa5345": {
+  "newUuid": "1afc1c77-1eb3-4a55-8289-379b5e43956b",
+  "rel": "images/ui/play_scene/headallbk.png"
+ },
+ "826dd2c6-75b8-4633-8bc5-c11978d4a55c": {
+  "newUuid": "68f5d000-0ba9-4e2c-8395-cbeae051de0e",
+  "rel": "images/ui/play_scene/headbk.png"
+ },
+ "131aff4f-6030-44c5-978f-35bc7f25ace9": {
+  "newUuid": "c053702f-c6bf-4218-960d-575c2e12b859",
+  "rel": "images/ui/play_scene/laizi_bg.png"
+ },
+ "bfa313ba-f0a1-413c-80bc-8c756a44ad89": {
+  "newUuid": "4e0eec66-0ac2-42c1-87e4-6fb5960b2e2f",
+  "rel": "images/ui/play_scene/mahjong_title.png"
+ },
+ "13d89108-6e7e-4575-94b4-564e20440774": {
+  "newUuid": "173919d2-b228-44ff-9f21-0ce76b11e997",
+  "rel": "images/ui/play_scene/msg_bubble_btm.png"
+ },
+ "75ef0bbb-d2b4-44e8-b122-724e833760b6": {
+  "newUuid": "7e34080f-c2ac-4d89-a2f9-f551937da93c",
+  "rel": "images/ui/play_scene/msg_bubble_left.png"
+ },
+ "1089b4ae-3741-4813-8289-669e073046b7": {
+  "newUuid": "98ecf282-583d-455c-8c25-cd4396ba9641",
+  "rel": "images/ui/play_scene/msg_bubble_right.png"
+ },
+ "d4fe4f88-466c-41a0-a19e-0e79f8e5f028": {
+  "newUuid": "f06be15d-77bb-4490-bbc2-43d718de780d",
+  "rel": "images/ui/play_scene/msg_bubble_top.png"
+ },
+ "df347ccc-3b97-427c-abdb-5f1405b1ee71": {
+  "newUuid": "eb8e2238-bfd3-4de4-9eff-88a913264cdc",
+  "rel": "images/ui/play_scene/msg_set_bg.png"
+ },
+ "92997451-358f-4d4b-89fe-1b218260b17c": {
+  "newUuid": "0dd213b0-ff0b-4dd1-9c7a-206d8f0bc4a0",
+  "rel": "images/ui/play_scene/off_line_sign.png"
+ },
+ "576e42e2-44db-4c02-9568-a02319d6e559": {
+  "newUuid": "15ef98a3-5c0d-42ff-b8ef-318438b5c299",
+  "rel": "images/ui/play_scene/outmjtile_sign.png"
+ },
+ "306b0bda-ccbe-47a4-b7dd-dc8c881d1bb0": {
+  "newUuid": "a53462d5-fcca-429a-b9a5-9687586ca7cd",
+  "rel": "images/ui/play_scene/ready_sign.png"
+ },
+ "12ee16c3-baf0-41eb-a2a5-4fa5e16fe8f9": {
+  "newUuid": "141f3cf3-c710-4e9d-9bf6-a2e3ff8cda15",
+  "rel": "images/ui/play_scene/speaker1.png"
+ },
+ "2e02a377-80c8-47a6-bb1a-9b9697e8a265": {
+  "newUuid": "f9f59f2a-416c-4165-933b-51d64f18958a",
+  "rel": "images/ui/play_scene/timebk.png"
+ },
+ "9a2e7285-dd70-4a4d-b48c-cf07bc44bfef": {
+  "newUuid": "b2601e64-016d-4a63-a9ae-5a5c5c3887ad",
+  "rel": "images/ui/play_scene/turn_pos_0.png"
+ },
+ "b2a40364-904a-4010-b15a-7c2f312308d7": {
+  "newUuid": "9b86fabd-4bd5-43b2-acaa-d33a9f38a179",
+  "rel": "images/ui/play_scene/turn_pos_1.png"
+ },
+ "2c321dac-f4d9-46e7-80fb-3d898c788000": {
+  "newUuid": "75e3acdd-d64f-4b77-a983-674ff7c10e85",
+  "rel": "images/ui/play_scene/turn_pos_2.png"
+ },
+ "d63c865e-522d-4745-97ad-410361eefe1e": {
+  "newUuid": "ac839d4e-9d46-4176-8873-652f87a51100",
+  "rel": "images/ui/play_scene/turn_pos_3.png"
+ },
+ "2ca743ac-0ca0-445c-86e9-8d2076df9f1f": {
+  "newUuid": "40a33220-dba9-457e-a0ea-7bb3b8cc116e",
+  "rel": "images/ui/play_scene/turn_pos_bg.png"
+ },
+ "cde5cc5e-1ad6-432c-b655-218692b4536f": {
+  "newUuid": "848ffe89-abbb-40ad-ad28-ca55c9c6a259",
+  "rel": "images/ui/play_scene/voice_btn.png"
+ },
+ "53ce9e7c-f9a6-4dae-a854-74d51e6b2972": {
+  "newUuid": "004f6027-ac4d-4754-9573-63f17d8ba6d0",
+  "rel": "images/ui/PopupScene/PopupScene1.png"
+ },
+ "76dc2d17-def2-474d-884c-5880ad9d32f6": {
+  "newUuid": "90a0007c-9950-4909-ac62-fbd6595bdbbe",
+  "rel": "images/ui/PopupScene/PopupScene14.png"
+ },
+ "a1a94f80-4b05-44c9-bb80-b95872c733e4": {
+  "newUuid": "df838bf9-f7bf-4555-840a-95432c5bb7ae",
+  "rel": "images/ui/PopupScene/PopupScene15.png"
+ },
+ "7fd3cc73-b4bc-4c94-ae14-fdf3da5b85bd": {
+  "newUuid": "fe892f5e-6fea-4695-a3c7-bef267fcc3b4",
+  "rel": "images/ui/PopupScene/PopupScene16.png"
+ },
+ "549be0ce-d0e2-4949-9b17-78ecb78c8da0": {
+  "newUuid": "ab36f4b2-1f65-40b9-acdf-6a721c93c2fe",
+  "rel": "images/ui/PopupScene/PopupScene17.png"
+ },
+ "f4e87121-ca82-4459-b0b2-e1800d14dca6": {
+  "newUuid": "600a1651-7d11-4fb1-9612-1200b5a8aba4",
+  "rel": "images/ui/PopupScene/PopupScene18.png"
+ },
+ "7aac1bb3-bd13-442d-a05e-04f998f1c074": {
+  "newUuid": "358d9d78-8fba-475b-bd6d-2c039f4dd2c4",
+  "rel": "images/ui/PopupScene/PopupScene19.png"
+ },
+ "fe79d2e8-2377-40fc-a06b-82f6ad19f7b6": {
+  "newUuid": "1a32f167-57d9-4d51-b217-474e36214678",
+  "rel": "images/ui/PopupScene/PopupScene2.png"
+ },
+ "3f9c46d7-8925-4483-bf89-3cdfb66863c4": {
+  "newUuid": "9219f01b-d24d-4e80-8a50-b84363662252",
+  "rel": "images/ui/PopupScene/PopupScene20.png"
+ },
+ "b3305e24-bb9d-4583-b96c-c3172cc7b370": {
+  "newUuid": "3ab2339a-8b08-4a98-822f-e356ea3d9289",
+  "rel": "images/ui/PopupScene/PopupScene21.png"
+ },
+ "886b9874-8a9c-44b1-8868-d5cbfa5b44f8": {
+  "newUuid": "d89e1f2a-f916-4280-8c8c-33c8bc55d12e",
+  "rel": "images/ui/PopupScene/PopupScene22.png"
+ },
+ "015fde9f-05c7-40d7-a2d3-e341bc4f1fdf": {
+  "newUuid": "e0d78a61-b2e7-46e4-b073-058e6dbe18c9",
+  "rel": "images/ui/PopupScene/PopupScene23.png"
+ },
+ "36e32341-6b0a-4281-9060-8e15d6d9eeb2": {
+  "newUuid": "3685ca99-cb77-4f91-8237-f57061f4ee0e",
+  "rel": "images/ui/PopupScene/PopupScene3.png"
+ },
+ "24465c25-a75e-45d7-8fa9-3103d77bf9a8": {
+  "newUuid": "d4529e15-0e0c-476f-97b6-a841559a2489",
+  "rel": "images/ui/PopupScene/PopupScene5.png"
+ },
+ "a2fe9103-3c6b-43eb-99b5-e070ddf55d14": {
+  "newUuid": "b7a50849-1aa2-45fe-81df-954fcacc9ea4",
+  "rel": "images/ui/PopupScene/PopupScene6.png"
+ },
+ "3bfcc8e6-1c14-4148-bdaa-c26d54407db7": {
+  "newUuid": "3bf3f8a8-e90e-4c85-9395-bab5791257ef",
+  "rel": "images/ui/PopupScene/PopupScene7.png"
+ },
+ "73555f7d-d3e1-494d-a582-63efb32a63ed": {
+  "newUuid": "44cbcf6d-d7da-492a-a2b6-716d1f950cf8",
+  "rel": "images/ui/PopupScene/PopupScene8.png"
+ },
+ "ed20f6d6-ca38-4499-8073-71c844c91df8": {
+  "newUuid": "fe35bc48-58db-474b-8be1-facff6188d8d",
+  "rel": "images/ui/public_ui/head_img_female.png"
+ },
+ "fb3c42d8-b275-4072-ac03-49490ef908e2": {
+  "newUuid": "8d565d23-a185-45e6-b095-f5125e9259b2",
+  "rel": "images/ui/public_ui/head_img_male.png"
+ },
+ "5f9d9dc1-a735-4438-9c2b-4a0f3b52f7f1": {
+  "newUuid": "d4796ed6-805e-47cd-916e-1e879643967b",
+  "rel": "images/ui/public_ui/head_mask.png"
+ },
+ "a289594e-171b-4fad-905c-ac0e1092216e": {
+  "newUuid": "0232aa8c-fd62-48b5-b4d1-ad9dba7b620d",
+  "rel": "images/ui/public_ui/player_info_bg.png"
+ },
+ "85fd19fb-5ac7-464d-9e6d-edb395c96e06": {
+  "newUuid": "9019fdfd-94af-44dd-ac1c-fe4b30d7d4e1",
+  "rel": "images/ui/public_ui/public_bar_btm.png"
+ },
+ "d6fc13b0-a2b1-49de-8bcb-f497ac1b873e": {
+  "newUuid": "197f1bef-3da9-41cb-9744-c74d18e37442",
+  "rel": "images/ui/public_ui/public_bar_top.png"
+ },
+ "8489057b-76e9-4e02-bb8b-ca7d065551c8": {
+  "newUuid": "4bfefd5e-ac1d-413d-837f-85bab37f37ee",
+  "rel": "images/ui/public_ui/public_btn_back.png"
+ },
+ "5b28e7cb-4908-4910-8790-09c9b0090b48": {
+  "newUuid": "4d711bcb-05c4-4206-ae3b-e70f46c2ba81",
+  "rel": "images/ui/public_ui/public_btn_cancel.png"
+ },
+ "edd26251-7622-491c-8b0e-bc8d0af31109": {
+  "newUuid": "80d4402e-08f9-4e29-81e4-ec598ddecd54",
+  "rel": "images/ui/public_ui/public_btn_close.png"
+ },
+ "42ba26f3-dafe-4951-a82b-550416505207": {
+  "newUuid": "695e93ba-1094-4228-8cd2-025467da58bf",
+  "rel": "images/ui/public_ui/public_btn_ok.png"
+ },
+ "b63209c1-8392-4464-9f95-130e0d108a98": {
+  "newUuid": "a85cb4b5-da40-49b6-9783-bddaca414aca",
+  "rel": "images/ui/public_ui/public_frame_a.png"
+ },
+ "63f71f20-91b9-4570-981b-93274ffb596a": {
+  "newUuid": "b7ab5e9e-86c7-4c2e-8c4e-6a7ebd521bae",
+  "rel": "images/ui/public_ui/public_frame_b.png"
+ },
+ "3657c60a-443e-4f3e-b5d7-0bdb2a603106": {
+  "newUuid": "c0848f1b-a100-47a1-9781-602bdecb8437",
+  "rel": "images/ui/public_ui/public_frame_head.png"
+ },
+ "f805b3d2-10d7-429b-ba64-4c72acad1fc2": {
+  "newUuid": "8996665f-a26e-4f1e-a798-41a7d1503d9f",
+  "rel": "images/ui/public_ui/sex_female.png"
+ },
+ "0de5f0d7-2414-4cbe-89f6-48170ae2d311": {
+  "newUuid": "7e4e3e08-0121-42ac-a56a-7829769e02a2",
+  "rel": "images/ui/public_ui/sex_male.png"
+ },
+ "0b6eb9f3-a5f7-4a34-92ae-d9a1ea32f789": {
+  "newUuid": "03b0d226-5422-4959-8d00-e770e9fa069b",
+  "rel": "images/ui/setting/setting1.png"
+ },
+ "75f35e68-a72d-459a-993e-58f16c755c1c": {
+  "newUuid": "f88cbe95-7eba-4466-b109-14b0a2be2f30",
+  "rel": "images/ui/setting/setting10.png"
+ },
+ "645d52f8-5e9c-454d-8833-48b4bd243137": {
+  "newUuid": "89c74116-2d14-4a9f-8b45-c488eceaee6e",
+  "rel": "images/ui/setting/setting11.png"
+ },
+ "e8554ba7-4a78-46d7-8bf9-572e2173b3df": {
+  "newUuid": "fca8d446-1d1f-4a65-8688-8df53396015b",
+  "rel": "images/ui/setting/setting12.png"
+ },
+ "8e42c83f-e3a1-4002-9f24-3693e235bc53": {
+  "newUuid": "65ca18a7-391f-4492-972f-e94a00c232f9",
+  "rel": "images/ui/setting/setting2.png"
+ },
+ "3b62b67e-ce75-4adf-9f42-9d9e8b1e34d7": {
+  "newUuid": "a6f38aa2-7334-4b0d-80a5-0f1b28356ab5",
+  "rel": "images/ui/setting/setting3.png"
+ },
+ "714336d5-59d6-4d30-9ecc-aaf52de8650b": {
+  "newUuid": "331855c3-3a25-48ed-9f57-ac416dfe8967",
+  "rel": "images/ui/setting/setting4.png"
+ },
+ "7270d326-7028-418a-afd2-64021ae29cbc": {
+  "newUuid": "c80354ef-5300-4e02-81c6-15e42a1249f6",
+  "rel": "images/ui/setting/setting5.png"
+ },
+ "77011b33-b534-4a4c-b538-841486aa16a4": {
+  "newUuid": "2c8cb982-634b-4b12-a277-290484cd6c52",
+  "rel": "images/ui/setting/setting6.png"
+ },
+ "9ce1a8fc-d156-430f-86eb-abc8bce7b643": {
+  "newUuid": "37563f71-380e-426c-9c9a-c31f5b628e39",
+  "rel": "images/ui/setting/setting8.png"
+ },
+ "8e332e2f-3a89-4c07-8e4a-d4a25d397b01": {
+  "newUuid": "ab541dcf-bd18-4b66-96e4-239308387dc5",
+  "rel": "images/ui/setting/setting9.png"
+ },
+ "8fe224e5-640d-4a87-99b6-fa1e261713bf": {
+  "newUuid": "04492e7a-f206-4c71-9efc-9bc72272898c",
+  "rel": "images/ui/emoji/angry0.png"
+ },
+ "e88648aa-c921-4c4c-a071-9ef8ea95a262": {
+  "newUuid": "421f259f-93cb-4956-844b-b58625cff064",
+  "rel": "images/ui/emoji/angry1.png"
+ },
+ "f4a71a07-1bc0-459d-8e9a-07a7ee56485a": {
+  "newUuid": "6b706dbe-3ea3-43e9-a909-b68049e26e32",
+  "rel": "images/ui/emoji/angry2.png"
+ },
+ "43cf194b-951f-41d2-abf8-4b00596fc99c": {
+  "newUuid": "2037617f-c38f-4189-a340-24ba9eb92e40",
+  "rel": "images/ui/emoji/angry3.png"
+ },
+ "0c68b464-2b10-4d64-a025-e93952845161": {
+  "newUuid": "b8a093f0-d3d0-40c0-84b8-9cf1b7ce4912",
+  "rel": "images/ui/emoji/angry4.png"
+ },
+ "7411c09d-2f89-4202-9d7a-1101493513d4": {
+  "newUuid": "a40f75cf-d69c-49b5-b898-5638f9d65922",
+  "rel": "images/ui/emoji/angry5.png"
+ },
+ "1c88086c-8bdc-4480-b651-82a71273f079": {
+  "newUuid": "adb35b01-3beb-4332-9eb0-baaa8f389b87",
+  "rel": "images/ui/emoji/angry6.png"
+ },
+ "574a6b87-40f5-467f-9bd4-5decd2e86138": {
+  "newUuid": "d68cc0c9-4009-49b2-a75e-70ce0d5f5ad7",
+  "rel": "images/ui/emoji/angry7.png"
+ },
+ "74885e9d-0ba7-4c31-ad8a-2f5a2b4fc6e7": {
+  "newUuid": "76a9f55a-ba8c-4555-9a59-0c51f617947e",
+  "rel": "images/ui/emoji/fennu0.png"
+ },
+ "443c94c6-7c19-47d2-afea-91a6c097f7a6": {
+  "newUuid": "faf0643d-f129-4ca1-9dd8-5acfdf573bb7",
+  "rel": "images/ui/emoji/fennu1.png"
+ },
+ "ec7d16ec-e9ab-4bde-aded-feb81e933c40": {
+  "newUuid": "b4501917-028e-471a-9938-6674c2d981a2",
+  "rel": "images/ui/emoji/fennu2.png"
+ },
+ "cc85a55a-6a5f-4376-a1e7-9def6d14f73b": {
+  "newUuid": "5a510945-01c1-4122-8707-e190e5873cc6",
+  "rel": "images/ui/emoji/han0.png"
+ },
+ "37d4ee65-bd1a-47ae-be4d-eddc881e8ff0": {
+  "newUuid": "65bd8b79-04df-44a2-9e44-db8bf2f0ff8c",
+  "rel": "images/ui/emoji/han1.png"
+ },
+ "092833c8-627a-4f92-9774-83e743083685": {
+  "newUuid": "5882a146-81c2-4dfb-aeb5-4f064802982e",
+  "rel": "images/ui/emoji/happy0.png"
+ },
+ "5c72c12b-d37a-47aa-8a04-faa20f4d8be0": {
+  "newUuid": "428f8bab-7f79-4a15-99bf-2817eadc8040",
+  "rel": "images/ui/emoji/happy1.png"
+ },
+ "59bbd743-7bfd-42bc-84d3-d0bb0898bea5": {
+  "newUuid": "0516c5fc-d658-474d-8378-1c0f2dd37e89",
+  "rel": "images/ui/emoji/huaixiao0.png"
+ },
+ "7fd48fa0-f426-4a16-8ffa-35093afdef59": {
+  "newUuid": "bca7fb24-5e47-496a-a4e0-be6194856a18",
+  "rel": "images/ui/emoji/huaixiao1.png"
+ },
+ "b412c14f-56c7-4725-8896-d342425609bd": {
+  "newUuid": "c34ff215-8e27-4167-beaa-f96d7ceec60f",
+  "rel": "images/ui/emoji/huaixiao2.png"
+ },
+ "73c15f0e-7dc2-4002-b206-11fef2951af3": {
+  "newUuid": "1f335915-d609-417d-b5f1-dfb45ba91105",
+  "rel": "images/ui/emoji/huaixiao3.png"
+ },
+ "02fb2d75-6aff-4e2f-b971-ecc8a65de7a5": {
+  "newUuid": "234c581d-6bdb-4af7-a981-be9e3607c68d",
+  "rel": "images/ui/emoji/huaixiao4.png"
+ },
+ "b460ae13-6304-4916-a065-092f5544ae00": {
+  "newUuid": "2b69ddda-181f-405f-a101-d994689ddc9a",
+  "rel": "images/ui/emoji/huaixiao5.png"
+ },
+ "caae3f7d-5afc-40df-b058-2c229216895e": {
+  "newUuid": "07478eb8-e207-4deb-aef0-81fa58192082",
+  "rel": "images/ui/emoji/huaixiao6.png"
+ },
+ "ebe3fd18-d11e-449e-a9d7-f90daacfb94b": {
+  "newUuid": "8de12230-5436-4eef-8af0-3dcce2fbbd1f",
+  "rel": "images/ui/emoji/huaixiao7.png"
+ },
+ "ecec0041-4528-48f0-8b08-49f5358014b8": {
+  "newUuid": "18a896c4-e84f-4c9d-a2e4-6d4da7de80ac",
+  "rel": "images/ui/emoji/huaixiao8.png"
+ },
+ "3d241371-739e-4441-963c-b0159a01a19e": {
+  "newUuid": "06de14a0-d8a1-4ba8-a6fb-170b20890a6d",
+  "rel": "images/ui/emoji/jiong0.png"
+ },
+ "5dec5a15-1c35-46ca-94a1-df6f0d024e29": {
+  "newUuid": "a1fd4252-092c-4f28-852b-d33efce7c3c4",
+  "rel": "images/ui/emoji/jiong1.png"
+ },
+ "dee9b327-1443-40c8-ab14-76110c4bae92": {
+  "newUuid": "996f49ed-c594-41ae-991f-05c0d38c7a11",
+  "rel": "images/ui/emoji/jiong2.png"
+ },
+ "04ddd588-57c3-4d45-8322-0bb2eb8e0dd1": {
+  "newUuid": "59a16e07-b0c6-45c8-8d85-3a5feca8d3dd",
+  "rel": "images/ui/emoji/jiong3.png"
+ },
+ "7635d991-faef-4770-bd40-3a3eebb3b281": {
+  "newUuid": "f8740483-b2a5-4da4-989a-44c9fd9a8195",
+  "rel": "images/ui/emoji/jiong4.png"
+ },
+ "4cf4ed66-5b23-4410-ad0e-ddeac313e067": {
+  "newUuid": "a20fca87-704a-479b-b1b6-8f5459c89482",
+  "rel": "images/ui/emoji/jiong5.png"
+ },
+ "d79c5202-76c4-4caa-938e-36a9452f100b": {
+  "newUuid": "719ef4ef-5e6f-456f-8f27-bb643c72761d",
+  "rel": "images/ui/emoji/lihai0.png"
+ },
+ "de0c43c2-ba63-44a8-b2e8-ace6b0d571ab": {
+  "newUuid": "3db00138-c629-4377-afba-1df7b800e288",
+  "rel": "images/ui/emoji/lihai1.png"
+ },
+ "54a6caf2-73d4-4f69-a6dd-507e00f7539f": {
+  "newUuid": "16b9d19a-4353-4769-9926-4dd4c896ed46",
+  "rel": "images/ui/emoji/lihai10.png"
+ },
+ "006c6abe-45c5-421e-be27-44d827370cc9": {
+  "newUuid": "73edd1c7-8e23-4273-9757-49491a203839",
+  "rel": "images/ui/emoji/lihai11.png"
+ },
+ "7ecd578f-9f4e-4b1b-aa7f-ca8ca0e2e7c0": {
+  "newUuid": "dad25738-4eea-4e73-a2b6-f099bdfd5604",
+  "rel": "images/ui/emoji/lihai12.png"
+ },
+ "07ef7eba-7d2c-416f-8dc5-80b50fea62e3": {
+  "newUuid": "06f278e3-49d0-44ed-8356-479e6817c55e",
+  "rel": "images/ui/emoji/lihai2.png"
+ },
+ "789d279c-3505-47f1-aff4-62d2cd22ad66": {
+  "newUuid": "3fd7c181-838b-4807-8ac8-6bf1bec802df",
+  "rel": "images/ui/emoji/lihai3.png"
+ },
+ "c247a0e4-43d3-4d92-a51a-6ed4c7a8c040": {
+  "newUuid": "218a218f-51fe-43d1-bf67-eeb6fc9d282a",
+  "rel": "images/ui/emoji/lihai4.png"
+ },
+ "e8eda776-a770-42ff-bd4b-1ddaa5aac8d8": {
+  "newUuid": "00ec057d-9178-45e4-8bad-eeca638b9426",
+  "rel": "images/ui/emoji/lihai5.png"
+ },
+ "cdb95d9b-b7ae-4d5d-bd67-fa757a4c282d": {
+  "newUuid": "409de5ee-701a-41b6-9cb6-293f47b5b011",
+  "rel": "images/ui/emoji/lihai6.png"
+ },
+ "cf1eac64-de9c-4dd6-9a26-a417abeb55e1": {
+  "newUuid": "e579b20d-0771-49c8-b537-03b1a367b111",
+  "rel": "images/ui/emoji/lihai7.png"
+ },
+ "1ca0ad3c-f918-44f8-b146-9c3afd14da18": {
+  "newUuid": "62636d36-da4d-47ae-8efb-c4d8b5e4f448",
+  "rel": "images/ui/emoji/lihai8.png"
+ },
+ "f185a906-ccba-4a6e-9f1d-fd84839c25e8": {
+  "newUuid": "3a6e26c4-07ef-4e0a-b219-6c177b97b601",
+  "rel": "images/ui/emoji/lihai9.png"
+ },
+ "fb284fb4-227c-4d21-bc7c-510f804fa112": {
+  "newUuid": "e643b500-8356-4863-ac8a-e94744c30aa2",
+  "rel": "images/ui/emoji/se0.png"
+ },
+ "b1b5f887-6e69-4701-b38c-b25252c3a569": {
+  "newUuid": "d35d3a46-135e-4dd0-b000-f8eb83c68b8c",
+  "rel": "images/ui/emoji/se1.png"
+ },
+ "0742b288-ef58-49da-aa18-226ca275227f": {
+  "newUuid": "ea78c5bd-c9fb-443d-86ac-3a037537ff15",
+  "rel": "images/ui/emoji/se2.png"
+ },
+ "721fb52f-dc4f-48e0-b583-43fb72c4b452": {
+  "newUuid": "b18ff1d6-ad05-4272-a4a2-ca6ad024ca84",
+  "rel": "images/ui/emoji/se3.png"
+ },
+ "d3d93b91-5ef4-40df-9456-d6915b2098a5": {
+  "newUuid": "48965f25-36ce-49cd-a343-ee7ab0045874",
+  "rel": "images/ui/emoji/shaoxiang0.png"
+ },
+ "1272c881-cc49-4cca-be3f-1dfd7be3a100": {
+  "newUuid": "ab18f28d-8bff-4c89-919e-dc023b723ae6",
+  "rel": "images/ui/emoji/shaoxiang1.png"
+ },
+ "31e651f0-4cf7-4da8-a63c-d112bfb9f786": {
+  "newUuid": "99ede383-4893-4232-af6c-f20a2729ebc8",
+  "rel": "images/ui/emoji/shaoxiang2.png"
+ },
+ "f8357817-9926-4db9-a88c-9a171b5d3fea": {
+  "newUuid": "7b757152-b058-4a93-bf00-d65edebf8f51",
+  "rel": "images/ui/emoji/shaoxiang3.png"
+ },
+ "1be49286-2bf6-4081-9470-97cad682f5f9": {
+  "newUuid": "1aa951ee-04be-49df-805e-87f2bd1b2430",
+  "rel": "images/ui/emoji/shaoxiang4.png"
+ },
+ "9c24b693-4be6-4fee-8fec-9614208b37fc": {
+  "newUuid": "97deab45-4fb9-4075-8891-c1835dfd9b45",
+  "rel": "images/ui/emoji/shihua0.png"
+ },
+ "f2666293-f619-40bd-850e-04cb601c4f23": {
+  "newUuid": "8860d160-7035-4ee8-8f1a-289700e52605",
+  "rel": "images/ui/emoji/shihua1.png"
+ },
+ "ecb7074a-215e-4245-976a-5e0669c94479": {
+  "newUuid": "8d3d4dcd-d843-4f7e-8891-5b54f1d122ca",
+  "rel": "images/ui/emoji/shihua2.png"
+ },
+ "216ecf6c-1d78-4218-a52d-9ed7712b5831": {
+  "newUuid": "ca95e8f3-6ada-4afa-ae82-d8ad7c3d5ec5",
+  "rel": "images/ui/emoji/shihua3.png"
+ },
+ "e0906f59-9a5b-4b4a-9406-132008e36610": {
+  "newUuid": "3045d965-7296-461c-a1f2-63be6c4026c3",
+  "rel": "images/ui/emoji/shihua4.png"
+ },
+ "66b308cb-b553-47c2-a12c-21370349a729": {
+  "newUuid": "c3280ac6-6228-4d12-943a-21a67198a7b4",
+  "rel": "images/ui/emoji/shihua5.png"
+ },
+ "cff26fca-aca8-4f1d-9486-ddb04669788b": {
+  "newUuid": "d0828e61-2ecd-4a93-888f-e349caabc02f",
+  "rel": "images/ui/emoji/sleep0.png"
+ },
+ "fd15829e-3860-49b5-9e85-909d58750275": {
+  "newUuid": "facff4d7-dadd-4ed3-a631-92ce82bca235",
+  "rel": "images/ui/emoji/sleep1.png"
+ },
+ "17ad7104-10d9-418c-96cc-0af9154385d4": {
+  "newUuid": "7cd01c8f-25e4-4772-a7bc-8843d1cf0dbf",
+  "rel": "images/ui/emoji/sleep2.png"
+ },
+ "3910b006-24a5-4e8b-9c51-4592b88ad2c7": {
+  "newUuid": "dde1b6ec-41a5-490d-8935-3174be86838d",
+  "rel": "images/ui/emoji/sleep3.png"
+ },
+ "16228643-2a90-4cd0-b781-45f6bdc338d6": {
+  "newUuid": "92a2efce-6281-4904-bb55-3c6a90741b20",
+  "rel": "images/ui/emoji/sleep4.png"
+ },
+ "a8b8cff8-f7ee-405a-905d-00ee80a86c86": {
+  "newUuid": "67b8c301-6c8d-4a7e-8c9b-df687d135777",
+  "rel": "images/ui/emoji/sleep5.png"
+ },
+ "073df302-1989-4307-aba9-73f2b6364525": {
+  "newUuid": "f3ff0310-f399-48bb-8a07-6681e5bcee3b",
+  "rel": "images/ui/emoji/sleep6.png"
+ },
+ "1132394a-d9cc-4421-8e45-fec617cde021": {
+  "newUuid": "51358bc0-c6bf-463e-9313-7879ab714eff",
+  "rel": "images/ui/emoji/sleep7.png"
+ },
+ "6f711013-a943-4391-a5e2-5dc5ee2c43fe": {
+  "newUuid": "bf327c48-b1ed-4150-af9e-2f2e3baae2fd",
+  "rel": "images/ui/emoji/sleep8.png"
+ },
+ "c0371335-9e49-4fb9-93c3-706e70fa6816": {
+  "newUuid": "0b77bd04-2cf5-4db6-9bbd-26b2bfb8a0e2",
+  "rel": "images/ui/emoji/smaile0.png"
+ },
+ "225cd024-e1df-4ebc-8769-ef31947d3051": {
+  "newUuid": "ba38e2c8-0016-4f50-8628-b65602b98d6c",
+  "rel": "images/ui/emoji/smaile1.png"
+ },
+ "8192a3ff-7ebf-4298-a972-68a6920c2616": {
+  "newUuid": "321cb3aa-142b-490f-9732-532fe900f3a9",
+  "rel": "images/ui/emoji/smaile2.png"
+ },
+ "f89760d5-2554-46f1-ab00-c302382d8f11": {
+  "newUuid": "b9f74f36-a3df-49e1-8a5b-193ebf644405",
+  "rel": "images/ui/emoji/smaile3.png"
+ },
+ "5683f3a3-b0ef-4b92-b5a4-643a3aa10911": {
+  "newUuid": "682e0cd1-2cdf-4593-bb7e-4985ce39058c",
+  "rel": "images/ui/emoji/smaile4.png"
+ },
+ "9e65e011-14ff-48cd-935d-4cda9c43c9a3": {
+  "newUuid": "cd00ce1f-843f-4c93-a05c-8fc5c77adf9c",
+  "rel": "images/ui/emoji/smaile5.png"
+ },
+ "7e91eac6-b184-45c2-82c6-92362176638e": {
+  "newUuid": "20668f78-27d3-44e7-bf5c-eb4542ae9d06",
+  "rel": "images/ui/emoji/smaile6.png"
+ },
+ "e912bdb2-f94f-4721-b384-7c9c4e6ab229": {
+  "newUuid": "41bb73fa-6d55-4d36-b382-ec1c7713fd2c",
+  "rel": "images/ui/emoji/smaile7.png"
+ },
+ "b44e445a-e2fa-4326-9080-22ffacd9208e": {
+  "newUuid": "a2d867de-172d-4f02-899b-9095a97a6c6c",
+  "rel": "images/ui/emoji/smaile8.png"
+ },
+ "50500b39-b2bb-4c1e-838b-b7874b8370a1": {
+  "newUuid": "0ab6f336-eece-4b93-b95e-43728c19a25b",
+  "rel": "images/ui/emoji/touxiang0.png"
+ },
+ "895585dc-65c0-41a6-a6c6-fff6ec95714b": {
+  "newUuid": "f4acc5a4-0e4d-4108-a9f0-45e422e101d6",
+  "rel": "images/ui/emoji/touxiang1.png"
+ },
+ "dc1a17e2-17f0-4cae-b88f-af8176f08e24": {
+  "newUuid": "a4678aad-80ad-4614-ac54-553d62f331b4",
+  "rel": "images/ui/emoji/touxiang2.png"
+ },
+ "b2f29176-11c6-44dd-8c7a-0638772e4ead": {
+  "newUuid": "a87ac13e-f34a-46b0-b98d-043ebc4a3779",
+  "rel": "images/ui/emoji/touxiang3.png"
+ },
+ "009b55b1-565e-483a-8a5c-f9195d4cfa76": {
+  "newUuid": "fbe165b4-4dee-409f-8e2c-dd0d7a20b27b",
+  "rel": "images/ui/emoji/yun0.png"
+ },
+ "7e7a797e-7896-4577-92a9-7c39115c97cd": {
+  "newUuid": "271f27e5-ad4e-4ce0-9c98-113f814decae",
+  "rel": "images/ui/emoji/yun1.png"
+ },
+ "63c63e1a-d30c-450a-8795-e60c8408f715": {
+  "newUuid": "137b2de1-7f8c-48a3-8968-f3db08e8c4ec",
+  "rel": "images/ui/emoji/yun2.png"
+ },
+ "4327d1d7-afcc-49af-b6e0-f0abd482649c": {
+  "newUuid": "fd6f18d6-5920-465e-8909-6b22da0b7740",
+  "rel": "images/ui/emoji/yun3.png"
+ },
+ "48285984-e828-4033-8a54-dd4e5654f01e": {
+  "newUuid": "3999d429-0cec-4e02-ac74-7a83f01c638a",
+  "rel": "images/ui/emoji/zhiya0.png"
+ },
+ "5c8f3de3-2dba-4e42-b354-d776cadfa12b": {
+  "newUuid": "6309f239-2c32-414d-87ee-dfe1dc023513",
+  "rel": "images/ui/emoji/zhiya1.png"
+ }
+}

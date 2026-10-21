@@ -94,6 +94,50 @@ app.get('/enter_room',function(req,res){
 		return;
 	}
 
+	//单房间迁移规则:用户已占用其他房间时——
+	//原房间未准备且未开局(占用式退出状态):进入新房间的同时释放原房间占用,放行;
+	//原房间已准备/已开局/结算停留:拒绝进入(errcode=5,客户端提示先解散原房间)
+	var curRoomId = roomMgr.getUserRoom(userId);
+	if(curRoomId != null && curRoomId != roomId){
+		var curRoom = roomMgr.getRoom(curRoomId);
+		var canMigrate = false;
+		if(curRoom != null && curRoom.numOfGames == 0){
+			var seatIdx = roomMgr.getUserSeat(userId);
+			var seatReady = (seatIdx != null && curRoom.seats[seatIdx] != null && curRoom.seats[seatIdx].ready == true);
+			var began = false;
+			try{ began = curRoom.gameMgr && curRoom.gameMgr.hasBegan(curRoomId); }catch(e){}
+			if(!seatReady && !began){
+				canMigrate = true;
+			}
+		}
+		if(!canMigrate){
+			console.log('[enter_room reject] userId=' + userId + ' 占用房间' + curRoomId + '(已准备/对局中),拒绝进入' + roomId);
+			http.send(res,5,"already in another room.");
+			return;
+		}
+		//迁移:释放原房间占用(清座位/绑定,空房销毁并解绑牌桌,广播俱乐部牌桌人数)
+		console.log('[enter_room migrate] userId=' + userId + ' 从未准备房间' + curRoomId + ' 迁移到 ' + roomId);
+		roomMgr.exitRoom(userId);
+		var leftRoom = roomMgr.getRoom(curRoomId);
+		if(leftRoom != null){
+			roomMgr.destroyIfEmpty(curRoomId);
+			leftRoom = roomMgr.getRoom(curRoomId);
+		}
+		try{
+			var ss = require('./socket_service');
+			if(leftRoom == null){
+				var snap = JSON.parse(JSON.stringify(curRoom));
+				snap.seats = [];
+				ss.broadcastClubUpdatePublic(curRoomId, snap);
+			}
+			else{
+				ss.broadcastClubUpdatePublic(curRoomId, leftRoom);
+			}
+		}catch(e){
+			console.log('[enter_room migrate broadcast error]', e && e.message);
+		}
+	}
+
 	//安排玩家坐下
 	roomMgr.enterRoom(roomId,userId,name,function(ret){
 		if(ret != 0){
@@ -109,6 +153,16 @@ app.get('/enter_room',function(req,res){
 		var token = tokenMgr.createToken(userId,5000);
 		http.send(res,0,"ok",{token:token});
 	});
+});
+
+//大厅服探活接口,供 /is_server_online 判定本游戏服是否在线
+app.get('/ping',function(req,res){
+	var sign = req.query.sign;
+	if(sign != crypto.md5(config.ROOM_PRI_KEY)){
+		http.send(res,2,"sign check failed");
+		return;
+	}
+	http.send(res,0,"ok");
 });
 
 app.get('/is_room_runing',function(req,res){
@@ -127,6 +181,48 @@ app.get('/is_room_runing',function(req,res){
 	
 	//var roomInfo = roomMgr.getRoom(roomId);
 	http.send(res,0,"ok",{runing:true});
+});
+
+//清空牌桌(管理后台/俱乐部后台用):强制踢出在线玩家、清座位与占位、销毁房间并广播牌桌清空。
+//清空后所有玩家的房间占用彻底释放,可自由进入其它房间
+app.get('/clear_room',function(req,res){
+	var roomId = req.query.roomid;
+	var sign = req.query.sign;
+	if(roomId == null || sign == null){
+		http.send(res,1,"invalid parameters");
+		return;
+	}
+
+	var md5 = crypto.md5(roomId + config.ROOM_PRI_KEY);
+	if(md5 != sign){
+		http.send(res,2,"sign check failed.");
+		return;
+	}
+
+	var roomInfo = roomMgr.getRoom(roomId);
+	if(roomInfo == null){
+		http.send(res,3,"room not found.");
+		return;
+	}
+
+	//先通知在线玩家解散(客户端收dispress_push清状态并返回上一页),再踢断连接
+	var userMgr = require('./usermgr');
+	for(var i = 0; i < roomInfo.seats.length; ++i){
+		var uid = roomInfo.seats[i].userId;
+		if(uid > 0 && userMgr.isOnline(uid)){
+			userMgr.sendMsg(uid, 'dispress_push', {});
+		}
+	}
+	userMgr.kickAllInRoom(roomId);
+	roomMgr.destroy(roomId);
+
+	//俱乐部牌桌:广播座位清空快照,牌桌列表立即显示无人
+	var snap = JSON.parse(JSON.stringify(roomInfo));
+	snap.seats = [];
+	try{ require('./socket_service').broadcastClubUpdatePublic(roomId, snap); }catch(e){}
+
+	console.log('[clear_room] room=' + roomId + ' cleared by admin');
+	http.send(res,0,"ok");
 });
 
 var gameServerInfo = null;

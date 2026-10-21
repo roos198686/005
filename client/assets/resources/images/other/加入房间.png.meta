@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "3c051f85-ad4b-4472-8e96-9b0ea1e68ae6",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 520,
+  "height": 320,
+  "platformSettings": {},
+  "subMetas": {
+    "加入房间": {
+      "ver": "1.0.6",
+      "uuid": "17704b2d-c35e-4219-b8f9-7dbacd17cef0",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "3c051f85-ad4b-4472-8e96-9b0ea1e68ae6",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 2,
+      "offsetY": 3,
+      "trimX": 4,
+      "trimY": 0,
+      "width": 516,
+      "height": 314,
+      "rawWidth": 520,
+      "rawHeight": 320,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -1,11 +1,7 @@
 {
-	"folders": [
-		{
-			"path": "client"
-		},
-		{
-			"path": "server"
-		}
-	],
-	"settings": {}
+	"folders": [],
+	"settings": {},
+	"trae": {
+		"workspaceId": "14237cda34283af46e5b2f8b1309662d"
+	}
 }

@@ -1,0 +1,47 @@
+# === Node ===
+node_modules/
+npm-debug.log*
+package-lock.json
+
+# === 运行时日志 ===
+*.log
+out.log
+error.log
+
+# === 本地数据库密码配置 ===
+server/configs_win.js
+server/configs.js
+server/*/configs_win.js
+server/*/configs.js
+
+# === 项目内各种备份目录(本地留着,不推GitHub) ===
+_tmp_backup/
+_unused_backup/
+_tools/backup/
+atlas_frames/
+backup_*/
+client_backup_*/
+
+# === Cocos 临时/缓存 ===
+client/temp/
+client/library/
+client/local/
+client/build/
+client/profiles/
+client/.trae/
+
+# === 系统 ===
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# === IDE ===
+.vscode/
+.idea/
+
+# === 大文件二进制产物(如果有) ===
+*.zip
+*.rar
+*.7z

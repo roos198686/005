@@ -1,6 +1,8 @@
-﻿var HALL_IP = "127.0.0.1";
+var HALL_IP = "127.0.0.1";
 var HALL_CLIENT_PORT = 9001;
 var HALL_ROOM_PORT = 9002;
+//游戏服暴露给客户端的socket端口(俱乐部桌面人数实时订阅用)
+var GAME_CLIENT_PORT = 10000;
 
 var ACCOUNT_PRI_KEY = "^&*#$%()@";
 var ROOM_PRI_KEY = "~!@#$(*&^%$&";
@@ -11,7 +13,7 @@ exports.mysql = function(){
 	return {
 		HOST:'127.0.0.1',
 		USER:'root',
-		PSWD:'',
+		PSWD:'qwe12233',
 		DB:'db_babykylin',
 		PORT:3306,
 	}
@@ -24,11 +26,15 @@ exports.account_server = function(){
 		HALL_IP:HALL_IP,
 		HALL_CLIENT_PORT:HALL_CLIENT_PORT,
 		ACCOUNT_PRI_KEY:ACCOUNT_PRI_KEY,
+		//房间通信密钥:管理后台清空牌桌时调用游戏服/clear_room签名用
+		ROOM_PRI_KEY:ROOM_PRI_KEY,
 		
 		//
 		DEALDER_API_IP:LOCAL_IP,
 		DEALDER_API_PORT:12581,
-		VERSION:'20161227',
+		ADMIN_API_IP:LOCAL_IP,
+		ADMIN_API_PORT:12582,
+		VERSION:'20180108',
 		APP_WEB:'http://fir.im/2f17',
 	};
 };
@@ -41,7 +47,10 @@ exports.hall_server = function(){
 		FOR_ROOM_IP:LOCAL_IP,
 		ROOM_PORT:HALL_ROOM_PORT,
 		ACCOUNT_PRI_KEY:ACCOUNT_PRI_KEY,
-		ROOM_PRI_KEY:ROOM_PRI_KEY
+		ROOM_PRI_KEY:ROOM_PRI_KEY,
+		//游戏服暴露给客户端的socket地址(俱乐部桌面人数实时订阅用,大厅服转发给客户端)
+		GAME_CLIENT_IP:HALL_IP,
+		GAME_CLIENT_PORT:GAME_CLIENT_PORT
 	};
 };
 
@@ -64,6 +73,6 @@ exports.game_server = function(){
 		
 		//暴露给客户端的接口
 		CLIENT_IP:HALL_IP,
-		CLIENT_PORT:10000,
+		CLIENT_PORT:GAME_CLIENT_PORT,
 	};
 };

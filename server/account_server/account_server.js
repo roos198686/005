@@ -2,7 +2,7 @@ var crypto = require('../utils/crypto');
 var express = require('express');
 var db = require('../utils/db');
 var http = require("../utils/http");
-var fibers = require('fibers');
+// fibers 已废弃，改用原生异步回调
 
 var app = express();
 var hallAddr = "";
@@ -32,9 +32,7 @@ app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
     res.header("X-Powered-By",' 3.2.1')
 	res.header("Content-Type", "application/json;charset=utf-8");
-	fibers(function(){
-		next();
-	}).run();
+	next();
 });
 
 app.get('/register',function(req,res){
@@ -83,8 +81,23 @@ app.get('/get_serverinfo',function(req,res){
 	send(res,ret);
 });
 
+// 公开接口：客户端拉取玩法配置（小盲/手数/筹码等选项）
+app.get('/game_config/:type',function(req,res){
+	var type = req.params.type;
+	db.get_game_config(type,function(cfg){
+		if(cfg && cfg.enabled != 0){
+			send(res,{errcode:0,errmsg:"ok",data:cfg});
+		}
+		else{
+			send(res,{errcode:1,errmsg:"config not found"});
+		}
+	});
+});
+
 app.get('/guest',function(req,res){
-	var account = "guest_" + req.query.account;
+	var raw = req.query.account || String(Date.now());
+	//幂等处理:客户端localStorage可能存过完整账号,已带guest_前缀则不再重复添加,避免产生guest_guest_xxx脏账号
+	var account = raw.indexOf("guest_") === 0 ? raw : "guest_" + raw;
 	var sign = crypto.md5(account + req.ip + config.ACCOUNT_PRI_KEY);
 	var ret = {
 		errcode:0,
@@ -233,16 +246,17 @@ app.get('/image', function (req, res) {
 	}
 
 	url = url.split('.jpg')[0];
-	
+
 
 	var safe = url.search('https://') == 0;
 	console.log(url);
-	var ret = http.getSync(url, null, safe, 'binary');
-	if (!ret.type || !ret.data) {
-	  http.send(res, 1, 'invalid url', true);
-	  return;
-	}
-	res.writeHead(200, { "Content-Type": ret.type });
-	res.write(ret.data, 'binary');
-	res.end();
+	http.getSync(url, null, safe, 'binary', function(err, data, type){
+		if (err || !type || !data) {
+		  http.send(res, 1, 'invalid url', true);
+		  return;
+		}
+		res.writeHead(200, { "Content-Type": type });
+		res.write(data, 'binary');
+		res.end();
+	});
 });

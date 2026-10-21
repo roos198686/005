@@ -17,7 +17,14 @@
     "ParticleSystem",
     "TiledMap",
     "Spine Skeleton",
-    "VideoPlayer"
+    "VideoPlayer",
+    "Geom Utils",
+    "3D",
+    "3D Primitive",
+    "3D Physics/cannon.js",
+    "3D Physics/Builtin",
+    "3D Particle",
+    "SafeArea"
   ],
   "facebook": {
     "appID": "",
@@ -40,7 +47,10 @@
     "height": 640,
     "width": 960
   },
-  "start-scene": "7898c3aa-75db-4523-8b22-e60bf7d83784",
+  "start-scene": "5e9f5d23-04af-48ce-8a8e-4e81f8d85742",
   "use-customize-simulator": false,
-  "use-project-simulator-setting": false
+  "use-project-simulator-setting": false,
+  "migrate-history": [
+    "cloud-function"
+  ]
 }

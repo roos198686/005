@@ -12,3 +12,6 @@ as.start(config);
 
 var dapi = require('./dealer_api');
 dapi.start(config);
+
+var admin = require('./admin_api');
+admin.start(config);

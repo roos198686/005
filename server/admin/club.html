@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>俱乐部管理员后台</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: "Microsoft YaHei", sans-serif; background: #f0f2f5; }
+/* 左侧导航 */
+.sidebar { width: 200px; background: #1a1a2e; color: #b0bec5; position: fixed; top: 0; bottom: 0; left: 0; overflow-y: auto; z-index: 20; }
+.sidebar .logo { color: #fff; font-size: 16px; font-weight: bold; padding: 22px 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08); letter-spacing: 1px; }
+.nav-item { padding: 14px 20px; cursor: pointer; font-size: 14px; border-left: 3px solid transparent; white-space: nowrap; }
+.nav-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+.nav-item.active { background: #1976d2; color: #fff; border-left-color: #4fc3f7; }
+/* 主区域 */
+.main { margin-left: 200px; min-height: 100vh; display: flex; flex-direction: column; }
+.topbar { background: #fff; height: 56px; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 10; }
+.topbar .title { font-size: 16px; color: #1a1a2e; font-weight: 600; }
+.topbar .user { font-size: 14px; color: #555; }
+.topbar .user a { color: #e53935; margin-left: 12px; cursor: pointer; text-decoration: none; }
+.content { padding: 20px 24px; flex: 1; }
+.panel { background: #fff; border-radius: 6px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+/* 登录页 */
+.login-box { max-width: 360px; margin: 120px auto; background: #fff; padding: 36px 32px; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+.login-box h2 { text-align: center; margin-bottom: 28px; color: #1a1a2e; font-size: 20px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; margin-bottom: 6px; color: #555; font-size: 14px; }
+.form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #dcdfe6; border-radius: 4px; font-size: 14px; outline: none; }
+.form-group input:focus, .form-group select:focus { border-color: #1976d2; }
+.btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+.btn-primary { background: #1976d2; color: #fff; }
+.btn-primary:hover { background: #1565c0; }
+.btn-danger { background: #e53935; color: #fff; }
+.btn-success { background: #43a047; color: #fff; }
+.btn-default { background: #fff; color: #555; border: 1px solid #dcdfe6; }
+/* 标准表格:边框+斑马纹+表头底色+格线 */
+table { width: 100%; border-collapse: collapse; border: 1px solid #dcdfe6; }
+th, td { padding: 10px 12px; text-align: left; border: 1px solid #dcdfe6; font-size: 14px; color: #333; }
+th { background: #eef2f7; color: #333; font-weight: 600; }
+tbody tr:nth-child(even) { background: #fafbfc; }
+tbody tr:hover { background: #f0f6ff; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 12px; }
+.tag-green { background: #e8f5e9; color: #2e7d32; }
+.tag-red { background: #ffebee; color: #c62828; }
+/* 弹窗:超高内部滚动,按钮永远可见 */
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; }
+.modal-content { background: #fff; margin: 40px auto; padding: 20px 24px; border-radius: 8px; max-width: 600px; max-height: calc(100vh - 80px); overflow-y: auto; }
+.modal-content h3 { margin: 0 0 16px; padding-bottom: 12px; border-bottom: 1px solid #eee; color: #1a1a2e; font-size: 17px; }
+.modal-footer { text-align: right; margin-top: 16px; padding-top: 12px; border-top: 1px solid #eee; }
+/* 复选框不许被 width:100% 拉伸 */
+.form-group input[type="checkbox"] { width: auto; margin: 0 6px 0 0; vertical-align: middle; }
+label.inline { display: flex; align-items: center; font-size: 14px; color: #555; cursor: pointer; }
+.array-input { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.array-input input { width: 68px; text-align: center; padding: 8px 4px; }
+.array-input .add-btn { padding: 8px 11px; background: #43a047; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+.array-input .del-btn { padding: 8px 11px; background: #e53935; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+.info-bar { background: #e8f4fd; border: 1px solid #b3d8f5; color: #1565c0; padding: 12px 16px; border-radius: 6px; margin-bottom: 16px; font-size: 14px; }
+.toolbar { margin-bottom: 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.toolbar input { padding: 10px; border: 1px solid #dcdfe6; border-radius: 4px; min-width: 240px; }
+.toolbar select { padding: 10px; border: 1px solid #dcdfe6; border-radius: 4px; font-size: 14px; min-width: 200px; }
+</style>
+</head>
+<body>
+
+<div id="loginView" class="login-box">
+  <h2>俱乐部管理员后台</h2>
+  <div class="form-group">
+    <label>用户名</label>
+    <input type="text" id="loginUser">
+  </div>
+  <div class="form-group">
+    <label>密码</label>
+    <input type="password" id="loginPass">
+  </div>
+  <button class="btn btn-primary" style="width:100%" onclick="doLogin()">登 录</button>
+</div>
+
+<div id="mainView" style="display:none">
+  <div class="sidebar">
+    <div class="logo">俱乐部管理</div>
+    <div class="nav-item active" onclick="switchTab('games', this)">玩法管理</div>
+    <div class="nav-item" onclick="switchTab('tables', this)">牌桌管理</div>
+    <div class="nav-item" onclick="switchTab('members', this)">成员房卡</div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <span class="title" id="pageTitle">玩法管理</span>
+      <span class="user"><span id="adminName"></span> <a onclick="doLogout()">退出登录</a></span>
+    </div>
+    <div class="content">
+      <div class="info-bar" id="clubInfo"></div>
+
+      <!-- 玩法管理 -->
+      <div id="tab-games" class="panel">
+        <div class="toolbar">
+          <button class="btn btn-success" onclick="showGameModal()">+ 添加玩法</button>
+          <button class="btn btn-primary" onclick="loadGames()">刷新</button>
+        </div>
+        <table>
+          <thead>
+            <tr><th>ID</th><th>玩法类型</th><th>玩法名称</th><th>底分选项</th><th>局数选项</th><th>房卡消耗</th><th>牌桌数</th><th>状态</th><th>操作</th></tr>
+          </thead>
+          <tbody id="gameList"></tbody>
+        </table>
+      </div>
+
+      <!-- 牌桌管理 -->
+      <div id="tab-tables" class="panel" style="display:none">
+        <div class="toolbar">
+          <label>选择玩法:</label>
+          <select id="tableGameSel" onchange="loadTables()"></select>
+          <button class="btn btn-success" onclick="showTableModal()">+ 添加牌桌</button>
+          <button class="btn btn-primary" onclick="loadTables()">刷新</button>
+        </div>
+        <table>
+          <thead>
+            <tr><th>牌桌ID</th><th>牌桌名称</th><th>当前房间</th><th>当前人数</th><th>操作</th></tr>
+          </thead>
+          <tbody id="tableList"></tbody>
+        </table>
+      </div>
+
+      <!-- 成员房卡 -->
+      <div id="tab-members" class="panel" style="display:none">
+        <div class="toolbar">
+          <input type="text" id="memberKeyword" placeholder="搜索用户ID/账号/昵称" oninput="renderMembers()">
+          <button class="btn btn-primary" onclick="loadMembers()">刷新</button>
+        </div>
+        <table>
+          <thead>
+            <tr><th>用户ID</th><th>账号</th><th>昵称</th><th>房卡</th><th>加入时间</th><th>操作</th></tr>
+          </thead>
+          <tbody id="memberList"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 玩法弹窗 -->
+<div id="gameModal" class="modal">
+  <div class="modal-content">
+    <h3 id="gameModalTitle">添加玩法</h3>
+    <div class="form-group" id="gameTypeGroup">
+      <label>选择玩法 (来自全局玩法配置)</label>
+      <select id="game_type" onchange="onGameTypeChange()"></select>
+    </div>
+    <div class="form-group">
+      <label>玩法名称</label>
+      <input type="text" id="game_name">
+    </div>
+    <div class="form-group">
+      <a href="javascript:void(0)" onclick="var d=document.getElementById('gameAdvanced'); d.style.display=(d.style.display==='none'?'block':'none');" style="font-size:13px; color:#1976d2;">高级选项（底分/局数/房卡，默认用全局配置）▾</a>
+    </div>
+    <div id="gameAdvanced" style="display:none">
+      <div class="form-group">
+        <label>底分选项</label>
+        <div class="array-input" id="gdifenArr"></div>
+      </div>
+      <div class="form-group">
+        <label>局数选项</label>
+        <div class="array-input" id="gjushuArr"></div>
+      </div>
+      <div class="form-group">
+        <label>对应房卡消耗 (与局数一一对应)</label>
+        <div class="array-input" id="gcostArr"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>排序</label>
+      <input type="number" id="game_sort" value="0">
+    </div>
+    <div class="form-group">
+      <label class="inline"><input type="checkbox" id="game_enabled" checked> 启用</label>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" onclick="closeGameModal()">取消</button>
+      <button class="btn btn-primary" onclick="saveGame()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 牌桌弹窗 -->
+<div id="tableModal" class="modal">
+  <div class="modal-content">
+    <h3>添加牌桌</h3>
+    <div class="form-group">
+      <label>所属玩法</label>
+      <select id="tbl_game_type"></select>
+    </div>
+    <div class="form-group">
+      <label>人数上限（由该玩法配置决定，只读）</label>
+      <input type="text" id="tbl_players" readonly>
+    </div>
+    <div class="form-group">
+      <label>牌桌名称</label>
+      <input type="text" id="tbl_name">
+    </div>
+    <div class="form-group">
+      <label>底分</label>
+      <select id="tbl_difen"></select>
+    </div>
+    <div class="form-group">
+      <label>局数</label>
+      <select id="tbl_jushu"></select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" onclick="closeTableModal()">取消</button>
+      <button class="btn btn-primary" onclick="saveTable()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 调整房卡弹窗 -->
+<div id="gemModal" class="modal">
+  <div class="modal-content" style="max-width:360px">
+    <h3>调整房卡</h3>
+    <p>用户ID: <span id="gemUserId"></span></p>
+    <p>当前房卡: <span id="gemCurrent"></span></p>
+    <div class="form-group">
+      <label>变动数量 (正数增加，负数减少)</label>
+      <input type="number" id="gemChange" value="0">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" onclick="closeGemModal()">取消</button>
+      <button class="btn btn-primary" onclick="confirmGemChange()">确认</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var API_BASE = 'http://localhost:12582';
+var token = localStorage.getItem('admin_token') || '';
+var state = {role: '', clubId: null, username: ''};
+var URL_CLUB_ID = null;
+(function(){
+  var m = /[?&]club_id=(\d+)/.exec(location.search);
+  if(m) URL_CLUB_ID = parseInt(m[1]);
+})();
+var clubGames = [];
+var members = [];
+
+// 统一请求:俱乐部管理员由服务端按token解析俱乐部;超级管理员需带club_id
+function api(path, opts){
+  opts = opts || {};
+  opts.headers = opts.headers || {};
+  if(token) opts.headers['Authorization'] = token;
+  var url = API_BASE + path;
+  if(state.role === 'super' && state.clubId){
+    url += (url.indexOf('?') >= 0 ? '&' : '?') + 'club_id=' + state.clubId;
+  }
+  return fetch(url, opts).then(function(r){ return r.json(); });
+}
+function postBody(obj){ return {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(obj)}; }
+function putBody(obj){ return {method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(obj)}; }
+// 超级管理员POST时需要在body带上club_id
+function withClub(obj){
+  if(state.role === 'super' && state.clubId){ obj.club_id = state.clubId; }
+  return obj;
+}
+
+function doLogin(){
+  var u = document.getElementById('loginUser').value;
+  var p = document.getElementById('loginPass').value;
+  api('/admin/login', postBody({username:u, password:p})).then(function(ret){
+    if(ret.code !== 0){ alert(ret.msg); return; }
+    if(ret.data.role !== 'club' && ret.data.role !== 'super'){
+      alert('无权限登录俱乐部管理员后台'); return;
+    }
+    if(ret.data.role === 'super' && !URL_CLUB_ID){
+      alert('超级管理员请从后台管理页面的"玩法/牌桌"按钮进入指定俱乐部'); return;
+    }
+    token = ret.data.token;
+    localStorage.setItem('admin_token', token);
+    localStorage.setItem('admin_role', ret.data.role);
+    localStorage.setItem('admin_name', ret.data.username);
+    state.role = ret.data.role;
+    state.username = ret.data.username;
+    state.clubId = (ret.data.role === 'super') ? URL_CLUB_ID : ret.data.club_id;
+    enterMain();
+  });
+}
+function doLogout(){
+  api('/admin/logout', {method:'POST'}).then(function(){
+    token = '';
+    localStorage.removeItem('admin_token');
+    localStorage.removeItem('admin_role');
+    localStorage.removeItem('admin_name');
+    location.reload();
+  });
+}
+function enterMain(){
+  document.getElementById('loginView').style.display = 'none';
+  document.getElementById('mainView').style.display = 'block';
+  document.getElementById('adminName').textContent = state.username + (state.role === 'super' ? '(超级管理员)' : '');
+  api('/admin/club_detail').then(function(ret){
+    if(ret.code !== 0){ document.getElementById('clubInfo').textContent = '俱乐部信息加载失败: ' + ret.msg; return; }
+    document.getElementById('clubInfo').textContent =
+      '俱乐部: ' + ret.data.name + ' (ID:' + ret.data.id + ')  |  社长用户ID: ' + ret.data.owner_userid;
+  });
+  loadGames();
+}
+
+// 自动登录(已持有token时)
+if(token){
+  var savedRole = localStorage.getItem('admin_role') || '';
+  var savedName = localStorage.getItem('admin_name') || '管理员';
+  var tryEnter = function(role, clubId){
+    state.role = role; state.clubId = clubId || null; state.username = savedName;
+    api('/admin/club_detail').then(function(ret){
+      if(ret.code !== 0){ return; }
+      enterMain();
+    });
+  };
+  if(URL_CLUB_ID){
+    // 从后台管理页面"玩法/牌桌"按钮跳转进来,按超级管理员模式操作指定俱乐部
+    tryEnter('super', URL_CLUB_ID);
+  } else if(savedRole === 'club'){
+    tryEnter('club', null);
+  }
+  // 其余情况保留登录页
+}
+
+var TAB_TITLES = {games:'玩法管理', tables:'牌桌管理', members:'成员房卡'};
+function switchTab(name, btn){
+  document.querySelectorAll('.nav-item').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.panel').forEach(function(p){ p.style.display = 'none'; });
+  document.getElementById('tab-' + name).style.display = 'block';
+  document.getElementById('pageTitle').textContent = TAB_TITLES[name] || '';
+  if(name === 'games') loadGames();
+  if(name === 'tables') { rebuildTableGameSel(); loadTables(); }
+  if(name === 'members') loadMembers();
+}
+
+// ============ 玩法管理 ============
+function loadGames(){
+  api('/admin/club_games').then(function(ret){
+    if(ret.code !== 0){ alert(ret.msg); return; }
+    clubGames = ret.data || [];
+    var tbody = document.getElementById('gameList');
+    tbody.innerHTML = '';
+    if(clubGames.length === 0){
+      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:20px;color:#999;">暂无玩法，点击"添加玩法"新增</td></tr>';
+      return;
+    }
+    clubGames.forEach(function(g){
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>'+g.id+'</td>'+
+        '<td>'+g.game_type+'</td>'+
+        '<td>'+g.name+'</td>'+
+        '<td>['+g.difen_options.join(',')+']</td>'+
+        '<td>['+g.jushu_options.join(',')+']</td>'+
+        '<td>['+g.cost_options.join(',')+']</td>'+
+        '<td>'+g.table_count+'</td>'+
+        '<td><span class="tag '+(g.enabled?'tag-green':'tag-red')+'">'+(g.enabled?'启用':'禁用')+'</span></td>'+
+        '<td><button class="btn btn-default btn-sm" onclick="editGame('+g.id+')">编辑</button> '+
+        '<button class="btn btn-danger btn-sm" onclick="delGame('+g.id+')">删除</button></td>';
+      tbody.appendChild(tr);
+    });
+  });
+}
+
+var editingGameId = null;
+function showGameModal(){
+  api('/admin/club_available_games').then(function(ret){
+    if(ret.code !== 0){ alert(ret.msg); return; }
+    var avail = ret.data || [];
+    if(avail.length === 0){ alert('没有可添加的玩法'); return; }
+    editingGameId = null;
+    document.getElementById('gameModalTitle').textContent = '添加玩法';
+    document.getElementById('gameTypeGroup').style.display = 'block';
+    var sel = document.getElementById('game_type');
+    sel.innerHTML = '';
+    //显示全部玩法,已添加的禁选并标注,避免误以为玩法缺失
+    avail.forEach(function(a){
+      var o = document.createElement('option');
+      o.value = a.type;
+      o.textContent = a.name + ' (' + a.type + ')' + (a.added ? '【已添加】' : '');
+      o.disabled = !!a.added;
+      o._cfg = a;
+      sel.appendChild(o);
+    });
+    //默认选中第一个未添加的玩法
+    var first = avail.filter(function(a){ return !a.added; })[0];
+    if(first){ sel.value = first.type; }
+    document.getElementById('game_enabled').checked = true;
+    document.getElementById('game_sort').value = 0;
+    onGameTypeChange();
+    document.getElementById('gameModal').style.display = 'block';
+  });
+}
+function onGameTypeChange(){
+  var sel = document.getElementById('game_type');
+  var cfg = sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex]._cfg : null;
+  if(!cfg) return;
+  document.getElementById('game_name').value = cfg.name;
+  renderArray('gdifenArr', cfg.difen_options);
+  renderArray('gjushuArr', cfg.jushu_options);
+  renderArray('gcostArr', cfg.cost_options);
+}
+function editGame(id){
+  var g = clubGames.find(function(x){ return x.id === id; });
+  if(!g) return;
+  editingGameId = id;
+  document.getElementById('gameModalTitle').textContent = '编辑玩法 (' + g.game_type + ')';
+  document.getElementById('gameTypeGroup').style.display = 'none';
+  document.getElementById('game_name').value = g.name;
+  renderArray('gdifenArr', g.difen_options);
+  renderArray('gjushuArr', g.jushu_options);
+  renderArray('gcostArr', g.cost_options);
+  document.getElementById('game_sort').value = g.sort;
+  document.getElementById('game_enabled').checked = !!g.enabled;
+  document.getElementById('gameModal').style.display = 'block';
+}
+function renderArray(id, arr){
+  var box = document.getElementById(id);
+  box.innerHTML = '';
+  (arr || []).forEach(function(v){
+    var inp = document.createElement('input');
+    inp.type = 'number'; inp.value = v;
+    box.appendChild(inp);
+  });
+  var addBtn = document.createElement('button');
+  addBtn.className = 'add-btn'; addBtn.textContent = '+';
+  addBtn.onclick = function(){
+    var inp = document.createElement('input');
+    inp.type = 'number'; inp.value = 0;
+    box.insertBefore(inp, addBtn);
+  };
+  box.appendChild(addBtn);
+  var delBtn = document.createElement('button');
+  delBtn.className = 'del-btn'; delBtn.textContent = '-';
+  delBtn.onclick = function(){
+    var inputs = box.querySelectorAll('input');
+    if(inputs.length > 1) inputs[inputs.length-1].remove();
+  };
+  box.appendChild(delBtn);
+}
+function getArray(id){
+  return Array.prototype.slice.call(document.getElementById(id).querySelectorAll('input')).map(function(i){ return parseInt(i.value) || 0; });
+}
+function closeGameModal(){ document.getElementById('gameModal').style.display = 'none'; }
+function saveGame(){
+  var data = {
+    name: document.getElementById('game_name').value.trim(),
+    difen_options: getArray('gdifenArr'),
+    jushu_options: getArray('gjushuArr'),
+    cost_options: getArray('gcostArr'),
+    sort: parseInt(document.getElementById('game_sort').value) || 0,
+    enabled: document.getElementById('game_enabled').checked ? 1 : 0
+  };
+  if(!data.name){ alert('请填写玩法名称'); return; }
+  if(editingGameId){
+    api('/admin/club_game/'+editingGameId, putBody(data)).then(function(ret){
+      if(ret.code === 0){ closeGameModal(); loadGames(); } else alert(ret.msg);
+    });
+  } else {
+    var sel = document.getElementById('game_type');
+    if(!sel.value){ alert('请选择玩法'); return; }
+    data.game_type = sel.value;
+    api('/admin/club_game', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(withClub(data))}).then(function(ret){
+      if(ret.code === 0){ closeGameModal(); loadGames(); } else alert(ret.msg);
+    });
+  }
+}
+function delGame(id){
+  if(!confirm('确认删除该玩法？该玩法下的所有牌桌将一并删除')) return;
+  api('/admin/club_game/'+id, {method:'DELETE'}).then(function(ret){
+    if(ret.code === 0) loadGames(); else alert(ret.msg);
+  });
+}
+
+// ============ 牌桌管理 ============
+function rebuildTableGameSel(){
+  var sel = document.getElementById('tableGameSel');
+  var old = sel.value;
+  sel.innerHTML = '';
+  clubGames.forEach(function(g){
+    var o = document.createElement('option');
+    o.value = g.game_type; o.textContent = g.name + ' (' + g.game_type + ')';
+    sel.appendChild(o);
+  });
+  if(clubGames.length === 0){
+    var o = document.createElement('option');
+    o.value = ''; o.textContent = '请先在"玩法管理"添加玩法';
+    sel.appendChild(o);
+  } else if(old){
+    sel.value = old;
+  }
+}
+function loadTables(){
+  var gt = document.getElementById('tableGameSel').value;
+  var tbody = document.getElementById('tableList');
+  if(!gt){
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:#999;">请先添加玩法</td></tr>';
+    return;
+  }
+  api('/admin/club_tables?game_type='+encodeURIComponent(gt)).then(function(ret){
+    if(ret.code !== 0){ alert(ret.msg); return; }
+    var list = ret.data || [];
+    tbody.innerHTML = '';
+    if(list.length === 0){
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:#999;">该玩法下暂无牌桌</td></tr>';
+      return;
+    }
+    list.forEach(function(t){
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>'+t.id+'</td><td>'+t.name+'</td>'+
+        '<td>'+(t.roomid||'-')+'</td>'+
+        '<td>'+(t.player_count != null ? t.player_count : 0)+'</td>'+
+        '<td><button class="btn btn-warning btn-sm" onclick="clearTable('+t.id+')">清空</button> '+
+        '<button class="btn btn-danger btn-sm" onclick="delTable('+t.id+')">删除</button></td>';
+      tbody.appendChild(tr);
+    });
+  });
+}
+function showTableModal(){
+  if(clubGames.length === 0){ alert('请先在"玩法管理"添加玩法'); return; }
+  var sel = document.getElementById('tbl_game_type');
+  sel.innerHTML = '';
+  clubGames.forEach(function(g){
+    var o = document.createElement('option');
+    o.value = g.game_type; o.textContent = g.name; o._g = g;
+    sel.appendChild(o);
+  });
+  sel.onchange = onTblGameChange;
+  document.getElementById('tbl_name').value = '';
+  onTblGameChange();
+  document.getElementById('tableModal').style.display = 'block';
+}
+function onTblGameChange(){
+  var sel = document.getElementById('tbl_game_type');
+  var g = sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex]._g : null;
+  if(!g) return;
+  //人数上限取自该玩法的max_players,2人玩法显示2人(界面不含任何4人相关字段/选项)
+  var p = document.getElementById('tbl_players');
+  if(p){ p.value = (g.max_players != null) ? (g.max_players + ' 人') : '未知'; }
+  fillIndexSel('tbl_difen', g.difen_options);
+  fillIndexSel('tbl_jushu', g.jushu_options);
+}
+function fillIndexSel(id, arr){
+  var sel = document.getElementById(id);
+  sel.innerHTML = '';
+  (arr || []).forEach(function(v, i){
+    var o = document.createElement('option');
+    o.value = i; o.textContent = v;
+    sel.appendChild(o);
+  });
+}
+function closeTableModal(){ document.getElementById('tableModal').style.display = 'none'; }
+function saveTable(){
+  var gt = document.getElementById('tbl_game_type').value;
+  var name = document.getElementById('tbl_name').value.trim();
+  if(!gt){ alert('请选择玩法'); return; }
+  if(!name){ alert('请填写牌桌名称'); return; }
+  var conf = {
+    type: gt,
+    difen: parseInt(document.getElementById('tbl_difen').value) || 0,
+    jushuxuanze: parseInt(document.getElementById('tbl_jushu').value) || 0
+  };
+  var data = withClub({game_type:gt, name:name, conf:conf});
+  api('/admin/club_table', postBody(data)).then(function(ret){
+    if(ret.code === 0){ closeTableModal(); loadTables(); loadGames(); } else alert(ret.msg);
+  });
+}
+function delTable(id){
+  if(!confirm('确认删除该牌桌？')) return;
+  api('/admin/club_table/'+id, {method:'DELETE'}).then(function(ret){
+    if(ret.code === 0){ loadTables(); loadGames(); } else alert(ret.msg);
+  });
+}
+//清空牌桌:解散牌桌绑定的房间,踢出所有玩家并释放占用,清空后玩家可自由进入其它房间
+function clearTable(id){
+  if(!confirm('确认清空该牌桌？将解散牌桌绑定的房间并踢出所有玩家')) return;
+  api('/admin/club_table/clear', postBody({tableid:id})).then(function(ret){
+    if(ret.code === 0){ alert('牌桌已清空'); loadTables(); loadGames(); } else alert(ret.msg || '清空失败');
+  });
+}
+
+// ============ 成员房卡 ============
+function loadMembers(){
+  api('/admin/club_members').then(function(ret){
+    if(ret.code !== 0){ alert(ret.msg); return; }
+    members = ret.data || [];
+    renderMembers();
+  });
+}
+function renderMembers(){
+  var kw = (document.getElementById('memberKeyword').value || '').trim();
+  var tbody = document.getElementById('memberList');
+  tbody.innerHTML = '';
+  var list = members.filter(function(m){
+    if(!kw) return true;
+    return String(m.userid) === kw || (m.account||'').indexOf(kw) >= 0 || (m.name||'').indexOf(kw) >= 0;
+  });
+  if(list.length === 0){
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;color:#999;">暂无成员</td></tr>';
+    return;
+  }
+  list.forEach(function(m){
+    var time = m.join_time ? new Date(m.join_time * 1000).toLocaleString() : '-';
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td>'+m.userid+'</td><td>'+(m.account||'-')+'</td><td>'+(m.name||'-')+'</td>'+
+      '<td>'+m.gems+'</td><td>'+time+'</td>'+
+      '<td><button class="btn btn-primary btn-sm" onclick="showGemModal('+m.userid+','+m.gems+')">调整房卡</button></td>';
+    tbody.appendChild(tr);
+  });
+}
+var gemUserId = null;
+function showGemModal(uid, current){
+  gemUserId = uid;
+  document.getElementById('gemUserId').textContent = uid;
+  document.getElementById('gemCurrent').textContent = current;
+  document.getElementById('gemChange').value = 0;
+  document.getElementById('gemModal').style.display = 'block';
+}
+function closeGemModal(){ document.getElementById('gemModal').style.display = 'none'; }
+function confirmGemChange(){
+  var change = parseInt(document.getElementById('gemChange').value) || 0;
+  var data = withClub({userid:gemUserId, gems:change});
+  api('/admin/club_member/gems', postBody(data)).then(function(ret){
+    if(ret.code === 0){ closeGemModal(); loadMembers(); } else alert(ret.msg);
+  });
+}
+</script>
+</body>
+</html>
