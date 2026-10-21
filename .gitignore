@@ -22,6 +22,10 @@ atlas_frames/
 backup_*/
 client_backup_*/
 
+# === 场景/文件旁边的 .bak / .bgfixbak 临时备份 ===
+*.bak_*
+*.bgfixbak
+
 # === Cocos 临时/缓存 ===
 client/temp/
 client/library/
