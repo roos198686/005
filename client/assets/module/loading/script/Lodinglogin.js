@@ -28,6 +28,7 @@ cc.Class({
 
     // use this for initialization
     onLoad: function () {
+        console.log("[Lodinglogin] onLoad enter");
         //判断是否原生，是否为手机
         if(!cc.sys.isNative ){   //&& cc.sys.isMobile
             //获取canvas节点
@@ -60,6 +61,7 @@ cc.Class({
     },
     //引导图显示加载
     start:function(){
+        console.log("[Lodinglogin] start enter");
         //去掉白底引导图，直接检查版本更新
         this.checkVersion();
     },

@@ -116,7 +116,7 @@ cc.Class({
     
     onGameOver(data){
         var type = cc.vv.gameNetMgr.conf.type;
-        if(type == "zj" || type == "zj_bt" || type == "zj4" || type == "zj4_bt"){
+        if(type == "zj" || type == "zj_bt" || type == "zj4" || type == "zj4_bt" || type == "zj_lao"){
             this.onGameOver_ZJ(data);
         }
         else if(type == "xzdd"){
@@ -129,6 +129,7 @@ cc.Class({
 
     //诸暨三玩法结算（results: [{userid,score,totalscore,holds,pengs,chis,folds,angangs,diangangs,wangangs,huinfo:[{ishupai,pai,action:zimo|hu|fangpao,fan:台数}]}]）
     onGameOver_ZJ:function(data){
+        var type = cc.vv.gameNetMgr.conf ? cc.vv.gameNetMgr.conf.type : null;
         console.log(data);
         if(!data || data.length == 0){
             this._gameresult.active = true;
@@ -193,7 +194,17 @@ cc.Class({
                     else if(info.action == "hu"){
                         actionArr.push("接炮胡");
                     }
-                    if(info.fan != null){
+                    if(type == "zj_lao"){
+                        //赖倒胡:不算台数,只显示后台开了翻倍的项(财吊/天胡/地胡等),不显示"X台"与台数明细
+                        if(info.tailog && info.tailog.length){
+                            var laoLogs = [];
+                            for(var li = 0; li < info.tailog.length; ++li){
+                                if(info.tailog[li].indexOf("×2") >= 0){ laoLogs.push(info.tailog[li]); }
+                            }
+                            if(laoLogs.length){ actionArr.push(laoLogs.join("，")); }
+                        }
+                    }
+                    else if(info.fan != null){
                         actionArr.push(info.fan + "台");
                         // 台项明细（服务端 taiLog：如 无财+1、对对胡+1）
                         if(info.tailog && info.tailog.length){
@@ -203,6 +214,30 @@ cc.Class({
                 }
                 else if(info.action == "fangpao"){
                     actionArr.push("放炮");
+                }
+            }
+
+            //包财神:胡牌分与包台分分开显示,胡牌者为正、赔付方为负;同时标出本局包家与所包台数
+            if(type == "zj_bt"){
+                if(userData.isBao){
+                    //包家信息放最前面: 包家+包法(双财/独财/无财)+包X台
+                    var modeText = "";
+                    if(userData.baoModeOfRound === 0){ modeText = "无财"; }
+                    else if(userData.baoModeOfRound === 1){ modeText = "独财"; }
+                    else if(userData.baoModeOfRound === 2){ modeText = "双财"; }
+                    var baoText = "包家" + modeText;
+                    if(userData.baoTaiOfRound){
+                        baoText += "包" + userData.baoTaiOfRound + "台";
+                    }
+                    actionArr.unshift(baoText);
+                }
+                var baseSc = userData.huBaseScore || 0;
+                var baoSc = userData.baoTaiScore || 0;
+                if(baseSc != 0){
+                    actionArr.push("胡牌分" + (baseSc > 0 ? "+" : "") + baseSc);
+                }
+                if(baoSc != 0){
+                    actionArr.push("包台分" + (baoSc > 0 ? "+" : "") + baoSc);
                 }
             }
 

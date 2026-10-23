@@ -15,19 +15,21 @@ cc.Class({
         var canvas = cc.find("Canvas");
         var clubPage = canvas.getChildByName("clubPage");
         var wfPage = canvas.getChildByName("wfPage");
-        if(clubPage){ clubPage.active = true; } //进入场景默认显示俱乐部页
-        if(wfPage){ wfPage.active = false; } //玩法详情页初始隐藏
-        //顶部三按钮(我的俱乐部/创建/加入)贴图已固化在场景文件中(俱乐部-我的/创建/加入),JS不再动态加载或替换
-        this.openClubPanel(); //打开俱乐部页(列表默认收起)
-        //从牌桌退出/结算回俱乐部场景:直达该俱乐部的独立玩法详情页
+        if(cc.vv.fromClubId){
+            //从牌桌退出/结算返回:直接进入该俱乐部的独立玩法详情页(原玩法页面),
+            //中途不显示俱乐部列表,避免"先闪一下列表再切详情"的页面跳动
+            if(clubPage){ clubPage.active = false; }
+            if(wfPage){ wfPage.active = false; }
+            this._clubBackToDetail(cc.vv.fromClubId);
+        }
+        else{
+            if(clubPage){ clubPage.active = true; } //进入场景默认显示俱乐部页
+            if(wfPage){ wfPage.active = false; } //玩法详情页初始隐藏
+            //顶部三按钮(我的俱乐部/创建/加入)贴图已固化在场景文件中(俱乐部-我的/创建/加入),JS不再动态加载或替换
+            this.openClubPanel(); //打开俱乐部页(列表默认收起)
+        }
         //注意:fromClubId在这里只读不清——解散/断线可能触发多次club场景加载(dispress_push与disconnect兜底),
         //若第一次加载就清掉,第二次加载会落到俱乐部列表页;清除只发生在用户主动返回列表(_wfBack)或回大厅(hall.onLoad)
-        if(cc.vv.fromClubId){
-            var backClubId = cc.vv.fromClubId;
-            this.scheduleOnce(function(){
-                self._clubBackToDetail(backClubId); //直达独立玩法详情页
-            },0);
-        }
     },
 
     //画矩形背景(通用,只使用Cocos 2.4存在的Graphics.rect API)
@@ -810,9 +812,18 @@ cc.Class({
         if(fitS > 1){ fitS = 1; } //不放大,只有超出宽度时才缩小
         this._clubTableCols = COLS;
         this._clubTableScale = baseS * fitS;
-        //默认选中第一个玩法
+        //默认选中玩法:从牌桌退出/结算返回时优先回到刚玩过的那个玩法(直达它的牌桌页),
+        //没有记录或该玩法不在本俱乐部时才选第一个
         if(!this._clubCurGame && games.length > 0){
-            this._clubCurGame = games[0];
+            var wanted = cc.vv.lastGameType;
+            var picked = null;
+            if(wanted){
+                for(var gi = 0; gi < games.length; ++gi){
+                    var gt = games[gi].game_type || games[gi].type;
+                    if(gt == wanted){ picked = games[gi]; break; }
+                }
+            }
+            this._clubCurGame = picked || games[0];
         }
         for(var k = 0; k < this._clubGameRows.length; ++k){
             this._clubPaintRow(this._clubGameRows[k],games[k] === this._clubCurGame);

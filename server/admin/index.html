@@ -322,6 +322,7 @@ label.inline { display: flex; align-items: center; font-size: 14px; color: #555;
         <label class="inline"><input type="checkbox" id="cfg_tianhu_di" checked> 天胡地胡翻倍</label>
         <label class="inline"><input type="checkbox" id="cfg_cai_diao" checked> 财吊翻倍</label>
       </div>
+      <!-- 包财神专属: 胡牌分=底分×2^(台数-1), 包台分=底分×2^(包台数-1), 底分取添加牌桌时选的底分 -->
       <!-- 台数相关(翻财神/包财神/漳浦用,赖倒胡不用) -->
       <div class="form-row" data-switch-group="tai">
         <div class="form-group">
@@ -368,7 +369,7 @@ label.inline { display: flex; align-items: center; font-size: 14px; color: #555;
 </div>
 
 <script>
-var API_BASE = 'http://localhost:12582';
+var API_BASE = '';
 var token = localStorage.getItem('admin_token') || '';
 var editingConfigId = null;
 var currentPage = 1;
@@ -377,7 +378,20 @@ function api(path, opts){
   opts = opts || {};
   opts.headers = opts.headers || {};
   if(token) opts.headers['Authorization'] = token;
-  return fetch(API_BASE + path, opts).then(function(r){ return r.json(); });
+  return fetch(API_BASE + path, opts).then(function(r){ return r.json(); }).then(function(ret){
+    // 服务重启后内存里的token会失效,统一提示重新登录,避免操作静默失败
+    if(ret && ret.code === 401){ onAuthExpired(); }
+    return ret;
+  });
+}
+var authExpiredShown = false;
+function onAuthExpired(){
+  token = '';
+  localStorage.removeItem('admin_token');
+  if(authExpiredShown) return;
+  authExpiredShown = true;
+  alert('登录已过期（服务重启会导致登录状态失效），请重新登录');
+  location.reload();
 }
 
 // 登录
@@ -794,6 +808,7 @@ function applyTypeGroups(type){
   var rules = {
     'zhujian': ['zj', 'zj_lao', 'zj_bt', 'zj4', 'zj4_bt'],   // 诸暨全系通用开关
     'zj_lao':  ['zj_lao'],                                      // 赖倒胡专属
+    'zj_bt':   ['zj_bt', 'zj4_bt'],                             // 包财神专属
     'tai':     ['zj', 'zj_bt', 'zj4', 'zj4_bt', 'zp', 'zp4', 'wujin']  // 有台数玩法
   };
   function showGroup(name){

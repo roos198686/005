@@ -848,6 +848,8 @@ function doGameOver(game){
     }
 
     userMgr.brocastInRoom(roomId, 'game_over_push', pushData);
+    // 缓存最近一局结算:结算停留期断线/重进时由 resendGameState 补发
+    game.lastResult = pushData;
 
     // 房卡扣除：第一局结束一次性扣除整局房卡(中途解散不退)
     var cost = roomInfo.conf.cost || 0;
@@ -1567,8 +1569,18 @@ exports.__internals = {
 // 断线重连/中途进房补发
 exports.resendGameState = function(roomId, userId){
     var game = games[roomId];
-    if(game == null || game.gameOver) return;
+    if(game == null) return;
     var roomInfo = roomMgr.getRoom(roomId);
+    if(game.gameOver){
+        //结算停留期:补发最近一局结算,重连客户端直接回到结算弹窗
+        if(game.lastResult){
+            if(roomInfo != null){
+                userMgr.sendMsg(userId, 'game_num_push', roomInfo.numOfGames);
+            }
+            userMgr.sendMsg(userId, 'game_over_push', game.lastResult);
+        }
+        return;
+    }
     var seatIndex = roomMgr.getUserSeat(userId);
     if(seatIndex == null || game.gameSeats[seatIndex] == null) return;
 

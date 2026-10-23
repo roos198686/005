@@ -756,6 +756,18 @@ exports.hasBegan = function(roomId){
     return game != null && game.gameOver != true;
 };
 
+// 断线重连/中途进房补发当前牌局(复用 sendSync,含底牌/公共牌/当前行动者)
+exports.resendGameState = function(roomId, userId){
+    var game = games[roomId];
+    if(game == null || game.gameOver) return;
+    for(var i = 0; i < game.gameSeats.length; ++i){
+        if(game.gameSeats[i].userId == userId){
+            sendSync(game, i);
+            return;
+        }
+    }
+};
+
 // 玩家准备；满员后自动开局；对局中重连则同步状态
 exports.setReady = function(userId){
     var roomId = roomMgr.getUserRoom(userId);

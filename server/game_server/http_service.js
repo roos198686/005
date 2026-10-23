@@ -94,29 +94,22 @@ app.get('/enter_room',function(req,res){
 		return;
 	}
 
-	//单房间迁移规则:用户已占用其他房间时——
-	//原房间未准备且未开局(占用式退出状态):进入新房间的同时释放原房间占用,放行;
-	//原房间已准备/已开局/结算停留:拒绝进入(errcode=5,客户端提示先解散原房间)
+	//单房间规则:一个玩家同时只能在一个房间。
+	//用户已在A房时进入B房:无论A房是否已准备/已开局/结算停留,一律放行,
+	//并在进入B房的同时释放A房的占用(否则退出后占用残留会导致之后所有房间都进不去)。
 	var curRoomId = roomMgr.getUserRoom(userId);
 	if(curRoomId != null && curRoomId != roomId){
 		var curRoom = roomMgr.getRoom(curRoomId);
-		var canMigrate = false;
-		if(curRoom != null && curRoom.numOfGames == 0){
+		var oldState = '未知';
+		if(curRoom != null){
 			var seatIdx = roomMgr.getUserSeat(userId);
-			var seatReady = (seatIdx != null && curRoom.seats[seatIdx] != null && curRoom.seats[seatIdx].ready == true);
+			var seatReady = (seatIdx != null && curRoom.seats && curRoom.seats[seatIdx] != null && curRoom.seats[seatIdx].ready == true);
 			var began = false;
 			try{ began = curRoom.gameMgr && curRoom.gameMgr.hasBegan(curRoomId); }catch(e){}
-			if(!seatReady && !began){
-				canMigrate = true;
-			}
-		}
-		if(!canMigrate){
-			console.log('[enter_room reject] userId=' + userId + ' 占用房间' + curRoomId + '(已准备/对局中),拒绝进入' + roomId);
-			http.send(res,5,"already in another room.");
-			return;
+			oldState = 'ready=' + seatReady + ',began=' + began + ',games=' + curRoom.numOfGames;
 		}
 		//迁移:释放原房间占用(清座位/绑定,空房销毁并解绑牌桌,广播俱乐部牌桌人数)
-		console.log('[enter_room migrate] userId=' + userId + ' 从未准备房间' + curRoomId + ' 迁移到 ' + roomId);
+		console.log('[enter_room migrate] userId=' + userId + ' 从房间' + curRoomId + '(' + oldState + ') 迁移到 ' + roomId);
 		roomMgr.exitRoom(userId);
 		var leftRoom = roomMgr.getRoom(curRoomId);
 		if(leftRoom != null){
@@ -270,6 +263,6 @@ exports.start = function($config){
 	};
 
 	setInterval(update,1000);
-	app.listen(config.HTTP_PORT,config.FOR_HALL_IP);
+	app.listen(config.HTTP_PORT, "0.0.0.0");
 	console.log("game server is listening on " + config.FOR_HALL_IP + ":" + config.HTTP_PORT);
 };

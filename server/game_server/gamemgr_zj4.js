@@ -44,13 +44,15 @@ function isZi(pai){
 // 数牌：同花色1-9循环；字牌：中→发→白→中（3循环），东→南→西→北→东（4循环）
 function nextCaishenOf(pai){
     if(isZi(pai)){
-        if(pai >= 27 && pai <= 29){
-            // 中发白组：3循环
-            return 27 + ((pai - 27 + 1) % 3);
-        } else {
-            // 东南西北组：4循环
-            return 30 + ((pai - 30 + 1) % 4);
+        // 牌ID以客户端牌面为准: 27中 28发 29白, 30东 31西 32南 33北
+        // 中发白：中→发→白→中 3循环
+        if(pai >= 27 && pai <= 29){ return 27 + ((pai - 27 + 1) % 3); }
+        // 东南西北：东→南→西→北→东 4循环(牌ID顺序 30→32→31→33)
+        var windIds = [30, 32, 31, 33];
+        for(var i = 0; i < 4; ++i){
+            if(windIds[i] === pai){ return windIds[(i + 1) % 4]; }
         }
+        return pai;
     }
     var t = getMJType(pai);
     return t * 9 + ((pai % 9) + 1) % 9;
@@ -764,6 +766,8 @@ function doGameOver(game){
 
     // 客户端 game_over_push 格式：{results:[...], endinfo?}
     var pushData = {results: results};
+    // 缓存最近一局结算:结算停留期断线/重进时由 resendGameState 补发
+    game.lastResult = pushData;
 
     // 打完指定局数，发最终结算数据
     if(roomInfo.numOfGames >= roomInfo.conf.maxGames){
@@ -1936,6 +1940,62 @@ exports.start = function(roomInfo){
     game.baoDecided = true;
     var zhuangSeat = game.gameSeats[game.button];
     sendOperations(game, zhuangSeat, zhuangSeat.holds[zhuangSeat.holds.length-1]);
+};
+
+// 断线重连/中途进房:向指定玩家补发当前对局状态(4人版)
+exports.resendGameState = function(roomId, userId){
+    var game = games[roomId];
+    if(game == null) return;
+    var roomInfo = roomMgr.getRoom(roomId);
+    var seatIndex = roomMgr.getUserSeat(userId);
+    if(seatIndex == null || game.gameSeats[seatIndex] == null) return;
+
+    if(game.gameOver){
+        //一局已结算:补发最近一局结算,重连客户端直接回到结算弹窗
+        if(game.lastResult){
+            if(roomInfo != null){
+                userMgr.sendMsg(userId, 'game_num_push', roomInfo.numOfGames);
+            }
+            userMgr.sendMsg(userId, 'game_over_push', game.lastResult);
+        }
+        return;
+    }
+
+    var data = {
+        button: game.button,
+        turn: game.turn,
+        caishen: game.caishen,
+        caishen2: game.caishen2,
+        fanPai: game.fanPai,
+        playStyle: game.playStyle,
+        numofmj: game.mahjongs.length - game.currentIndex,
+        seats: []
+    };
+    for(var i = 0; i < 4; ++i){
+        var s = game.gameSeats[i];
+        data.seats.push({
+            userid: s.userId,
+            name: s.name,
+            score: s.score,
+            holds: (i === seatIndex) ? s.holds : s.holds.length,
+            folds: s.folds || [],
+            pengs: s.pengs || [],
+            chis: s.chis || [],
+            angangs: s.angangs || [],
+            diangangs: s.diangangs || [],
+            wangangs: s.wangangs || []
+        });
+    }
+    if(roomInfo != null){
+        userMgr.sendMsg(userId, 'game_num_push', roomInfo.numOfGames);
+    }
+    userMgr.sendMsg(userId, 'game_start_push', data);
+
+    // 补发未决操作:否则断线期间错过的吃/碰/杠/胡弹窗会让对家操作永久挂起
+    var mySeatData = game.gameSeats[seatIndex];
+    if(mySeatData != null && hasOperations(mySeatData)){
+        sendOperations(game, mySeatData, game.chuPai);
+    }
 };
 
 exports.hasOperations = hasOperations;

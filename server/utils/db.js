@@ -1287,6 +1287,8 @@ exports.get_game_config = function(type, callback){
             // 诸暨赖倒胡专属开关（t_game_config 里还没这些列时用兜底值）
             tianhu_di: r.tianhu_di != null ? r.tianhu_di : 1,
             cai_diao: r.cai_diao != null ? r.cai_diao : 1,
+            // 包财神专属:每台包台分数（列不存在时用兜底值1）
+            bao_tai_score: r.bao_tai_score != null ? r.bao_tai_score : 1,
             tai_rules: r.tai_rules ? JSON.parse(r.tai_rules) : null,
             auto_dissolve_seconds: r.auto_dissolve_seconds != null ? r.auto_dissolve_seconds : 300,
             enabled: r.enabled

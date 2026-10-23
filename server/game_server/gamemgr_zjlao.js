@@ -44,13 +44,15 @@ function isZi(pai){
 // 数牌：同花色1-9循环；字牌：中→发→白→中（3循环），东→南→西→北→东（4循环）
 function nextCaishenOf(pai){
     if(isZi(pai)){
-        if(pai >= 27 && pai <= 29){
-            // 中发白组：3循环
-            return 27 + ((pai - 27 + 1) % 3);
-        } else {
-            // 东南西北组：4循环
-            return 30 + ((pai - 30 + 1) % 4);
+        // 牌ID以客户端牌面为准: 27中 28发 29白, 30东 31西 32南 33北
+        // 中发白：中→发→白→中 3循环
+        if(pai >= 27 && pai <= 29){ return 27 + ((pai - 27 + 1) % 3); }
+        // 东南西北：东→南→西→北→东 4循环(牌ID顺序 30→32→31→33)
+        var windIds = [30, 32, 31, 33];
+        for(var i = 0; i < 4; ++i){
+            if(windIds[i] === pai){ return windIds[(i + 1) % 4]; }
         }
+        return pai;
     }
     var t = getMJType(pai);
     return t * 9 + ((pai % 9) + 1) % 9;
@@ -691,16 +693,25 @@ function doUserMoPai(game){
     clearAllOptions(game, turnSeat);
     checkCanAnGang(game, turnSeat);
     checkCanWanGang(game, turnSeat);
-    // 赖倒胡:无台数门槛,checkCanHu 通过即可自摸
+    // 赖倒胡:胡法与翻财神相同(checkCanHu),仅无台数门槛
     if(checkCanHu(turnSeat, game.caishen, game.caishen2)){
         turnSeat.canHu = true;
     }
-    // 财吊:手里有财神 + 摸牌前已听牌 → 摸任何一张牌都算能胡
-    // 前提是手牌本身必须是听牌状态(差一张即能组成基础胡法),财神才能"吊"住那张缺的牌
+    // 财吊:手里有财神 + 已听牌(摸牌前tingMap非空) + 财神空出来没参与其他牌
+    // "财神空出来没参与"=假设caishen=-1(财神当普通牌),checkCanHu仍能过
+    // 此时财神闲置在手里,摸任何牌都能胡(财吊翻倍)
     if(!turnSeat.canHu && game.cai_diao){
         var _csCnt = getCaishenCount(turnSeat, game.caishen, game.caishen2);
         var _tingCount = Object.keys(turnSeat.tingMap || {}).length;
+        // 关键:财神没被用来替代牌型,把财神当普通牌也能胡
+        var _csFree = false;
         if(_csCnt > 0 && _tingCount > 0){
+            // 复制一份,假设没有财神能力(caishen=-1)再判一次
+            var _sd = { holds: turnSeat.holds.slice(), pengs: turnSeat.pengs, chis: turnSeat.chis, gangs: turnSeat.gangs };
+            rebuildCountMap(_sd);
+            _csFree = checkCanHu(_sd, -1, null);
+        }
+        if(_csFree){
             turnSeat.caiDiao = true;
             turnSeat.canHu = true;
         }
@@ -834,6 +845,10 @@ function doGameOver(game){
                 if(hi && hi.ishupai){
                     scoreItem.tai = hi.fan || 0;
                     scoreItem.zimo = (hi.action == 'zimo');
+                    //老庄翻倍:连庄中庄家胡牌分数×2,记入明细,结算面板据此显示"(老庄)"解释翻倍原因
+                    if(game.laozhuangCount > 0 && i == game.button){
+                        scoreItem.laozhuang = true;
+                    }
                     break;
                 }
             }
@@ -1019,17 +1034,20 @@ exports.peng = function(userId){
 
     var pai = game.chuPai;
     var discarderIdx = game.turn;
-    var discarder = game.gameSeats[discarderIdx];
-    if(discarder && discarder.folds){
-        var fi = discarder.folds.lastIndexOf(pai);
-        if(fi != -1) discarder.folds.splice(fi, 1);
-    }
 
     var count = seatData.countMap[pai] || 0;
     var removeCs = 0;
     if(!isCaishenPai(game, pai)){
         // 用财神替代：需要2张，已有count张，差(2-count)张用财神
         removeCs = Math.max(0, 2 - count);
+    }
+    // 后台开关:禁止财碰时,凡需要财神补位的碰一律拒绝(动作时再校验一次,不依赖canPeng缓存)
+    if(removeCs > 0 && !game.cai_peng) return;
+
+    var discarder = game.gameSeats[discarderIdx];
+    if(discarder && discarder.folds){
+        var fi = discarder.folds.lastIndexOf(pai);
+        if(fi != -1) discarder.folds.splice(fi, 1);
     }
     // 记录碰组真实组成：被碰的牌 + 手中真牌 + 财神，供客户端区分真碰/财神碰显示
     var realCount = Math.min(count, 2);
@@ -1106,25 +1124,31 @@ exports.gang = function(userId, pai){
         seatData.gangs.push({pai: pai, type: 'an'});
     } else if(game.chuPai == pai && count >= 1 && count + csCount >= 3){
         // 点杠（明杠）：别人打出，需要3张
+        var needCs = 3 - count;
+        // 后台开关:禁止财杠时,需要财神补位的点杠一律拒绝
+        if(needCs > 0 && !game.cai_gang) return;
         var discarderIdx = game.turn;
         var discarder = game.gameSeats[discarderIdx];
         if(discarder && discarder.folds){
             var fi = discarder.folds.lastIndexOf(pai);
             if(fi != -1) discarder.folds.splice(fi, 1);
         }
-        var needCs = 3 - count;
         removePai(count);
         removeCs(needCs);
         seatData.gangs.push({pai: pai, type: 'ming'});
     } else if(!isCaishenPai(game, pai) && count + csCount >= 4 && count >= 2){
         // 暗杠用财神替代
         var needCs = 4 - count;
+        // 后台开关:禁止财杠时,需要财神补位的暗杠一律拒绝
+        if(needCs > 0 && !game.cai_gang) return;
         removePai(count);
         removeCs(needCs);
         seatData.gangs.push({pai: pai, type: 'an'});
     } else {
         // 补杠（弯杠）：碰过的牌手中还有一张（真牌或财神）
         var needCs = (count >= 1) ? 0 : 1;
+        // 后台开关:禁止财杠时,财神补杠一律拒绝
+        if(needCs > 0 && !game.cai_gang) return;
 
         // 抢杠胡窗口期：用真牌弯杠前，先让其他玩家检查能否胡这张要杠的牌
         // 财神补杠暴露的是财神，本身不可接炮胡，checkCanDianPaoHu 自然返回 false，无需额外分支
@@ -1327,6 +1351,19 @@ exports.hu = function(userId){
 
     // 赖倒胡:无台数门槛,checkCanHu 通过即可胡,跳过 minTai 检查
 
+    // 财吊判定(以胡牌后的最终手牌为准):手里有财神,且把财神当普通牌(7筒)也能胡
+    // => 财神空出来没参与任何牌型,即"财吊"。原实现只在 checkCanHu 不通过时才标记,
+    // 导致财神恰好凑成将/顺子时(如两个7筒做将)走正常胡牌分支、漏掉财吊翻倍。
+    // 关键:传进 checkCanHu 的副本必须带 countMap,否则 getCaishenCount 返回 0,
+    // 永远判不出财吊,结算不翻倍。
+    var caiDiaoNow = seatData.caiDiao || false;
+    if(game.cai_diao !== 0 && getCaishenCount(seatData, game.caishen, game.caishen2) > 0){
+        var _cd = { holds: seatData.holds.slice(), pengs: seatData.pengs, chis: seatData.chis, gangs: seatData.gangs };
+        rebuildCountMap(_cd);
+        if(checkCanHu(_cd, -1, null)){ caiDiaoNow = true; }
+    }
+    if(caiDiaoNow){ seatData.caiDiao = true; }
+
     // 计分:底分直接出(不乘 2^tai),翻倍按开关处理
     var baseScore = game.conf.baseScore || 1;
     var score = baseScore;
@@ -1338,7 +1375,7 @@ exports.hu = function(userId){
     }
 
     // 财吊翻倍(后台可配,默认开):手里有财神摸任何牌都能胡
-    if(seatData.caiDiao && game.cai_diao !== 0){
+    if(caiDiaoNow && game.cai_diao !== 0){
         score = score * 2;
         if(seatData.taiLog){ seatData.taiLog.push('财吊×2'); }
     }
@@ -2060,6 +2097,25 @@ function isPingHuCheck(seatData, caishen, caishen2){
 }
 
 exports.checkCanHu = checkCanHu;
+// 翻财神与包财神打法/胡法/算台完全一致，包财神直接复用这里的算法，避免两份实现走偏
+exports.__algo = {
+    getMJType: getMJType,
+    checkCanHu: checkCanHu,
+    checkTingPai: checkTingPai,
+    rebuildCountMap: rebuildCountMap,
+    checkCanPeng: checkCanPeng,
+    checkCanGang: checkCanGang,
+    checkCanAnGang: checkCanAnGang,
+    checkCanWanGang: checkCanWanGang,
+    checkCanChi: checkCanChi,
+    checkCanDianPaoHu: checkCanDianPaoHu,
+    checkCanQiangGang: checkCanQiangGang,
+    calculateTai: calculateTai,
+    isDuiDuiHuCheck: isDuiDuiHuCheck,
+    isPingHuCheck: isPingHuCheck,
+    isCaishenPai: isCaishenPai,
+    getCaishenCount: getCaishenCount
+};
 // 测试钩子：暴露台数计算，供回归测试验证台数规则
 exports.__calculateTai = calculateTai;
 
@@ -2093,6 +2149,10 @@ exports.start = function(roomInfo){
         baoTai: roomInfo.conf.baoTai || 2,
         baoTaiFee: roomInfo.conf.baoTaiFee || 0
     };
+
+    console.log('[zj_lao][start] roomid=' + roomInfo.id +
+        ' cai_chi=' + game.cai_chi + ' cai_peng=' + game.cai_peng + ' cai_gang=' + game.cai_gang +
+        ' dianpao_hu=' + game.dianpao_hu + ' cai_diao=' + game.cai_diao + ' tianhu_di=' + game.tianhu_di);
 
     for(var i = 0; i < 2; ++i){
         var s = roomInfo.seats[i];

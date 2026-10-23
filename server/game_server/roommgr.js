@@ -304,6 +304,11 @@ exports.createRoom = function(creator,roomConf,gems,ip,port,callback){
 								conf.tianhu_di = cfg.tianhu_di != null ? cfg.tianhu_di : 1;
 								conf.cai_diao = cfg.cai_diao != null ? cfg.cai_diao : 1;
 							}
+							// 包财神专属:每台包台分数(结算时包台分=包台数×此值)
+							if(type == "zj_bt" || type == "zj4_bt"){
+								conf.bao_tai_score = cfg.bao_tai_score != null ? cfg.bao_tai_score : 1;
+								// 结算分:胡牌分=底分×2^(台数-1), 包台分=底分×2^(包台数-1), 底分取添加牌桌时选的底分
+							}
 						}
 
 						// 漳浦麻将特有配置：台数规则全部走后台 tai_rules

@@ -61,12 +61,23 @@ function broadcastClubUpdate(roomId,roomInfo){
 //供各玩法 gamemgr 在解散房间时广播俱乐部牌桌清空(必须传销毁前的房间快照)
 exports.broadcastClubUpdatePublic = broadcastClubUpdate;
 
+//先回包、延迟断开:emit 后立刻 disconnect 时底层写缓冲会被丢弃,
+//客户端收不到 exit_result,本地房间状态清不掉(表现为退出后重进仍是旧牌局)
+function replyThenClose(socket,event,data,delay){
+	if(event != null){
+		try{ socket.emit(event,data); }catch(e){}
+	}
+	setTimeout(function(){
+		try{ socket.disconnect(); }catch(e){}
+	},delay == null ? 150 : delay);
+}
+
 exports.start = function(conf,mgr){
 	config = conf;
 	
 	var httpServer = require('http').createServer(app);
 	io = require('socket.io')(httpServer);
-	httpServer.listen(config.CLIENT_PORT);
+	httpServer.listen(config.CLIENT_PORT, "0.0.0.0");
 	
 	io.sockets.on('connection',function(socket){
 		//追踪玩家真实操作时间:包装socket.on,除心跳(game_ping)/断开(disconnect)外的任意消息均刷新活跃时间,
@@ -157,8 +168,9 @@ exports.start = function(conf,mgr){
 				return;
 			}
 
-			var roomId = roomMgr.getUserRoom(userId);
-
+			//注意:不要用内存绑定覆盖客户端请求的 roomId。
+			//用户可能已释放占用(退出/重进/服务重启),此时请求的房间号才是有效目标;
+			//覆盖成 null 会让 getRoom(null) 直接返回"房间已失效",断线重连被误拒。
 			userMgr.bind(userId,socket);
 			socket.userId = userId;
 
@@ -376,16 +388,37 @@ exports.start = function(conf,mgr){
 			socket.gameMgr.youjinContinue(socket.userId);
 		});
 
-		//包财神：庄家选择是否包（caishenMode: 1=单财神 2=双财神）
+		//包财神：庄家选择是否包（caishenMode: 0=无财 1=单财神(独) 2=双财神）
 		socket.on('bao',function(data){
 			if(socket.userId == null || data == null){
 				return;
 			}
+			//客户端Net.js会把对象JSON.stringify成字符串, 必须先解析, 否则isBao读不到会被当成"不包"
+			if(typeof(data) == "string"){
+				try{ data = JSON.parse(data); }catch(e){ return; }
+			}
 			var isBao = data.isBao == true;
 			var baoTai = data.baoTai || 2;
 			var baoTaiFee = data.baoTaiFee || 0;
-			var caishenMode = data.caishenMode || 1;
-			socket.gameMgr.bao(socket.userId, isBao, baoTai, baoTaiFee, caishenMode);
+			//不能用 || :caishenMode=0(无财)是合法值,0||1会被错改成1(独)
+			var caishenMode = data.caishenMode != null ? data.caishenMode : 1;
+			if(socket.gameMgr.bao){
+				socket.gameMgr.bao(socket.userId, isBao, baoTai, baoTaiFee, caishenMode);
+			}
+		});
+
+		//包财神：包家选定财神
+		socket.on('caishen_select',function(data){
+			if(socket.userId == null || data == null){
+				return;
+			}
+			//与chi等事件一致:兼容客户端JSON.stringify后的字符串
+			if(typeof(data) == "string"){
+				try{ data = JSON.parse(data); }catch(e){ return; }
+			}
+			if(socket.gameMgr.caishenSelect){
+				socket.gameMgr.caishenSelect(socket.userId, data.pai);
+			}
 		});
 
 		//吃
@@ -467,8 +500,7 @@ exports.start = function(conf,mgr){
 			var roomId = roomMgr.getUserRoom(userId);
 			console.log('[exit] user=' + userId + ' room=' + roomId);
 			if(roomId == null){
-				socket.emit('exit_result');
-				socket.disconnect();
+				replyThenClose(socket,'exit_result');
 				return;
 			}
 
@@ -477,8 +509,7 @@ exports.start = function(conf,mgr){
 			try{ playing = !!(roomInfo && roomInfo.gameMgr && roomInfo.gameMgr.hasBegan && roomInfo.gameMgr.hasBegan(roomId)); }catch(e){}
 			if(playing){
 				//对局中:仅断开连接,座位/绑定保留(牌局无法中途拆座),断开处理器广播离线状态
-				socket.emit('exit_result');
-				socket.disconnect();
+				replyThenClose(socket,'exit_result');
 				return;
 			}
 
@@ -501,7 +532,7 @@ exports.start = function(conf,mgr){
 						broadcastClubUpdate(roomId,leftRoom);
 					}
 					socket.emit('exit_result');
-					socket.disconnect();
+					setTimeout(function(){ try{ socket.disconnect(); }catch(e){} },150);
 				};
 				//等DB最终一致(座位清空/牌桌解绑)后再广播并回包:
 				//客户端收到推送会立即回查牌桌列表,过早回查会读到旧数据导致"退出后不更新"
@@ -521,27 +552,27 @@ exports.start = function(conf,mgr){
 			var roomId = roomMgr.getUserRoom(userId);
 			console.log('[exit_release] user=' + userId + ' room=' + roomId);
 			if(roomId == null){
-				socket.emit('exit_result');
-				socket.disconnect();
+				replyThenClose(socket,'exit_result');
 				return;
 			}
 
 			var roomInfo = roomMgr.getRoom(roomId);
 			if(roomInfo == null){
-				socket.emit('exit_result');
-				socket.disconnect();
+				replyThenClose(socket,'exit_result');
 				return;
 			}
 
-			//整房解散(先广播再踢,顺序与doDissolve一致)
+			//整房解散(先广播,延迟踢人,避免dispress_push包被立即断开冲掉)
 			userMgr.brocastInRoom(roomId,'dispress_push',{});
-			userMgr.kickAllInRoom(roomId);
 			var snap = JSON.parse(JSON.stringify(roomInfo));
 			snap.seats = [];
-			//等DB解绑落库后再广播,客户端立即回查牌桌列表才能读到清空后的最终态
-			roomMgr.destroy(roomId,function(){
-				broadcastClubUpdate(roomId,snap);
-			});
+			setTimeout(function(){
+				userMgr.kickAllInRoom(roomId);
+				//等DB解绑落库后再广播,客户端立即回查牌桌列表才能读到清空后的最终态
+				roomMgr.destroy(roomId,function(){
+					broadcastClubUpdate(roomId,snap);
+				});
+			},150);
 		});
 
 		//牌局全部结束后,点击"退出房间"发送(与 exit 处理方式一致)
@@ -554,8 +585,7 @@ exports.start = function(conf,mgr){
 			var roomId = roomMgr.getUserRoom(userId);
 			console.log('[leave_room] user=' + userId + ' room=' + roomId);
 			if(roomId == null){
-				socket.emit('exit_result');
-				socket.disconnect();
+				replyThenClose(socket,'exit_result');
 				return;
 			}
 
@@ -564,36 +594,32 @@ exports.start = function(conf,mgr){
 
 			if(roomInfo != null && !allGamesDone){
 				//整场未打完:占用式退出——座位/绑定全部保留(牌桌列表保持占用,可随时重进回到当前状态),仅断开连接
-				socket.emit('exit_result');
-				socket.disconnect();
+				replyThenClose(socket,'exit_result');
 				return;
 			}
 
-			//整场已打完:释放式退出
+			//整场已打完:释放式退出(等座位清空/牌桌解绑落库后再广播并回包)
 			userMgr.broacastInRoom('exit_notify_push',userId,userId,false);
 			userMgr.del(userId);
-			roomMgr.exitRoom(userId);
-
-			var leftRoom = roomMgr.getRoom(roomId);
-			if(leftRoom != null){
-				roomMgr.destroyIfEmpty(roomId);
-				leftRoom = roomMgr.getRoom(roomId);
-			}
-			if(leftRoom == null){
-				//房间已释放:广播座位清空快照,牌桌列表立即清零
-				if(roomInfo != null){
-					var snap = JSON.parse(JSON.stringify(roomInfo));
-					snap.seats = [];
-					broadcastClubUpdate(roomId,snap);
-				}
-			}
-			else{
-				//房间保留(还有其他玩家):广播退出后的最新人数
-				broadcastClubUpdate(roomId,leftRoom);
-			}
-
-			socket.emit('exit_result');
-			socket.disconnect();
+			roomMgr.exitRoom(userId,function(){
+				var finish = function(){
+					var leftRoom = roomMgr.getRoom(roomId);
+					if(leftRoom == null){
+						//房间已释放:广播座位清空快照,牌桌列表立即清零
+						if(roomInfo != null){
+							var snap = JSON.parse(JSON.stringify(roomInfo));
+							snap.seats = [];
+							broadcastClubUpdate(roomId,snap);
+						}
+					}
+					else{
+						//房间保留(还有其他玩家):广播退出后的最新人数
+						broadcastClubUpdate(roomId,leftRoom);
+					}
+					replyThenClose(socket,'exit_result');
+				};
+				roomMgr.destroyIfEmpty(roomId,finish);
+			});
 		});
 
 		//查牌桌列表(俱乐部用)
@@ -625,17 +651,18 @@ exports.start = function(conf,mgr){
 			//解散整房:所有人(含发起者)都收到dispress_push退出房间
 			userMgr.broacastInRoom('dispress_push',{},userId,true);
 			userMgr.sendMsg(userId, 'dispress_push', {});
-			userMgr.kickAllInRoom(roomId);
 
 			//俱乐部牌桌:房间解散后广播人数清零(必须传"座位已清空"的快照)
 			var snap = JSON.parse(JSON.stringify(roomInfo));
 			snap.seats = [];
-			//等DB解绑落库后再广播,客户端立即回查牌桌列表才能读到清空后的最终态
-			roomMgr.destroy(roomId,function(){
-				broadcastClubUpdate(roomId,snap);
-			});
-
-			socket.disconnect();
+			//先让dispress_push发出后再踢连接:立即踢会导致推送包丢失,客户端卡在房间内
+			setTimeout(function(){
+				userMgr.kickAllInRoom(roomId);
+				//等DB解绑落库后再广播,客户端立即回查牌桌列表才能读到清空后的最终态
+				roomMgr.destroy(roomId,function(){
+					broadcastClubUpdate(roomId,snap);
+				});
+			},150);
 		});
 
 		//解散房间

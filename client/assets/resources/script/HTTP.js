@@ -2,7 +2,7 @@
 //   Cocos Creator 预览（浏览器） → 本机 localhost
 //   Android 模拟器 → 10.0.2.2（模拟器访问电脑的 localhost 别名）
 //   Android 真机连同一 WiFi → 电脑局域网 IP
-var _host = "127.0.0.1";
+var _host = "47.239.100.68";
 var _isAndroid = false;
 if(typeof cc !== "undefined"){
     if(cc.sys && cc.sys.platform === cc.sys.ANDROID){

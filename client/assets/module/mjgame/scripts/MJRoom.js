@@ -17,6 +17,7 @@ cc.Class({
         // ...
         _seats:[],
         _seats2:[],
+        _inGame:false,         //开局后置true:聊天/表情只打到游戏界面Seat(seats2),避免准备界面seats重复弹气泡
         _timeLabel:null,
         _voiceMsgQueue:[],
         _lastPlayingSeat:null,
@@ -388,11 +389,19 @@ cc.Class({
                 self.showTotalScorePanel(data);
             }
         };
+        //本机点击"退出房间"后服务端回exit_result并断开socket。
+        //GameNetMgr的disconnect处理器已被忽略标记屏蔽(防重复切场景),必须在这里主动离开房间页,
+        //否则点退出后界面一直停留在房间里不动。
+        var onExitResult = function(){
+            console.log("[room] exit_result:退出成功,返回大厅/俱乐部");
+            self.leaveToHall();
+        };
         sio.on('dispress_push', onDispress);
         sio.on('exit_notify_push', onExit);
         sio.on('game_all_over_push', onAllOver);
         sio.on('game_over_push', onGameOverFinal);
-        this._sioHandlers = { sio:sio, listeners:[onDispress, onExit, onAllOver, onGameOverFinal] };
+        sio.on('exit_result', onExitResult);
+        this._sioHandlers = { sio:sio, listeners:[onDispress, onExit, onAllOver, onGameOverFinal, onExitResult] };
     },
 
     //需求4:显示"本次游戏总分数"面板(隐藏单局结算面板),并驱动 GameResult 填充列表
@@ -417,7 +426,17 @@ cc.Class({
 
     leaveToHall:function(){
         if(this._leaving){ return; }
+        //结算页等流程可能已经自行切到大厅/俱乐部,此时不再重复加载(避免同一次退出切两次场景)
+        var curScene = cc.director.getScene ? cc.director.getScene() : null;
+        var curName = (curScene && curScene.name) ? curScene.name : "";
+        if(curName == "hall" || curName == "club"){ return; }
         this._leaving = true;
+        //解散/退出/被移出房间:socket即将被服务端断开,标记忽略本次disconnect,
+        //否则断开处理器会再切一次场景(房间流程已决定去向),玩家被带到大厅页而非俱乐部
+        //3秒兜底自动复位由GameNetMgr的exit_result/dispress_push处理器统一管理
+        if(cc.vv.gameNetMgr){
+            cc.vv.gameNetMgr._ignoreDisconnectOnce = true;
+        }
         if(cc.vv.fromClubId){
             cc.vv.fromClub = true; //来自俱乐部:回独立俱乐部场景(club.fire),由clubScene根据fromClubId直达玩法详情页
             cc.director.loadScene("club");
@@ -475,8 +494,8 @@ cc.Class({
             var data = data.detail;
             var idx = cc.vv.gameNetMgr.getSeatIndexByID(data.sender);
             var localIdx = cc.vv.gameNetMgr.getLocalIndex(idx);
-            self._seats[localIdx].chat(data.content);
-            self._seats2[localIdx].chat(data.content);
+            var s = self._inGame ? self._seats2[localIdx] : self._seats[localIdx];
+            if(s){ s.chat(data.content); }
         });
         
         this.node.on('quick_chat_push',function(data){
@@ -486,8 +505,8 @@ cc.Class({
             
             var index = data.content;
             var info = cc.vv.chat.getQuickChatInfo(index);
-            self._seats[localIdx].chat(info.content);
-            self._seats2[localIdx].chat(info.content);
+            var s = self._inGame ? self._seats2[localIdx] : self._seats[localIdx];
+            if(s){ s.chat(info.content); }
             
             cc.vv.audioMgr.playSFX(info.sound);
         });
@@ -497,8 +516,8 @@ cc.Class({
             var idx = cc.vv.gameNetMgr.getSeatIndexByID(data.sender);
             var localIdx = cc.vv.gameNetMgr.getLocalIndex(idx);
             console.log(data);
-            self._seats[localIdx].emoji(data.content);
-            self._seats2[localIdx].emoji(data.content);
+            var s = self._inGame ? self._seats2[localIdx] : self._seats[localIdx];
+            if(s){ s.emoji(data.content); }
         });
 
         //需求2:剩余牌数变化时刷新牌墙(game_start/mj_count/game_mopai 都会更新 numOfMJ)
@@ -508,6 +527,7 @@ cc.Class({
 
         //需求1:在 notify 入口打印服务端下发的完整载荷(holds/pengs/chis/gangs),便于实机核对
         this.node.on('game_start',function(data){
+            self._inGame = true;
             var seats = cc.vv.gameNetMgr.seats;
             if(!seats){ return; }
             for(var i = 0; i < seats.length; ++i){

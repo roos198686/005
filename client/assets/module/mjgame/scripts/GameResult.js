@@ -95,7 +95,7 @@ cc.Class({
             var selfUserId = (selfIdx >= 0 && info[selfIdx]) ? info[selfIdx].userid : -1;
             for(var r = 0; r < roundHistory.length; ++r){
                 var rh = roundHistory[r];
-                var selfSc = 0, oppSc = 0, winSide = "", winTai = 0, winZimo = false;
+                var selfSc = 0, oppSc = 0, winSide = "", winTai = 0, winZimo = false, winLZ = false;
                 for(var k = 0; k < rh.scores.length; ++k){
                     var it = rh.scores[k];
                     if(it.userid == selfUserId){ selfSc = it.score; } else { oppSc = it.score; }
@@ -103,11 +103,13 @@ cc.Class({
                         winSide = (it.userid == selfUserId) ? "自家" : "对家";
                         winTai = it.tai;
                         winZimo = !!it.zimo;
+                        winLZ = !!it.laozhuang;
                     }
                 }
                 var line = "第" + rh.index + "局   自家" + this.signedNum(selfSc) + "  对家" + this.signedNum(oppSc);
                 if(winSide != ""){
-                    line += "   " + winSide + "胡" + winTai + "台" + (winZimo ? "(自摸)" : "");
+                    //老庄局庄家胡牌分数×2,标注"(老庄)"解释翻倍原因
+                    line += "   " + winSide + "胡" + winTai + "台" + (winZimo ? "(自摸)" : "") + (winLZ ? "(老庄)" : "");
                 }
                 y -= this.addListRow(box, line, 22, y, selfSc > 0 ? cc.color(34,120,34) : (selfSc < 0 ? cc.color(180,40,40) : cc.color(120,120,120)));
             }

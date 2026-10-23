@@ -27,6 +27,9 @@ cc.Class({
         gamestate:"",
         isOver:false,
         dissoveData:null,
+        waitCaishenMode:null, //包麻将:等待包家定财神的模式缓存(事件在场景就绪前到达被丢弃时,场景onLoad据此补发)
+        waitBaoData:null,     //包麻将:轮到自己叫台的请求缓存(同上)
+        _ignoreDisconnectOnce:false, //主动退出/解散后服务端会断socket,此标记避免disconnect再次切场景造成页面跳动
     },
 
     reset:function(){
@@ -75,6 +78,8 @@ cc.Class({
         this.isOver = false;
         this.dissoveData = null;
         this.overData = null; //清结算补发缓存:防止退出后进新房间场景加载时错误重放上一局的结算弹窗
+        this.waitCaishenMode = null; //清包麻将定财神等待缓存
+        this.waitBaoData = null;     //清包麻将叫台请求缓存
     },
 
     //派发事件：统一包装成 {detail:data}，与各玩法脚本 data.detail 的取值约定保持一致
@@ -158,6 +163,7 @@ cc.Class({
         if(conf == null) return "";
         var name = "诸暨翻财神";
         if(conf.type == "zj_bt") name = "诸暨包麻将";
+        else if(conf.type == "zj_lao") name = "诸暨赖倒胡";
         else if(conf.type == "zj4") name = "诸暨翻财神(4人)";
         else if(conf.type == "zj4_bt") name = "诸暨包麻将(4人)";
         else if(conf.type == "zp") name = "漳浦麻将(2人)";
@@ -213,6 +219,8 @@ cc.Class({
                 self.seats = data.seats;
                 self.seatIndex = self.getSeatIndexByID(cc.vv.userMgr.userId);
                 self.isOver = false;
+                //记录本局玩法类型:退出/结算回俱乐部时用于直达该玩法的牌桌页,而不是默认玩法列表
+                if(data.conf && data.conf.type){ cc.vv.lastGameType = data.conf.type; }
             }
             else{
                 //进房失败:cc.vv.alert 未挂载于任何场景(恒为undefined),直接用等待遮罩显示原因
@@ -252,6 +260,10 @@ cc.Class({
 
         cc.vv.net.addHandler("exit_result",function(data){
             //退出房间:彻底清残留(gamestate/剩余牌数/财神配置等),否则退出后进新房间会直接亮出牌桌
+            //服务端回包后约150ms会断开socket:标记忽略这次disconnect,否则客户端会再切一次场景(页面跳动/被带回默认列表)
+            //3秒兜底自动复位,防止标记残留影响后续真实断线
+            self._ignoreDisconnectOnce = true;
+            setTimeout(function(){ self._ignoreDisconnectOnce = false; }, 3000);
             self.clearRoomState();
         });
 
@@ -269,10 +281,18 @@ cc.Class({
             //解散房间:清除牌局残留状态。原实现只清 roomId/turn/seats,gamestate 会停留在 "begin",
             //再进(新)房间时 onGameBeign 误判"牌局进行中"直接显示牌桌(牌墙) => "解散后重进还有牌"
             //注意:事件名必须与服务端一致(dispress_push),之前写成dispess_push永远收不到,房间状态残留
+            //服务端解散后会踢socket:标记忽略这次disconnect,返回页由房间/结算流程统一处理,避免二次切场景跳动
+            self._ignoreDisconnectOnce = true;
+            setTimeout(function(){ self._ignoreDisconnectOnce = false; }, 3000);
             self.clearRoomState();
         });
 
         cc.vv.net.addHandler("disconnect",function(data){
+            if(self._ignoreDisconnectOnce){
+                //主动退出/解散导致的断开:场景已在退出流程中切换,这里不再重复加载
+                //不主动清零:置位3秒兜底用于异步socket真正断开时的二次触发,防止时间差导致误放行
+                return;
+            }
             if(self.roomId == null){
                 //无房断线:来自俱乐部则回俱乐部场景(由clubScene根据fromClubId直达详情页),否则回大厅
                 cc.director.loadScene(cc.vv.fromClub ? "club" : "hall");
@@ -331,6 +351,11 @@ cc.Class({
             self.conf.caishen2 = data.caishen2;
             self.conf.fanPai = data.fanPai;
             self.conf.playStyle = data.playStyle;
+            self.conf.baoDone = false; //新一局重置:叫台+选财神完成后才置true
+            //包麻将:每局(含重连补发)都以服务端下发的叫台状态为准, 否则上一局的baoMode会残留
+            self.conf.baoMode = (data.baoMode != null) ? data.baoMode : -1;
+            self.conf.baoSeatIndex = (data.baoSeatIndex != null) ? data.baoSeatIndex : -1;
+            self.conf.baoTai = (data.baoTai != null) ? data.baoTai : 0;
             //出牌倒计时(秒),服务端随开局下发(后台taiRules.chupai_timeout可配)
             if(data.chupaiTimeout != null){ self.chupaiTimeout = data.chupaiTimeout; }
             for(var i = 0; i < data.seats.length; ++i){
@@ -495,6 +520,7 @@ cc.Class({
         // 包麻将：叫台选择（轮到自己）
         cc.vv.net.addHandler("bao_select_push",function(data){
             console.log('bao_select_push');
+            self.waitBaoData = data; //缓存:场景未就绪时本事件会被丢弃,场景onLoad据此补发
             self.dispatchEvent('bao_select',data);
         });
 
@@ -504,15 +530,30 @@ cc.Class({
             self.dispatchEvent('bao_turn',data);
         });
 
-        // 包麻将：叫台结果（携带财神）
+        // 包麻将：叫台/定财神结果
         cc.vv.net.addHandler("bao_result_push",function(data){
-            console.log('bao_result_push');
+            console.log('bao_result_push', JSON.stringify(data));
+            self.waitBaoData = null; //叫台结束,清除叫台缓存
             if(self.conf == null) self.conf = {};
-            self.conf.caishen = data.caishen;
-            self.conf.caishen2 = data.caishen2;
-            self.conf.fanPai = data.fanPai;
+            self.conf.baoMode = data.baoMode;
+            // 只有定完财神的 bao_result 才带 caishen, 才清 waitCaishenMode
+            if(data.caishen != null && data.caishen >= 0){
+                self.conf.caishen = data.caishen;
+                self.conf.caishen2 = data.caishen2;
+                self.conf.fanPai = data.fanPai;
+                self.conf.baoDone = true;
+                self.waitCaishenMode = null; // 定财神完成, 清除等待状态
+            }
             if(data.numofmj != null) self.numOfMJ = data.numofmj;
             self.dispatchEvent('bao_result',data);
+        });
+
+        // 包麻将：等待包家选定财神(缓存状态:重进房间时本消息在场景加载前到达,事件会被丢弃,
+        // 场景onLoad据此状态补发caishen_select事件,保证重进后仍能定财神)
+        cc.vv.net.addHandler("caishen_select_push",function(data){
+            console.log('caishen_select_push');
+            self.waitCaishenMode = (data && data.mode != null) ? data.mode : 1;
+            self.dispatchEvent('caishen_select',data);
         });
 
         cc.vv.net.addHandler("game_begin_push",function(data){

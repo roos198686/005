@@ -44,13 +44,15 @@ function isZi(pai){
 // 数牌：同花色1-9循环；字牌：中→发→白→中（3循环），东→南→西→北→东（4循环）
 function nextCaishenOf(pai){
     if(isZi(pai)){
-        if(pai >= 27 && pai <= 29){
-            // 中发白组：3循环
-            return 27 + ((pai - 27 + 1) % 3);
-        } else {
-            // 东南西北组：4循环
-            return 30 + ((pai - 30 + 1) % 4);
+        // 牌ID以客户端牌面为准: 27中 28发 29白, 30东 31西 32南 33北
+        // 中发白：中→发→白→中 3循环
+        if(pai >= 27 && pai <= 29){ return 27 + ((pai - 27 + 1) % 3); }
+        // 东南西北：东→南→西→北→东 4循环(牌ID顺序 30→32→31→33)
+        var windIds = [30, 32, 31, 33];
+        for(var i = 0; i < 4; ++i){
+            if(windIds[i] === pai){ return windIds[(i + 1) % 4]; }
         }
+        return pai;
     }
     var t = getMJType(pai);
     return t * 9 + ((pai % 9) + 1) % 9;
@@ -835,6 +837,10 @@ function doGameOver(game){
                 if(hi && hi.ishupai){
                     scoreItem.tai = hi.fan || 0;
                     scoreItem.zimo = (hi.action == 'zimo');
+                    //老庄翻倍:连庄中庄家胡牌分数×2,记入明细,结算面板据此显示"(老庄)"解释翻倍原因
+                    if(game.laozhuangCount > 0 && i == game.button){
+                        scoreItem.laozhuang = true;
+                    }
                     break;
                 }
             }
@@ -1504,31 +1510,41 @@ exports.guo = function(userId){
     }
 };
 
-// 全拆解(将+面子)搜索:返回字刻加权分最大的拆解 {kes:{pai:组数}} ,无法拆解返回 null
-// 纯财神组刻不计字刻(财神无刻台);东风刻权重2,中发白刻权重1
-// 用于台数统计:非对对胡牌型中"2张字牌+1财神补刻"也能算字刻台
+// 全拆解(将+面子)搜索:返回两种最优拆解 { withPure, noPure }
+// withPure: 允许剩余财神3张成刻(按最高字牌台数=东风刻计)时的最优字刻拆解 {kes, pureKe}
+// noPure: 财神全部用于顺/将/补刻(不成纯财刻)时的最优字刻拆解 {kes}, 不存在则为 null
+// 台数计算对两种拆法分别评分取最高, 保证字刻/清一色/平胡按同一拆法自洽,
+// 避免"财成刻算东风"与"财当筒子算清一色平胡"两种拆法杂交重复计台
 function bestZiKeSplit(countMap, caishenCount){
-    var best = null;
-    var bestScore = -1;
+    var bestPure = null;
+    var bestPureScore = -1;
+    var bestNoPure = null;
+    var bestNoPureScore = -1;
     var ziW = function(p){ return p == 30 ? 2 : 1; }; // 东风刻2台,中发白1台
     function cloneKes(kes){ var r = {}; for(var k in kes) r[k] = kes[k]; return r; }
     function meldDfs(cm, cs, kes, ziScore){
         var first = smallestTile(cm);
         if(first == -1){
             if(cs % 3 == 0){
-                // 纯财神3张成刻:按最高字牌台数(东风刻)计,走后台 dong_ke 配置
-                var pureKe = cs / 3;
-                if(pureKe > 0){
+                if(cs > 0){
+                    // 纯财神3张成刻:按最高字牌台数(东风刻)计,走后台 dong_ke 配置
+                    var pureKe = cs / 3;
                     var totalScore = ziScore + pureKe * 2;
-                    if(totalScore > bestScore){
+                    if(totalScore > bestPureScore){
                         kes[30] = (kes[30] || 0) + pureKe;
-                        bestScore = totalScore;
-                        best = { kes: cloneKes(kes) };
+                        bestPureScore = totalScore;
+                        bestPure = { kes: cloneKes(kes), pureKe: pureKe };
                         kes[30] -= pureKe;
                     }
-                } else if(ziScore > bestScore){
-                    bestScore = ziScore;
-                    best = { kes: cloneKes(kes) };
+                } else {
+                    if(ziScore > bestPureScore){
+                        bestPureScore = ziScore;
+                        bestPure = { kes: cloneKes(kes), pureKe: 0 };
+                    }
+                    if(ziScore > bestNoPureScore){
+                        bestNoPureScore = ziScore;
+                        bestNoPure = { kes: cloneKes(kes) };
+                    }
                 }
             }
             return;
@@ -1609,7 +1625,7 @@ function bestZiKeSplit(countMap, caishenCount){
         }
     }
     tryAll();
-    return best;
+    return { withPure: bestPure, noPure: bestNoPure };
 }
 
 // 计算台数
@@ -1737,8 +1753,9 @@ function calculateTai(seatData, game, isZimo, extraTai){
         [28, 'zfb_ke', 1, '发刻'],
         [29, 'zfb_ke', 1, '白刻']
     ];
-    var handSplit = bestZiKeSplit(countMap, caishenCount);
-    var handKes = handSplit ? handSplit.kes : {};
+    var splitRes = bestZiKeSplit(countMap, caishenCount);
+    var handNoPure = splitRes ? splitRes.noPure : null;
+    var handWithPure = splitRes ? splitRes.withPure : null;
     // 碰/杠中的字刻单独计数
     var pengGangKes = {};
     if(seatData.pengs){
@@ -1752,38 +1769,61 @@ function calculateTai(seatData, game, isZimo, extraTai){
             pengGangKes[gp0] = (pengGangKes[gp0] || 0) + 1;
         }
     }
-    for(var i = 0; i < ziKeDefs.length; ++i){
-        var zp = ziKeDefs[i][0];
-        var keTotal = (handKes[zp] || 0) + (pengGangKes[zp] || 0);
-        if(keTotal > 0){
-            var tn = taiRule(game, ziKeDefs[i][1], ziKeDefs[i][2]) * keTotal;
-            tai += tn; taiLog.push(ziKeDefs[i][3] + '+' + tn);
+
+    // 按同一拆法自洽地算一套台项; pureAsZi=true 表示该拆法中纯财神刻当字牌处理
+    // (财神刻是字→破坏清一色变混一色; 有刻→必非平胡)
+    function calcVariant(handKes, pureAsZi){
+        var vTai = 0;
+        var vLogs = [];
+        for(var i = 0; i < ziKeDefs.length; ++i){
+            var zp = ziKeDefs[i][0];
+            var keTotal = (handKes[zp] || 0) + (pengGangKes[zp] || 0);
+            if(keTotal > 0){
+                var tn = taiRule(game, ziKeDefs[i][1], ziKeDefs[i][2]) * keTotal;
+                vTai += tn; vLogs.push(ziKeDefs[i][3] + '+' + tn);
+            }
         }
+        // 平胡（没刻子）：+1台
+        if(!pureAsZi && isPingHu){
+            var tn1 = taiRule(game, 'ping_hu', 1);
+            vTai += tn1; vLogs.push('平胡+' + tn1);
+        }
+        // 对对胡：+1台
+        if(isDuiDuiHu){
+            var tn2 = taiRule(game, 'duidui_hu', 1);
+            vTai += tn2; vLogs.push('对对胡+' + tn2);
+        }
+        // 花色: 纯财刻当字牌时花色集合加入字 → 清一色不成立,单花色+字=混一色
+        var vHun = isHunYiSe, vQing = isQingYiSe;
+        if(pureAsZi){
+            var suitOnly = Object.keys(suitSet).filter(function(k){ return k !== 'zi'; });
+            vHun = (suitOnly.length == 1);
+            vQing = false;
+        }
+        if(vHun){
+            var tn3 = taiRule(game, 'hun_yise', 1);
+            vTai += tn3; vLogs.push('混一色+' + tn3);
+        }
+        if(vQing){
+            var tn4 = taiRule(game, 'qing_yise', 3);
+            vTai += tn4; vLogs.push('清一色+' + tn4);
+        }
+        return { tai: vTai, logs: vLogs };
     }
 
-    // 3. 平胡（没刻子）：+1台
-    if(isPingHu){
-        var tn = taiRule(game, 'ping_hu', 1);
-        tai += tn; taiLog.push('平胡+'+tn);
+    // 两种拆法分别评分取最高:
+    //  noPure   财神全当普通牌(顺/将/补刻) → 无纯财刻台,清一色/平胡正常
+    //  withPure 剩余财神3张成刻当东风刻    → 有字刻台,但破坏清一色与平胡
+    var variants = [];
+    if(handNoPure){ variants.push(calcVariant(handNoPure.kes, false)); }
+    if(handWithPure && handWithPure.pureKe > 0){ variants.push(calcVariant(handWithPure.kes, true)); }
+    if(variants.length === 0){ variants.push(calcVariant({}, false)); }
+    var bestV = variants[0];
+    for(var vi = 1; vi < variants.length; ++vi){
+        if(variants[vi].tai > bestV.tai){ bestV = variants[vi]; }
     }
-
-    // 4. 对对胡：+1台
-    if(isDuiDuiHu){
-        var tn = taiRule(game, 'duidui_hu', 1);
-        tai += tn; taiLog.push('对对胡+'+tn);
-    }
-
-    // 5. 混一色：+1台
-    if(isHunYiSe){
-        var tn = taiRule(game, 'hun_yise', 1);
-        tai += tn; taiLog.push('混一色+'+tn);
-    }
-
-    // 6. 清一色：+3台
-    if(isQingYiSe){
-        var tn = taiRule(game, 'qing_yise', 3);
-        tai += tn; taiLog.push('清一色+'+tn);
-    }
+    tai = bestV.tai;
+    taiLog = bestV.logs;
 
     // 7. 额外台数（杠上开花 / 抢杠胡）
     tai += extraTai;
@@ -2036,6 +2076,76 @@ function isDuiDuiHuCheck(seatData, caishen, caishen2){
     return false;
 }
 
+// 平胡专用拆顺: 禁止剩余财神成刻(纯财神3张=有刻子必非平胡)
+// 与通用 canFormShun 的终止条件不同: cs===needShun*3 在这里视为失败(成刻=非平胡),
+// 必须 cs===0 && needShun===0 才算拆干净
+function canFormShunPure(countMap, caishenCount, needShun){
+    var first = smallestTile(countMap);
+    if(first == -1){
+        return caishenCount === 0 && needShun === 0;
+    }
+    if(needShun <= 0) return false;
+    if(isZi(first)) return false;
+
+    var v = first % 9;
+    if(v <= 6){
+        var p2 = first + 1, p3 = first + 2;
+        var c2 = countMap[p2] || 0, c3 = countMap[p3] || 0;
+        if(c2 > 0 && c3 > 0){
+            countMap[first]--; countMap[p2]--; countMap[p3]--;
+            var r = canFormShunPure(countMap, caishenCount, needShun - 1);
+            countMap[first]++; countMap[p2]++; countMap[p3]++;
+            if(r) return true;
+        }
+        if(c2 > 0 && caishenCount >= 1){
+            countMap[first]--; countMap[p2]--;
+            var r2 = canFormShunPure(countMap, caishenCount - 1, needShun - 1);
+            countMap[first]++; countMap[p2]++;
+            if(r2) return true;
+        }
+        if(c3 > 0 && caishenCount >= 1){
+            countMap[first]--; countMap[p3]--;
+            var r3 = canFormShunPure(countMap, caishenCount - 1, needShun - 1);
+            countMap[first]++; countMap[p3]++;
+            if(r3) return true;
+        }
+        if(caishenCount >= 2){
+            countMap[first]--;
+            var r4 = canFormShunPure(countMap, caishenCount - 2, needShun - 1);
+            countMap[first]++;
+            if(r4) return true;
+        }
+    }
+    if(v >= 1){
+        var q2 = first + 1;
+        if(v <= 7 && (countMap[q2] || 0) > 0 && caishenCount >= 1){
+            countMap[first]--; countMap[q2]--;
+            var r5 = canFormShunPure(countMap, caishenCount - 1, needShun - 1);
+            countMap[first]++; countMap[q2]++;
+            if(r5) return true;
+        }
+        if(v <= 7 && caishenCount >= 2){
+            countMap[first]--;
+            var r6 = canFormShunPure(countMap, caishenCount - 2, needShun - 1);
+            countMap[first]++;
+            if(r6) return true;
+        }
+        if(v === 8 && caishenCount >= 1){
+            countMap[first]--;
+            var r7 = canFormShunPure(countMap, caishenCount - 1, needShun - 1);
+            countMap[first]++;
+            if(r7) return true;
+        }
+    }
+    if(v === 7 && (countMap[first + 1] || 0) > 0 && caishenCount >= 1){
+        countMap[first]--; countMap[first + 1]--;
+        var r8 = canFormShunPure(countMap, caishenCount - 1, needShun - 1);
+        countMap[first]++; countMap[first + 1]++;
+        if(r8) return true;
+    }
+    return false;
+}
+
 // 判断是否平胡：全顺子+将，无任何刻子（与zj4/bmj/zj4_bt严格版对齐）
 // 有碰/杠副露、或手牌中存在真刻/财神补刻的牌型一律不算平胡（顺刻混合无台型，不够起胡门槛则不弹胡）
 function isPingHuCheck(seatData, caishen, caishen2){
@@ -2050,23 +2160,26 @@ function isPingHuCheck(seatData, caishen, caishen2){
 
     // 选将：真牌对 / 真牌+财神 / 两张财神；其余牌必须全部能拆成顺子(财神可补顺)
     // 手牌中的刻子(如1万x3)或财神补刻(2万2万+财神)无法拆成纯顺子,自然判为非平胡
+    // 平胡将牌不能是字牌: 真字对、字牌+财神均排除; 纯财对仅在财神本身不是字牌时允许(财神是字则财对=字对)
+    var csPairOk = !isZi(caishen) && (caishen2 == null || caishen2 < 0 || !isZi(caishen2));
     var labels = Object.keys(countMap);
     for(var i = 0; i < labels.length; ++i){
         var p = parseInt(labels[i]);
+        if(isZi(p)) continue;
         if(countMap[p] >= 2){
             countMap[p] -= 2;
-            var ok = canFormShun(countMap, cs, needShun);
+            var ok = canFormShunPure(countMap, cs, needShun);
             countMap[p] += 2;
             if(ok) return true;
         }
         if(countMap[p] >= 1 && cs >= 1){
             countMap[p] -= 1;
-            var ok2 = canFormShun(countMap, cs - 1, needShun);
+            var ok2 = canFormShunPure(countMap, cs - 1, needShun);
             countMap[p] += 1;
             if(ok2) return true;
         }
     }
-    if(cs >= 2 && canFormShun(countMap, cs - 2, needShun)) return true;
+    if(csPairOk && cs >= 2 && canFormShunPure(countMap, cs - 2, needShun)) return true;
     return false;
 }
 

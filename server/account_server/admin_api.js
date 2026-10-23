@@ -110,6 +110,7 @@ app.get('/admin/game_configs', auth, function(req, res){
                 dianpao_hu: r.dianpao_hu,
                 tianhu_di: r.tianhu_di != null ? r.tianhu_di : 1,
                 cai_diao: r.cai_diao != null ? r.cai_diao : 1,
+                bao_tai_score: r.bao_tai_score != null ? r.bao_tai_score : 1,
                 auto_dissolve_seconds: r.auto_dissolve_seconds != null ? r.auto_dissolve_seconds : 300,
                 enabled: r.enabled,
                 sort: r.sort
@@ -137,11 +138,12 @@ app.post('/admin/game_config', auth, function(req, res){
     var dianpaoHu = c.dianpao_hu != null ? c.dianpao_hu : 1;
     var tianhuDi = c.tianhu_di != null ? c.tianhu_di : 1;
     var caiDiao = c.cai_diao != null ? c.cai_diao : 1;
+    var baoTaiScore = c.bao_tai_score != null ? (parseInt(c.bao_tai_score) || 0) : 1;
     var autoDissolve = parseInt(c.auto_dissolve_seconds) || 300;
-    var sql = 'INSERT INTO t_game_config(type,name,difen_options,jushu_options,cost_options,chips_options,max_players,max_tai,caishen_cpg,cai_chi,cai_peng,cai_gang,dianpao_hu,tianhu_di,cai_diao,auto_dissolve_seconds,tai_rules,enabled,sort) VALUES("'
+    var sql = 'INSERT INTO t_game_config(type,name,difen_options,jushu_options,cost_options,chips_options,max_players,max_tai,caishen_cpg,cai_chi,cai_peng,cai_gang,dianpao_hu,tianhu_di,cai_diao,bao_tai_score,auto_dissolve_seconds,tai_rules,enabled,sort) VALUES("'
         + c.type + '","' + c.name + '","' + difen + '","' + jushu + '","' + cost + '","' + chips + '",'
         + (c.max_players || 2) + ',' + (c.max_tai || 10) + ',' + (c.caishen_cpg != null ? c.caishen_cpg : 1) + ','
-        + caiChi + ',' + caiPeng + ',' + caiGang + ',' + dianpaoHu + ',' + tianhuDi + ',' + caiDiao + ',' + autoDissolve + ','
+        + caiChi + ',' + caiPeng + ',' + caiGang + ',' + dianpaoHu + ',' + tianhuDi + ',' + caiDiao + ',' + baoTaiScore + ',' + autoDissolve + ','
         + (taiRules ? "'" + taiRules + "'" : 'NULL') + ','
         + (c.enabled ? 1 : 0) + ',' + (c.sort || 0) + ')';
     db.query(sql, function(err, result){
@@ -170,6 +172,7 @@ app.put('/admin/game_config/:id', auth, function(req, res){
     if(c.dianpao_hu != null) sets.push('dianpao_hu=' + (c.dianpao_hu ? 1 : 0));
     if(c.tianhu_di != null) sets.push('tianhu_di=' + (c.tianhu_di ? 1 : 0));
     if(c.cai_diao != null) sets.push('cai_diao=' + (c.cai_diao ? 1 : 0));
+    if(c.bao_tai_score != null) sets.push('bao_tai_score=' + (parseInt(c.bao_tai_score) || 0));
     if(c.auto_dissolve_seconds != null) sets.push('auto_dissolve_seconds=' + (parseInt(c.auto_dissolve_seconds) || 300));
     if(c.enabled != null) sets.push('enabled=' + (c.enabled ? 1 : 0));
     if(c.sort != null) sets.push('sort=' + c.sort);
