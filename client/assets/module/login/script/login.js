@@ -91,10 +91,8 @@ cc.Class({
         
         this._mima = ["A","A","B","B","A","B","A","B","A","A","A","B","B","B"];
         
-        //判断是否原生 是否是windows
-        if(!cc.sys.isNative || cc.sys.os == cc.sys.OS_WINDOWS){
-            cc.find("Canvas/global/button/btn_yk").active = true;//显示游客登入按钮
-        }
+        //游客登录按钮：原生(H5/安卓/iOS)与windows 均显示，方便一键进入
+        cc.find("Canvas/global/button/btn_yk").active = true;
     },
     
     start:function(){

@@ -1,24 +1,15 @@
-// 服务器地址：
-//   Cocos Creator 预览（浏览器） → 本机 localhost
-//   Android 模拟器 → 10.0.2.2（模拟器访问电脑的 localhost 别名）
-//   Android 真机连同一 WiFi → 电脑局域网 IP
+// 服务器地址：统一使用公网地址，真机/模拟器/H5 均可直连
 var _host = "47.239.100.68";
 var _isAndroid = false;
 if(typeof cc !== "undefined"){
     if(cc.sys && cc.sys.platform === cc.sys.ANDROID){
-        _host = "10.0.2.2"; // Android 模拟器
-        _isAndroid = true;
+        _isAndroid = true; // 仅记录平台，不再改写服务器地址（10.0.2.2 仅模拟器可用，真机会连不上）
     }
 }
 var URL = "http://" + _host + ":9000";
 
-// 全局 helper：把服务器返回的 127.0.0.1 / localhost 在 Android 上重写成 10.0.2.2
-// 统一处理账号服 halladdr、游戏服 ip 等地址字段
+// 全局 helper：原先把 127.0.0.1 改写成 10.0.2.2，真机无法访问，现统一原样返回
 function rewriteHost(raw){
-    if(typeof raw !== "string" || !raw.length) return raw;
-    if(_isAndroid){
-        return raw.replace(/127\.0\.0\.1/g, "10.0.2.2").replace(/localhost/g, "10.0.2.2");
-    }
     return raw;
 }
 if(typeof window !== "undefined"){ window.__rewriteHost = rewriteHost; }
