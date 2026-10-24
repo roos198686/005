@@ -38,7 +38,7 @@ jobs:
           path: client/build/jsb-default/frameworks/runtime-src/proj.android-studio/app/build/outputs/apk/release/*.apk
 
   ios:
-    runs-on: macos-13
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
 
