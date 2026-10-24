@@ -1,6 +1,7 @@
-//强制使用JS版socket.io客户端:jsb原生端引擎预置的window.io是socket.io 1.x老协议(EIO=2),
-//与服务端socket.io 2.x(EIO=3)不兼容,握手响应无法解析导致connect永不触发、login发不出(原生端进房黑屏)
-window.io = require("socket-io");
+//强制加载JS版socket.io客户端:模块执行时会将window.io设为v2协议客户端,
+//覆盖jsb引擎预置的0.9老协议客户端(老客户端与服务端socket.io 2.x不兼容,握手后无法解析导致原生端进房黑屏)。
+//注意:不能直接 window.io = require("socket-io"),该库通过副作用设置window.io,模块本身无导出
+require("socket-io");
  
 var Global = cc.Class({
     extends: cc.Component,
