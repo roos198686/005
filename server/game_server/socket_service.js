@@ -80,6 +80,11 @@ exports.start = function(conf,mgr){
 	httpServer.listen(config.CLIENT_PORT, "0.0.0.0");
 	
 	io.sockets.on('connection',function(socket){
+		//连接级日志:定位原生端(iOS/Android jsb)socket是否到达服务端、是否秒断
+		console.log('[conn] id=' + socket.id + ' addr=' + socket.handshake.address + ' transport=' + (socket.conn && socket.conn.transport && socket.conn.transport.name));
+		socket.on('disconnect',function(reason){
+			console.log('[conn] disconnect id=' + socket.id + ' reason=' + reason);
+		});
 		//追踪玩家真实操作时间:包装socket.on,除心跳(game_ping)/断开(disconnect)外的任意消息均刷新活跃时间,
 		//供房间"无动作/断线超时自动解散"功能使用(秒数由后台玩法配置)
 		var _origOn = socket.on.bind(socket);
