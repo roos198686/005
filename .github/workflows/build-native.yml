@@ -31,11 +31,25 @@ jobs:
           ./gradlew --no-daemon :SCMJ:assembleRelease \
             -Dorg.gradle.jvmargs="-Xmx4g" --stacktrace
 
+      - name: Sign APK
+        run: |
+          BT=$ANDROID_HOME/build-tools/28.0.3
+          OUT="client/build/jsb-default/frameworks/runtime-src/proj.android-studio/app/build/outputs/apk/release"
+          UNSIGNED=$(ls $OUT/*-unsigned.apk | head -1)
+          echo "unsigned: $UNSIGNED"
+          keytool -genkeypair -v -keystore scmj.jks -keyalg RSA -keysize 2048 -validity 10000 \
+            -alias scmj -storepass scmj123456 -keypass scmj123456 \
+            -dname "CN=SCMJ, OU=Dev, O=SCMJ, L=PZ, ST=SC, C=CN" > /dev/null 2>&1
+          $BT/zipalign -f -p 4 "$UNSIGNED" SCMJ-aligned.apk
+          $BT/apksigner sign --ks scmj.jks --ks-pass pass:scmj123456 --key-pass pass:scmj123456 \
+            --v1-signing-enabled true --v2-signing-enabled true --out SCMJ-signed.apk SCMJ-aligned.apk
+          $BT/apksigner verify --print-certs SCMJ-signed.apk
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: SCMJ-android-unsigned
-          path: client/build/jsb-default/frameworks/runtime-src/proj.android-studio/app/build/outputs/apk/release/*.apk
+          name: SCMJ-android-signed
+          path: SCMJ-signed.apk
 
   ios:
     runs-on: macos-latest
