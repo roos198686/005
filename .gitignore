@@ -30,9 +30,12 @@ client_backup_*/
 client/temp/
 client/library/
 client/local/
-client/build/
+client/build/*
 client/profiles/
 client/.trae/
+
+# 原生工程 jsb-default 需要推送到 GitHub 供云端编译,但忽略其它构建产物
+!client/build/jsb-default/
 
 # === 系统 ===
 .DS_Store

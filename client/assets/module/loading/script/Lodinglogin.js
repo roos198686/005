@@ -1,6 +1,7 @@
 // Compatible with v1.5.0+: loadResAll 指向 cc.resources.loadDir,避免 cc.loader 弃用警告
-if (!cc.loader.loadResAll) {
-    cc.loader.loadResAll = cc.resources.loadDir;
+// 注意:构建worker环境中 cc.loader/cc.resources 可能不存在,必须判空,否则模块加载失败导致场景里的组件被剔除
+if (cc.loader && !cc.loader.loadResAll && cc.resources) {
+    cc.loader.loadResAll = cc.resources.loadDir.bind(cc.resources);
 }
 
 
