@@ -1,7 +1,9 @@
-//强制加载JS版socket.io客户端:模块执行时会将window.io设为v2协议客户端,
-//覆盖jsb引擎预置的0.9老协议客户端(老客户端与服务端socket.io 2.x不兼容,握手后无法解析导致原生端进房黑屏)。
-//注意:不能直接 window.io = require("socket-io"),该库通过副作用设置window.io,模块本身无导出
-require("socket-io");
+﻿//强制加载JS版socket.io客户端,兼容两种模块包装:
+//1.打包bundle:库无导出,执行时通过副作用把window.io设为v2协议客户端(覆盖jsb引擎预置的0.9老协议客户端)
+//2.预览/quick-scripts:库通过module.exports导出,需手动把导出对象赋给window.io
+//(jsb引擎预置的0.9老客户端与服务端socket.io 2.x不兼容,握手后无法解析导致原生端进房黑屏)
+var __jsbio = require("socket-io");
+if( __jsbio != null && __jsbio.connect) { window.io = __jsbio; }
  
 var Global = cc.Class({
     extends: cc.Component,
@@ -39,7 +41,10 @@ var Global = cc.Class({
                 'force new connection': true,
                 'transports':['websocket', 'polling']
             }
-            this.sio = window.io.connect(this.ip,opts);
+            //jsb无window.location,无协议头的host:port无法被JS版socket.io解析,必须显式补http://
+            var url = this.ip;
+            if(url.indexOf('://') < 0){ url = 'http://' + url; }
+            this.sio = window.io.connect(url,opts);
             this.sio.on('reconnect',function(){
                 console.log('reconnection');
             });
