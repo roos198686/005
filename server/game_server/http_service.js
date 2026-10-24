@@ -227,15 +227,15 @@ function update(){
 		lastTickTime = Date.now();
 		gameServerInfo.load = roomMgr.getTotalRooms();
 		http.get(config.HALL_IP,config.HALL_PORT,"/register_gs",gameServerInfo,function(ret,data){
-			if(ret == true){
-				if(data.errcode != 0){
-					console.log(data.errmsg);
+				if(ret == true){
+					if(data.errcode != 0){
+						console.log(data.errmsg);
+					}
+
+					//对外地址固定用配置CLIENT_IP:大厅回的data.ip是心跳来源地址(req.ip),
+					//同机部署时为127.0.0.1,客户端拿到会连回自身导致进房黑屏
+					serverIp = config.CLIENT_IP;
 				}
-				
-				if(data.ip != null){
-					serverIp = data.ip;
-				}
-			}
 			else{
 				//
 				lastTickTime = 0;
@@ -252,6 +252,8 @@ function update(){
 
 exports.start = function($config){
 	config = $config;
+	//对外socket地址:初始化即取配置CLIENT_IP,避免首跳前建房拿到空地址
+	serverIp = config.CLIENT_IP;
 
 	//
 	gameServerInfo = {
