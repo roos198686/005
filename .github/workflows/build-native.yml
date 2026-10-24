@@ -2,12 +2,6 @@ name: Build Native Packages
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-
-env:
-  ENGINE_URL: https://github.com/cocos-creator/engine-native/archive/refs/tags/v2.4.15.tar.gz
-  ENGINE_DIR: cocos2d-x
 
 jobs:
   android:
@@ -20,15 +14,6 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-
-      - name: Download Cocos2d-x engine
-        run: |
-          curl -L "$ENGINE_URL" -o engine.tar.gz
-          tar xzf engine.tar.gz
-          mv engine-native-2.4.15 "$ENGINE_DIR"
-          # 项目工程引用的引擎路径
-          mkdir -p client/build/jsb-default/frameworks
-          mv "$ENGINE_DIR" client/build/jsb-default/frameworks/cocos2d-x
 
       - name: Install NDK r21e
         run: |
@@ -55,14 +40,6 @@ jobs:
     runs-on: macos-13
     steps:
       - uses: actions/checkout@v4
-
-      - name: Download Cocos2d-x engine
-        run: |
-          curl -L "$ENGINE_URL" -o engine.tar.gz
-          tar xzf engine.tar.gz
-          mv engine-native-2.4.15 "$ENGINE_DIR"
-          mkdir -p client/build/jsb-default/frameworks
-          mv "$ENGINE_DIR" client/build/jsb-default/frameworks/cocos2d-x
 
       - name: Build unsigned iOS app
         working-directory: client/build/jsb-default/frameworks/runtime-src/proj.ios_mac
