@@ -42,6 +42,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Re-archive libwebp (旧归档成员未 8 字节对齐,新 ld 拒绝)
+        run: |
+          LIBS="$GITHUB_WORKSPACE/client/build/jsb-default/frameworks/cocos2d-x/external/ios/libs"
+          lipo "$LIBS/libwebp.a" -thin arm64 -output /tmp/webp_arm64.a || cp "$LIBS/libwebp.a" /tmp/webp_arm64.a
+          rm -rf /tmp/wp && mkdir -p /tmp/wp && cd /tmp/wp
+          ar x /tmp/webp_arm64.a
+          libtool -static -o /tmp/webp_fixed.a *.o
+          cp /tmp/webp_fixed.a "$LIBS/libwebp.a"
+          lipo -info "$LIBS/libwebp.a"
+
       - name: Build unsigned iOS app
         working-directory: client/build/jsb-default/frameworks/runtime-src/proj.ios_mac
         run: |
