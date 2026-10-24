@@ -1,6 +1,6 @@
-if(window.io == null){
-    window.io = require("socket-io");
-}
+//强制使用JS版socket.io客户端:jsb原生端引擎预置的window.io是socket.io 1.x老协议(EIO=2),
+//与服务端socket.io 2.x(EIO=3)不兼容,握手响应无法解析导致connect永不触发、login发不出(原生端进房黑屏)
+window.io = require("socket-io");
  
 var Global = cc.Class({
     extends: cc.Component,
