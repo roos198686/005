@@ -76,7 +76,9 @@ exports.start = function(conf,mgr){
 	config = conf;
 	
 	var httpServer = require('http').createServer(app);
-	io = require('socket.io')(httpServer);
+	//禁用permessage-deflate:Cocos原生(jsb)WebSocket客户端的压缩扩展实现有缺陷,
+	//协商成功后帧解析异常导致连接秒断、回退polling也发不出数据(iOS进房黑屏)
+	io = require('socket.io')(httpServer, { perMessageDeflate: false, httpCompression: false });
 	httpServer.listen(config.CLIENT_PORT, "0.0.0.0");
 	
 	io.sockets.on('connection',function(socket){
