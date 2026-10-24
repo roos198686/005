@@ -53,6 +53,7 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
+            OTHER_LDFLAGS='$(inherited) -lwebp' \
             build
 
       - name: Package unsigned IPA
