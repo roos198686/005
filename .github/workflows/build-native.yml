@@ -22,14 +22,14 @@ jobs:
           $SDKMANAGER --sdk_root=$ANDROID_HOME "ndk;21.4.7075529" "platforms;android-27" "build-tools;28.0.3"
           echo "NDK=$ANDROID_HOME/ndk/21.4.7075529" >> $GITHUB_ENV
           echo "sdk.dir=$ANDROID_HOME" > client/build/jsb-default/frameworks/runtime-src/proj.android-studio/local.properties
+          echo "ndk.dir=$ANDROID_HOME/ndk/21.4.7075529" >> client/build/jsb-default/frameworks/runtime-src/proj.android-studio/local.properties
 
       - name: Build unsigned release APK
         working-directory: client/build/jsb-default/frameworks/runtime-src/proj.android-studio
         run: |
           chmod +x gradlew
           ./gradlew --no-daemon assembleRelease \
-            -PNDK_ROOT=$NDK \
-            -Dorg.gradle.jvmargs="-Xmx4g"
+            -Dorg.gradle.jvmargs="-Xmx4g" --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
