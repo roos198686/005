@@ -2,6 +2,8 @@ name: Build Native Packages
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
 
 env:
   ENGINE_URL: https://github.com/cocos-creator/engine-native/archive/refs/tags/v2.4.15.tar.gz
