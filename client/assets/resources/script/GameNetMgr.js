@@ -80,12 +80,39 @@ cc.Class({
         this.overData = null; //清结算补发缓存:防止退出后进新房间场景加载时错误重放上一局的结算弹窗
         this.waitCaishenMode = null; //清包麻将定财神等待缓存
         this.waitBaoData = null;     //清包麻将叫台请求缓存
+        this._pendingEvents = [];    //清事件队列:防止上一房间残留事件重放进新房间场景
+    },
+
+    onLoad:function(){
+        //dataEventHandler改为存取器:场景一绑定立即按序重放排队事件(场景异步加载期间事件不再丢弃)
+        this._pendingEvents = [];
+        var handler = null, self = this;
+        Object.defineProperty(this,'dataEventHandler',{
+            configurable:true,
+            get:function(){ return handler; },
+            set:function(v){
+                handler = v;
+                if(v && self._pendingEvents.length){
+                    var q = self._pendingEvents;
+                    self._pendingEvents = [];
+                    for(var i = 0; i < q.length; ++i){
+                        console.log('[GameNetMgr] 重放事件', q[i].event);
+                        v.emit(q[i].event, {detail:q[i].data});
+                    }
+                }
+            }
+        });
     },
 
     //派发事件：统一包装成 {detail:data}，与各玩法脚本 data.detail 的取值约定保持一致
     dispatchEvent(event,data){
+        console.log('[GameNetMgr.dispatchEvent] event=',event,' dataEventHandler=',!!this.dataEventHandler);
         if(this.dataEventHandler){
             this.dataEventHandler.emit(event,{detail:data});
+        } else {
+            if(this._pendingEvents == null) this._pendingEvents = [];
+            if(this._pendingEvents.length < 300) this._pendingEvents.push({event:event,data:data});
+            console.error('[GameNetMgr.dispatchEvent] dataEventHandler is NULL! event=' + event + ' 已入队待重放');
         }
     },
 
@@ -124,9 +151,13 @@ cc.Class({
         var type = this.conf && this.conf.type;
         if(type == "zj_lao") return "mjgame_zjlao"; // 诸暨赖倒胡(2人,无台数门槛,财吊)
         if(type == "zj_bt") return "mjgame_bmj";
+        if(type == "zj_zx") return "mjgame_zjzx";   // 诸暨自选麻将(2人,自选财神)
+        if(type == "zj4_zx") return "mjgame_zjzx4"; // 诸暨自选麻将(4人,自选财神)
         if(type == "zp") return "mjgame_zp";
         if(type == "zp4") return "mjgame_zp4";
         if(type == "wujin") return "mjgame_wujin";
+        if(type == "guanpai2") return "mjgame_gp2"; // 关牌(扑克) 2人
+        if(type == "guanpai3") return "mjgame_gp3"; // 关牌(扑克) 3人
         return "mjgame_ldh";
     },
 
@@ -160,19 +191,51 @@ cc.Class({
 
     getWanfa:function(){
         var conf = this.conf;
-        if(conf == null) return "";
+        if(conf == null){ console.log("[getWanfa] conf IS NULL"); return ""; }
+        // 诊断:把 conf 所有字段都打出来,一目了然
+        var dbg = {};
+        for(var k in conf){ dbg[k] = typeof conf[k] === "string" && conf[k].length > 60 ? conf[k].substring(0,60)+"..." : conf[k]; }
+        console.log("[getWanfa] conf keys=", Object.keys(conf), "dbg=", JSON.stringify(dbg));
         var name = "诸暨翻财神";
-        if(conf.type == "zj_bt") name = "诸暨包麻将";
+        if(conf.type == "zj") name = "诸暨翻财神";
+        else if(conf.type == "zj_bt") name = "诸暨包麻将";
         else if(conf.type == "zj_lao") name = "诸暨赖倒胡";
         else if(conf.type == "zj4") name = "诸暨翻财神(4人)";
         else if(conf.type == "zj4_bt") name = "诸暨包麻将(4人)";
         else if(conf.type == "zp") name = "漳浦麻将(2人)";
         else if(conf.type == "zp4") name = "漳浦麻将(4人)";
         else if(conf.type == "wujin") name = "漳浦无金麻将";
+        else if(conf.type == "zj_zx") name = "诸暨自选麻将";
+        else if(conf.type == "zj4_zx") name = "诸暨自选麻将(4人)";
+        else if(conf.type) name = conf.type;
         var strArr = [name];
-        if(conf.maxGames != null) strArr.push(conf.maxGames + "局");
-        if(conf.maxTai != null) strArr.push(conf.maxTai + "台封顶");
-        return strArr.join(" ");
+        // 底分:优先 conf.baseScore (roommgr驼峰),fallback conf.base_score/conf.base (兼容旧版)
+        var baseScore = conf.baseScore != null ? conf.baseScore : (conf.base_score != null ? conf.base_score : conf.base);
+        console.log("[getWanfa] baseScore=", baseScore, " conf.baseScore=", conf.baseScore, " conf.base_score=", conf.base_score, " conf.base=", conf.base);
+        if(baseScore != null && baseScore !== "" && baseScore > 0) strArr.push("底分" + baseScore);
+        else console.log("[getWanfa] baseScore SKIPPED (null/empty/0)");
+        // 台封顶:优先 conf.maxTai,fallback conf.max_tai (兼容旧版)
+        var maxTaiVal = conf.maxTai != null ? conf.maxTai : conf.max_tai;
+        console.log("[getWanfa] maxTaiVal=", maxTaiVal, " conf.maxTai=", conf.maxTai);
+        if(maxTaiVal != null && maxTaiVal > 0) strArr.push(maxTaiVal + "台封顶");
+        // 局数
+        console.log("[getWanfa] maxGames=", conf.maxGames, " conf.max_games=", conf.max_games);
+        if(conf.maxGames != null && conf.maxGames > 0) strArr.push(conf.maxGames + "局");
+        // 诸暨系显示起胡台数
+        var isZJTai = (conf.type == "zj" || conf.type == "zj_bt" || conf.type == "zj4" || conf.type == "zj4_bt" || conf.type == "zj_zx" || conf.type == "zj4_zx");
+        if(isZJTai){
+            // taiRules 可能是字符串(admin_api JSON.stringify 入库),也可能是对象,也可能是 null
+            var tr = conf.taiRules;
+            if(tr != null && typeof tr === "string"){
+                try{ tr = JSON.parse(tr); }catch(e){ console.log("[getWanfa] taiRules parse FAIL:", e.message); tr = null; }
+            }
+            console.log("[getWanfa] taiRules after parse=", tr);
+            var minTai = (tr && tr.min_tai != null) ? Number(tr.min_tai) : 1;
+            if(minTai > 0){ strArr.push(minTai + "台起胡"); }
+        }
+        var result = strArr.join(" ");
+        console.log("[getWanfa] FINAL=", result);
+        return result;
     },
 
     //应用服务端下发的手牌数据：本座位为完整数组，其他座位仅为数量(number)。
@@ -294,8 +357,9 @@ cc.Class({
                 return;
             }
             if(self.roomId == null){
-                //无房断线:来自俱乐部则回俱乐部场景(由clubScene根据fromClubId直达详情页),否则回大厅
-                cc.director.loadScene(cc.vv.fromClub ? "club" : "hall");
+                //无房断线:来自俱乐部则回俱乐部场景(由clubScene根据fromClubId直达详情页),否则回大厅牌桌页面
+                if(cc.vv.fromClub || cc.vv.fromClubId) cc.director.loadScene("club");
+                else cc.director.loadScene("hall");
             }
             else{
                 if(self.isOver == false){
@@ -378,6 +442,13 @@ cc.Class({
                 self.initSeatData(seat);
                 seat.ready = false;
                 seat.hued = false;
+            }
+            // 重进房间: 原样呈现服务端状态, 不自动做任何操作(不自动mopai/不自动弹窗)
+            // 服务端已补发: game_caishen_plans_push(选财神中)、game_action_push(有操作选项)
+            self.selectingCaishen = !!data.selectingCaishen;
+            // 选财神方案直接在game_start_push里带过来, 不依赖game_caishen_plans_push时序
+            if(data.plans && data.plans.length > 0){
+                self.waitCaishenPlans = data.plans;
             }
             self.dispatchEvent('game_start');
         });
@@ -556,6 +627,87 @@ cc.Class({
             self.dispatchEvent('caishen_select',data);
         });
 
+        cc.vv.net.addHandler("game_caishen_plans_push",function(data){
+            console.log('game_caishen_plans_push', JSON.stringify(data));
+            if(!data || !data.plans){
+                self.waitCaishenPlans = null;
+                self.dispatchEvent('game_caishen_plans',{plans:[]});
+                return;
+            }
+            self.waitCaishenPlans = data.plans;
+            self.dispatchEvent('game_caishen_plans',{plans:data.plans});
+        });
+
+        // ===== 关牌(扑克) 推送桥接 =====
+        function onGpStartData(data){
+            self.gamestate = "begin";
+            self.gpMyCards = (data && data.myCards ? data.myCards : []).slice();
+            self.gpMySeat = (data && data.mySeat != null) ? data.mySeat : self.seatIndex;
+            self.gpTurn = data ? (data.startSeat != null ? data.startSeat : data.turn) : 0;
+            self.gpFreePlay = data ? !!data.freePlay : true;
+            self.gpLastPlay = (data && data.lastPlay) ? data.lastPlay : null;
+            self.gpSeats = data ? data.seats : null;
+            self.gpTurnDeadline = data ? data.turnDeadline : 0;
+            self.waitGpStart = data;
+            self.dispatchEvent('gp_start', data);
+        }
+        cc.vv.net.addHandler("gp_start_push",function(data){
+            console.log('gp_start_push', data ? JSON.stringify(data.myCards) : '');
+            onGpStartData(data);
+        });
+        // 重连补发, 事件同名(GPGame 走同一条恢复流程)
+        cc.vv.net.addHandler("gp_resend_push",function(data){
+            console.log('gp_resend_push', data ? JSON.stringify(data.myCards) : '');
+            onGpStartData(data);
+        });
+        cc.vv.net.addHandler("gp_chupai_push",function(data){
+            if(!data) return;
+            console.log('gp_chupai_push seat=', data.seatIndex);
+            if(data.seatIndex == self.gpMySeat && self.gpMyCards){
+                var rest = self.gpMyCards.slice();
+                (data.pais || []).forEach(function(p){
+                    var ix = rest.indexOf(p);
+                    if(ix >= 0) rest.splice(ix, 1);
+                });
+                self.gpMyCards = rest;
+            }
+            if(data.seats) self.gpSeats = data.seats;
+            self.gpFreePlay = false;
+            self.gpLastPlay = {
+                seatIndex: data.seatIndex, type: data.type, key: data.key,
+                len: data.len, bombLevel: data.bombLevel || 0, pais: (data.pais || []).slice()
+            };
+            self.dispatchEvent('gp_chupai', data);
+        });
+        cc.vv.net.addHandler("gp_turn_push",function(data){
+            if(!data) return;
+            console.log('gp_turn_push turn=', data.turn);
+            self.gpTurn = data.turn;
+            self.gpFreePlay = !!data.freePlay;
+            self.gpLastPlay = data.lastPlay || null;
+            if(data.seats) self.gpSeats = data.seats;
+            self.gpTurnDeadline = data.turnDeadline;
+            self.dispatchEvent('gp_turn', data);
+        });
+        cc.vv.net.addHandler("gp_pass_push",function(data){
+            if(!data) return;
+            console.log('gp_pass_push seat=', data.seatIndex);
+            self.dispatchEvent('gp_pass', data);
+        });
+        cc.vv.net.addHandler("gp_newround_push",function(data){
+            if(!data) return;
+            console.log('gp_newround_push turn=', data.turn);
+            self.gpTurn = data.turn;
+            self.gpTurnDeadline = data.turnDeadline;
+            self.gpFreePlay = true;
+            self.gpLastPlay = null;
+            self.dispatchEvent('gp_newround', data);
+        });
+        cc.vv.net.addHandler("gp_error_push",function(data){
+            console.log('gp_error_push', data && data.msg);
+            self.dispatchEvent('gp_error', data);
+        });
+
         cc.vv.net.addHandler("game_begin_push",function(data){
             console.log('game_begin_push');
             self.button = data;
@@ -571,6 +723,10 @@ cc.Class({
 
         cc.vv.net.addHandler("game_over_push",function(data){
             console.log('game_over_push');
+            //结算数据携带本局财神:单局结算弹窗用牌图展示(包麻将无财模式为-1)
+            if(self.conf == null) self.conf = {};
+            if(data.caishen != null){ self.conf.caishen = data.caishen; }
+            if(data.caishen2 != null){ self.conf.caishen2 = data.caishen2; }
             var results = data.results;
             for(var i = 0; i < self.seats.length; ++i){
                 var seat = self.seats[i];

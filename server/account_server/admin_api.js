@@ -108,9 +108,21 @@ app.get('/admin/game_configs', auth, function(req, res){
                 cai_peng: r.cai_peng,
                 cai_gang: r.cai_gang,
                 dianpao_hu: r.dianpao_hu,
+                remove_tiao: r.remove_tiao != null ? r.remove_tiao : 0,
+                cai7: r.cai7 != null ? r.cai7 : 0,
+                laozhuang_multiplier: r.laozhuang_multiplier != null ? r.laozhuang_multiplier : 2,
                 tianhu_di: r.tianhu_di != null ? r.tianhu_di : 1,
                 cai_diao: r.cai_diao != null ? r.cai_diao : 1,
                 bao_tai_score: r.bao_tai_score != null ? r.bao_tai_score : 1,
+                gp_bomb: r.gp_bomb != null ? r.gp_bomb : 1,
+                gp_bomb_four: r.gp_bomb_four != null ? r.gp_bomb_four : 1,
+                gp_four_two: r.gp_four_two != null ? r.gp_four_two : 1,
+                gp_four_three: r.gp_four_three != null ? r.gp_four_three : 1,
+                gp_three_one: r.gp_three_one != null ? r.gp_three_one : 1,
+                gp_last_three_one: r.gp_last_three_one != null ? r.gp_last_three_one : 0,
+                gp_last_four_two_three: r.gp_last_four_two_three != null ? r.gp_last_four_two_three : 0,
+                gp_straight_a2: r.gp_straight_a2 != null ? r.gp_straight_a2 : 1,
+                gp_card_history: r.gp_card_history != null ? r.gp_card_history : 0,
                 auto_dissolve_seconds: r.auto_dissolve_seconds != null ? r.auto_dissolve_seconds : 300,
                 enabled: r.enabled,
                 sort: r.sort
@@ -136,15 +148,30 @@ app.post('/admin/game_config', auth, function(req, res){
     var caiPeng = c.cai_peng != null ? c.cai_peng : (c.caishen_cpg != null ? c.caishen_cpg : 1);
     var caiGang = c.cai_gang != null ? c.cai_gang : (c.caishen_cpg != null ? c.caishen_cpg : 1);
     var dianpaoHu = c.dianpao_hu != null ? c.dianpao_hu : 1;
+    var removeTiao = c.remove_tiao != null ? c.remove_tiao : 0;
+    var cai7 = c.cai7 != null ? c.cai7 : 0;
+    var laozhuangMul = c.laozhuang_multiplier != null ? (parseInt(c.laozhuang_multiplier) || 2) : 2;
     var tianhuDi = c.tianhu_di != null ? c.tianhu_di : 1;
     var caiDiao = c.cai_diao != null ? c.cai_diao : 1;
     var baoTaiScore = c.bao_tai_score != null ? (parseInt(c.bao_tai_score) || 0) : 1;
     var autoDissolve = parseInt(c.auto_dissolve_seconds) || 300;
-    var sql = 'INSERT INTO t_game_config(type,name,difen_options,jushu_options,cost_options,chips_options,max_players,max_tai,caishen_cpg,cai_chi,cai_peng,cai_gang,dianpao_hu,tianhu_di,cai_diao,bao_tai_score,auto_dissolve_seconds,tai_rules,enabled,sort) VALUES("'
+    // 关牌开关(仅 guanpai2/guanpai3 使用)
+    function gpVal(k, def){ return c[k] != null ? (c[k] ? 1 : 0) : def; }
+    var gpBomb = gpVal('gp_bomb', 1);
+    var gpBombFour = gpVal('gp_bomb_four', 1);
+    var gpFourTwo = gpVal('gp_four_two', 1);
+    var gpFourThree = gpVal('gp_four_three', 1);
+    var gpThreeOne = gpVal('gp_three_one', 1);
+    var gpLastThreeOne = gpVal('gp_last_three_one', 0);
+    var gpLastFourTwoThree = gpVal('gp_last_four_two_three', 0);
+    var gpStraightA2 = gpVal('gp_straight_a2', 1);
+    var gpCardHistory = gpVal('gp_card_history', 0);
+    var sql = 'INSERT INTO t_game_config(type,name,difen_options,jushu_options,cost_options,chips_options,max_players,max_tai,caishen_cpg,cai_chi,cai_peng,cai_gang,dianpao_hu,remove_tiao,cai7,laozhuang_multiplier,tianhu_di,cai_diao,bao_tai_score,auto_dissolve_seconds,tai_rules,gp_bomb,gp_bomb_four,gp_four_two,gp_four_three,gp_three_one,gp_last_three_one,gp_last_four_two_three,gp_straight_a2,gp_card_history,enabled,sort) VALUES("'
         + c.type + '","' + c.name + '","' + difen + '","' + jushu + '","' + cost + '","' + chips + '",'
         + (c.max_players || 2) + ',' + (c.max_tai || 10) + ',' + (c.caishen_cpg != null ? c.caishen_cpg : 1) + ','
-        + caiChi + ',' + caiPeng + ',' + caiGang + ',' + dianpaoHu + ',' + tianhuDi + ',' + caiDiao + ',' + baoTaiScore + ',' + autoDissolve + ','
+        + caiChi + ',' + caiPeng + ',' + caiGang + ',' + dianpaoHu + ',' + removeTiao + ',' + cai7 + ',' + laozhuangMul + ',' + tianhuDi + ',' + caiDiao + ',' + baoTaiScore + ',' + autoDissolve + ','
         + (taiRules ? "'" + taiRules + "'" : 'NULL') + ','
+        + gpBomb + ',' + gpBombFour + ',' + gpFourTwo + ',' + gpFourThree + ',' + gpThreeOne + ',' + gpLastThreeOne + ',' + gpLastFourTwoThree + ',' + gpStraightA2 + ',' + gpCardHistory + ','
         + (c.enabled ? 1 : 0) + ',' + (c.sort || 0) + ')';
     db.query(sql, function(err, result){
         if(err){ send(res, 500, "数据库错误: " + err.message); return; }
@@ -170,9 +197,16 @@ app.put('/admin/game_config/:id', auth, function(req, res){
     if(c.cai_peng != null) sets.push('cai_peng=' + (c.cai_peng ? 1 : 0));
     if(c.cai_gang != null) sets.push('cai_gang=' + (c.cai_gang ? 1 : 0));
     if(c.dianpao_hu != null) sets.push('dianpao_hu=' + (c.dianpao_hu ? 1 : 0));
+    if(c.remove_tiao != null) sets.push('remove_tiao=' + (c.remove_tiao ? 1 : 0));
+    if(c.cai7 != null) sets.push('cai7=' + (c.cai7 ? 1 : 0));
+    if(c.laozhuang_multiplier != null) sets.push('laozhuang_multiplier=' + (parseInt(c.laozhuang_multiplier) || 2));
     if(c.tianhu_di != null) sets.push('tianhu_di=' + (c.tianhu_di ? 1 : 0));
     if(c.cai_diao != null) sets.push('cai_diao=' + (c.cai_diao ? 1 : 0));
     if(c.bao_tai_score != null) sets.push('bao_tai_score=' + (parseInt(c.bao_tai_score) || 0));
+    // 关牌开关
+    ['gp_bomb','gp_bomb_four','gp_four_two','gp_four_three','gp_three_one','gp_last_three_one','gp_last_four_two_three','gp_straight_a2','gp_card_history'].forEach(function(k){
+        if(c[k] != null) sets.push(k + '=' + (c[k] ? 1 : 0));
+    });
     if(c.auto_dissolve_seconds != null) sets.push('auto_dissolve_seconds=' + (parseInt(c.auto_dissolve_seconds) || 300));
     if(c.enabled != null) sets.push('enabled=' + (c.enabled ? 1 : 0));
     if(c.sort != null) sets.push('sort=' + c.sort);
@@ -356,7 +390,24 @@ app.get('/admin/club_games', auth, function(req, res){
                 jushu_options: JSON.parse(r.jushu_options),
                 cost_options: JSON.parse(r.cost_options),
                 sort: r.sort, enabled: r.enabled, table_count: r.table_count,
-                max_players: r.max_players
+                max_players: r.max_players,
+                cai7: r.cai7 != null ? r.cai7 : 0,
+                remove_tiao: r.remove_tiao != null ? r.remove_tiao : 0,
+                cai_chi: r.cai_chi != null ? r.cai_chi : 1,
+                cai_peng: r.cai_peng != null ? r.cai_peng : 1,
+                cai_gang: r.cai_gang != null ? r.cai_gang : 1,
+                dianpao_hu: r.dianpao_hu != null ? r.dianpao_hu : 1,
+                tianhu_di: r.tianhu_di != null ? r.tianhu_di : 1,
+                cai_diao: r.cai_diao != null ? r.cai_diao : 1,
+                gp_bomb: r.gp_bomb != null ? r.gp_bomb : 1,
+                gp_bomb_four: r.gp_bomb_four != null ? r.gp_bomb_four : 1,
+                gp_four_two: r.gp_four_two != null ? r.gp_four_two : 1,
+                gp_four_three: r.gp_four_three != null ? r.gp_four_three : 1,
+                gp_three_one: r.gp_three_one != null ? r.gp_three_one : 1,
+                gp_last_three_one: r.gp_last_three_one != null ? r.gp_last_three_one : 0,
+                gp_last_four_two_three: r.gp_last_four_two_three != null ? r.gp_last_four_two_three : 0,
+                gp_straight_a2: r.gp_straight_a2 != null ? r.gp_straight_a2 : 1,
+                gp_card_history: r.gp_card_history != null ? r.gp_card_history : 0
             };
         });
         send(res, 0, "ok", list);
@@ -367,7 +418,7 @@ app.get('/admin/club_games', auth, function(req, res){
 app.get('/admin/club_available_games', auth, function(req, res){
     var cid = resolveClubId(req, res);
     if(!cid) return;
-    db.query('SELECT type,name,difen_options,jushu_options,cost_options,max_players,sort FROM t_game_config WHERE enabled=1 ORDER BY sort', function(err, rows){
+    db.query('SELECT type,name,difen_options,jushu_options,cost_options,max_players,sort,cai7,remove_tiao,cai_chi,cai_peng,cai_gang,dianpao_hu,tianhu_di,cai_diao,gp_bomb,gp_bomb_four,gp_four_two,gp_four_three,gp_three_one,gp_last_three_one,gp_last_four_two_three,gp_straight_a2,gp_card_history FROM t_game_config WHERE enabled=1 ORDER BY sort', function(err, rows){
         if(err){ send(res, 500, "数据库错误"); return; }
         db.club_games_with_count(cid, function(used){
             var usedTypes = {};
@@ -379,7 +430,15 @@ app.get('/admin/club_available_games', auth, function(req, res){
                     difen_options: JSON.parse(r.difen_options),
                     jushu_options: JSON.parse(r.jushu_options),
                     cost_options: JSON.parse(r.cost_options),
-                    max_players: r.max_players
+                    max_players: r.max_players,
+                    cai7: r.cai7 != null ? r.cai7 : 0,
+                    remove_tiao: r.remove_tiao != null ? r.remove_tiao : 0,
+                    cai_chi: r.cai_chi != null ? r.cai_chi : 1,
+                    cai_peng: r.cai_peng != null ? r.cai_peng : 1,
+                    cai_gang: r.cai_gang != null ? r.cai_gang : 1,
+                    dianpao_hu: r.dianpao_hu != null ? r.dianpao_hu : 1,
+                    tianhu_di: r.tianhu_di != null ? r.tianhu_di : 1,
+                    cai_diao: r.cai_diao != null ? r.cai_diao : 1
                 };
             });
             send(res, 0, "ok", list);

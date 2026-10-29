@@ -104,13 +104,23 @@ cc.Class({
     },
     
     onLoginResp:function(code){
+        var data = {code:code,os:cc.sys.os};
+        //本机已有游客账号时带上,服务端自动完成游客账号与微信账号的绑定
+        var guest = cc.sys.localStorage.getItem("account");
+        if(guest && guest.indexOf("guest_") === 0){
+            data.bind_account = guest;
+        }
         var fn = function(ret){
             if(ret.errcode == 0){
                 cc.sys.localStorage.setItem("wx_account",ret.account);
                 cc.sys.localStorage.setItem("wx_sign",ret.sign);
             }
+            else if(cc.vv.wc && cc.vv.wc.showError){
+                cc.vv.wc.showError(ret.errmsg == "wechat login disabled" ? "后台已关闭微信登录" : "微信登录失败,请重试");
+                return;
+            }
             cc.vv.userMgr.onAuth(ret);
         }
-        cc.vv.http.sendRequest("/wechat_auth",{code:code,os:cc.sys.os},fn);
+        cc.vv.http.sendRequest("/wechat_auth",data,fn);
     },
 });

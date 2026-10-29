@@ -55,8 +55,10 @@ cc.Class({
     show:function(title,content,onok,needcancel){
         this._alert.active = true;
         this._onok = onok;
-        this._title.string = title;
-        this._content.string = content;
+        // title 传 null 时保留场景内默认节点文字不覆盖;否则按传入内容显示
+        if(title != null && this._title){ this._title.string = title; }
+        // content 始终传入才覆盖;传 null 保留场景默认
+        if(content != null && this._content){ this._content.string = content; }
         if(needcancel){
             this._btnCancel.active = true;
             this._btnOK.x = -150;
@@ -68,7 +70,7 @@ cc.Class({
         }
     },
     
-    onDestory:function(){
+    onDestroy:function(){
         if(cc.vv){
             cc.vv.alert = null;    
         }

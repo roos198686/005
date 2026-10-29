@@ -1,13 +1,1 @@
-{
-    "compilerOptions": {
-        "target": "es6",
-        "module": "commonjs"
-    },
-    "exclude": [
-        "node_modules",
-        "library",
-        "local",
-        "settings",
-        "temp"
-    ]
-}
+{     "compilerOptions": {         "target": "es6",         "module": "commonjs"     },     "exclude": [         "node_modules",         "library",         "local",         "settings",         "temp"     ] }

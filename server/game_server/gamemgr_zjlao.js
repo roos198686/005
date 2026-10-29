@@ -64,27 +64,30 @@ function isCaishenPai(game, pai){
 }
 
 function shuffle(game) {
-    var mahjongs = game.mahjongs;
-    var index = 0;
+    var removeTiao = game.remove_tiao === 1;
+    var tmp = [];
     for(var i = 0; i < 9; ++i){
-        for(var c = 0; c < 4; ++c){ mahjongs[index++] = i; }
+        for(var c = 0; c < 4; ++c){ tmp.push(i); }
     }
-    for(var i = 9; i < 18; ++i){
-        for(var c = 0; c < 4; ++c){ mahjongs[index++] = i; }
+    if(!removeTiao){
+        for(var i = 9; i < 18; ++i){
+            for(var c = 0; c < 4; ++c){ tmp.push(i); }
+        }
     }
     for(var i = 18; i < 27; ++i){
-        for(var c = 0; c < 4; ++c){ mahjongs[index++] = i; }
+        for(var c = 0; c < 4; ++c){ tmp.push(i); }
     }
     for(var i = 27; i < 34; ++i){
-        for(var c = 0; c < 4; ++c){ mahjongs[index++] = i; }
+        for(var c = 0; c < 4; ++c){ tmp.push(i); }
     }
+    game.mahjongs = tmp;
 
-    for(var i = 0; i < mahjongs.length; ++i){
-        var lastIndex = mahjongs.length - 1 - i;
+    for(var i = 0; i < game.mahjongs.length; ++i){
+        var lastIndex = game.mahjongs.length - 1 - i;
         var idx = Math.floor(Math.random() * lastIndex);
-        var t = mahjongs[idx];
-        mahjongs[idx] = mahjongs[lastIndex];
-        mahjongs[lastIndex] = t;
+        var t = game.mahjongs[idx];
+        game.mahjongs[idx] = game.mahjongs[lastIndex];
+        game.mahjongs[lastIndex] = t;
     }
 }
 
@@ -92,6 +95,7 @@ function shuffle(game) {
 function fanCaishen(game){
     if(game.currentIndex >= game.mahjongs.length){
         game.caishen = -1;
+        game.caishen2 = -1;
         return;
     }
     var fanPai = game.mahjongs[game.currentIndex];
@@ -99,15 +103,35 @@ function fanCaishen(game){
     game.fanPai = fanPai;
 
     if(isZi(fanPai)){
-        // 字牌的财神就是它自己
-        game.caishen = fanPai;
+        // 字牌也分单双财神, 按中发白(3循环)/东南西北(4循环)取循环下一张
+        var nextPai = nextCaishenOf(fanPai);
+        if(game.cai7 === 1){
+            // 双财神(7张): 指示牌(展示牌移除,剩3张) + 循环下一张(4张)
+            game.caishen = fanPai;
+            game.caishen2 = nextPai;
+        } else {
+            // 单财神(4张): 循环下一张(4张)
+            game.caishen = nextPai;
+            game.caishen2 = -1;
+            game.mahjongs.push(fanPai);
+        }
     } else {
         var type = getMJType(fanPai);
         var value = fanPai % 9;
         var nextValue = (value + 1) % 9;
-        game.caishen = type * 9 + nextValue;
+        var nextPai = type * 9 + nextValue;
+        if(game.cai7 === 1){
+            // 双财神(7张): 指示牌数字(展示牌移除,剩3张) + 下一数字(4张)
+            game.caishen = fanPai;
+            game.caishen2 = nextPai;
+            // 指示牌作为展示牌, 不放回牌堆, 该数字只剩3张在游戏中
+        } else {
+            // 单财神(4张): 下一数字(4张)
+            game.caishen = nextPai;
+            game.caishen2 = -1;
+            game.mahjongs.push(fanPai);
+        }
     }
-    game.mahjongs.push(fanPai);
 }
 
 function mopai(game, seatIndex) {
@@ -188,21 +212,6 @@ function checkCanHu(seatData, caishen, caishen2){
         if(canFormMelds(countMap, caishenCount - 2)){
             return true;
         }
-    }
-
-    // 七对
-    if(holds.length === 14){
-        var pairs = 0;
-        var cs = caishenCount;
-        for(var k in countMap){
-            pairs += Math.floor(countMap[k] / 2);
-            if(countMap[k] % 2 == 1 && cs > 0){
-                pairs++;
-                cs--;
-            }
-        }
-        pairs += Math.floor(cs / 2);
-        if(pairs >= 7) return true;
     }
 
     // 只有财神
@@ -700,7 +709,7 @@ function doUserMoPai(game){
     // 财吊:手里有财神 + 已听牌(摸牌前tingMap非空) + 财神空出来没参与其他牌
     // "财神空出来没参与"=假设caishen=-1(财神当普通牌),checkCanHu仍能过
     // 此时财神闲置在手里,摸任何牌都能胡(财吊翻倍)
-    if(!turnSeat.canHu && game.cai_diao){
+    if(!turnSeat.canHu && taiRule(game, 'cai_diao', 0) > 0){
         var _csCnt = getCaishenCount(turnSeat, game.caishen, game.caishen2);
         var _tingCount = Object.keys(turnSeat.tingMap || {}).length;
         // 关键:财神没被用来替代牌型,把财神当普通牌也能胡
@@ -859,6 +868,9 @@ function doGameOver(game){
 
     // 客户端 game_over_push 格式：{results:[...], endinfo?}
     var pushData = {results: results};
+    // 结算数据携带本局财神:客户端单局结算弹窗用牌图展示(-1表示无,客户端自动隐藏)
+    pushData.caishen = (game.caishen != null) ? game.caishen : -1;
+    pushData.caishen2 = (game.caishen2 != null) ? game.caishen2 : -1;
 
     // 打完指定局数，发最终结算数据
     if(roomInfo.numOfGames >= roomInfo.conf.maxGames){
@@ -897,13 +909,19 @@ function doGameOver(game){
         }
     }
 
-    // 房卡扣除：第一局结束一次性扣除整局房卡(中途解散不退)
+    // 房卡扣除：第一局结束一次性扣除整局房卡(中途解散不退)，所有在坐玩家均按后台设置的数量扣除
     var cost = roomInfo.conf.cost || 0;
-    var creator = roomInfo.conf.creator;
-    if(creator && roomInfo.numOfGames === 1 && cost > 0){
-        db.cost_gems(creator, cost, function(success){
-            console.log("[房卡扣除] 房主", creator, "扣除", cost, "房卡, 结果:", success);
-        });
+    if(roomInfo.numOfGames === 1 && cost > 0){
+        for(var ci = 0; ci < roomInfo.seats.length; ++ci){
+            var cuid = roomInfo.seats[ci].userId;
+            if(cuid > 0){
+                (function(uid){
+                    db.cost_gems(uid, cost, function(success){
+                        console.log("[房卡扣除] 玩家", uid, "扣除", cost, "房卡, 结果:", success);
+                    });
+                })(cuid);
+            }
+        }
     }
 
     var index = roomInfo.numOfGames;
@@ -1329,6 +1347,9 @@ exports.hu = function(userId){
         extraTai += taiRule(game, 'qiang_gang', 1);
     }
     var tai = calculateTai(seatData, game, isZimo, extraTai);
+    // 赖倒胡:calculateTai 提前 return,不会初始化 seatData.taiLog,这里补一个空数组,
+    // 后面天胡地胡/财吊/老庄 push 才生效
+    if(!seatData.taiLog){ seatData.taiLog = []; }
 
     // 天胡地胡：按最高台数结算（抢杠胡不可能是天/地胡）
     var isTianHu = false;
@@ -1345,45 +1366,48 @@ exports.hu = function(userId){
         }
     }
     if(isTianHu || isDiHu){
-        // 赖倒胡:天胡/地胡不再强制 maxTai,翻倍在 score 里处理
-        console.log("[天胡地胡]", isTianHu ? "天胡" : "地胡");
+        // 天胡/地胡台数从后台配置读取(后台配0则关闭,降级封顶maxTai)
+        var cfgTai = taiRule(game, isTianHu ? 'tian_hu' : 'di_hu', 0);
+        tai = (cfgTai > 0) ? cfgTai : (game.maxTai || 10);
+        seatData.taiLog = [(isTianHu ? '天胡' : '地胡') + '=' + (cfgTai > 0 ? cfgTai + '(配置)' : '封顶' + tai)];
+        console.log("[天胡地胡]", isTianHu ? "天胡" : "地胡", "cfg=", cfgTai, "final=", tai);
     }
 
-    // 赖倒胡:无台数门槛,checkCanHu 通过即可胡,跳过 minTai 检查
+    // 赖倒胡专属追加:事件型台数(杠开/抢杠)、老庄×N、财吊×2 全部追加到 taiLog
+    if(extraTai > 0 && !(isTianHu || isDiHu)){ seatData.taiLog.push('事件台=' + extraTai); }
 
-    // 财吊判定(以胡牌后的最终手牌为准):手里有财神,且把财神当普通牌(7筒)也能胡
-    // => 财神空出来没参与任何牌型,即"财吊"。原实现只在 checkCanHu 不通过时才标记,
-    // 导致财神恰好凑成将/顺子时(如两个7筒做将)走正常胡牌分支、漏掉财吊翻倍。
-    // 关键:传进 checkCanHu 的副本必须带 countMap,否则 getCaishenCount 返回 0,
-    // 永远判不出财吊,结算不翻倍。
+    // 赖倒胡:无台数门槛(checkCanHu通过即可胡),minTai从后台读(缺省0)
+    var minTai = taiRule(game, 'min_tai', 0);
+
+    // 财吊判定(以胡牌后的最终手牌为准):手里有财神,且把财神当普通牌也能胡
     var caiDiaoNow = seatData.caiDiao || false;
-    if(game.cai_diao !== 0 && getCaishenCount(seatData, game.caishen, game.caishen2) > 0){
+    if(taiRule(game, 'cai_diao', 0) > 0 && getCaishenCount(seatData, game.caishen, game.caishen2) > 0){
         var _cd = { holds: seatData.holds.slice(), pengs: seatData.pengs, chis: seatData.chis, gangs: seatData.gangs };
         rebuildCountMap(_cd);
         if(checkCanHu(_cd, -1, null)){ caiDiaoNow = true; }
     }
     if(caiDiaoNow){ seatData.caiDiao = true; }
 
-    // 计分:底分直接出(不乘 2^tai),翻倍按开关处理
+    // 统一计分:底分 × 2^(台数-起胡台数), 附加翻倍(财吊/无财独财/老庄)叠加
     var baseScore = game.conf.baseScore || 1;
-    var score = baseScore;
+    var score = baseScore * Math.pow(2, Math.max(0, (tai || 0) - minTai));
 
-    // 天胡/地胡翻倍(后台可配,默认开)
-    if((isTianHu || isDiHu) && game.tianhu_di !== 0){
-        score = score * 2;
-        if(seatData.taiLog){ seatData.taiLog.push(isTianHu?'天胡×2':'地胡×2'); }
-    }
-
-    // 财吊翻倍(后台可配,默认开):手里有财神摸任何牌都能胡
-    if(caiDiaoNow && game.cai_diao !== 0){
+    // 财吊翻倍(后台可配,默认关):手里有财神摸任何牌都能胡
+    if(caiDiaoNow && taiRule(game, 'cai_diao', 0) > 0){
         score = score * 2;
         if(seatData.taiLog){ seatData.taiLog.push('财吊×2'); }
     }
 
-    // 老庄翻倍：连庄胡牌再×2
-    if(game.laozhuangCount > 0 && seatIndex == game.button){
-        score = score * 2;
-        if(seatData.taiLog){ seatData.taiLog.push('老庄×2'); } //结算说明里展示老庄翻倍
+    // 无财/独财×2 + 老庄倍数变量化
+    var caiMul = (game.caishenMode != null && (game.caishenMode === 0 || game.caishenMode === 1)) ? 2 : 1;
+    if(caiMul > 1){
+        score = score * caiMul;
+        if(seatData.taiLog){ seatData.taiLog.push('财神模式×'+caiMul); }
+    }
+    var lzMul = (game.laozhuang_multiplier != null && game.laozhuang_multiplier > 0) ? Number(game.laozhuang_multiplier) : 2;
+    if(game.laozhuangCount > 0){
+        score = score * lzMul;
+        if(seatData.taiLog){ seatData.taiLog.push('老庄×'+lzMul); }
     }
 
     // 包财神赔付规则（必须设置了包家才走包台赔付）
@@ -1646,9 +1670,9 @@ function bestZiKeSplit(countMap, caishenCount){
 function calculateTai(seatData, game, isZimo, extraTai){
     var caishen = game.caishen;
     var caishen2 = game.caishen2;
-    var tai = 0;
-    var taiLog = []; // 临时台数明细日志
-    extraTai = extraTai || 0;
+    // 赖倒胡特殊:除后台配置的事件型台数(杠开gang_kai/抢杠qiang_gang 通过 extraTai 传入)外,
+    // 玩法型台数(平胡/对对胡/清一色/混一色/字刻/无财)一律不算
+    return extraTai || 0;
 
     var holds = seatData.holds;
     var countMap = {};
@@ -1821,13 +1845,10 @@ function calculateTai(seatData, game, isZimo, extraTai){
         tai += tn; taiLog.push('无财+'+tn);
     }
 
-    // ---- 封顶：全字牌 / 手牌抓三个及以上财神 直接按封顶台数计 ----
-    // 注意：封顶只看手牌财神(caishenCount)，碰/杠出来的财神面值刻不算"多财神"
+    // ---- 封顶：全字牌 直接按封顶台数计 ----
     var maxTai = game.maxTai || 10;
     if(isQuanZi){
         tai = maxTai; taiLog.push('全字牌=封顶'+maxTai);
-    } else if(caishenCount >= 3 && taiRule(game, 'san_caishen_fengding', 1) > 0){
-        tai = maxTai; taiLog.push('多财神=封顶'+maxTai);
     } else if(tai > maxTai){
         tai = maxTai; taiLog.push('封顶'+maxTai);
     }
@@ -2147,7 +2168,9 @@ exports.start = function(roomInfo){
         laozhuangCount: roomInfo.laozhuangCount || 0,
         baoSeatIndex: roomInfo.conf.baoSeatIndex != null ? roomInfo.conf.baoSeatIndex : -1,
         baoTai: roomInfo.conf.baoTai || 2,
-        baoTaiFee: roomInfo.conf.baoTaiFee || 0
+        baoTaiFee: roomInfo.conf.baoTaiFee || 0,
+        remove_tiao: roomInfo.conf.remove_tiao != null ? roomInfo.conf.remove_tiao : 0,
+        cai7: roomInfo.conf.cai7 != null ? roomInfo.conf.cai7 : 0
     };
 
     console.log('[zj_lao][start] roomid=' + roomInfo.id +
@@ -2233,8 +2256,13 @@ exports.start = function(roomInfo){
 
     // 赖倒胡：无包流程，庄家直接开始出牌
     console.log("[start] 赖倒胡 playStyle=", game.playStyle, "type=", roomInfo.conf.type);
+    console.log("[start] holds: seat0=", game.gameSeats[0].holds.length, game.gameSeats[0].holds, " seat1=", game.gameSeats[1].holds.length, game.gameSeats[1].holds, " caishen=", game.caishen, " caishen2=", game.caishen2, " currentIndex=", game.currentIndex, " mahjongsLen=", game.mahjongs.length);
     game.baoDecided = true;
     var zhuangSeat = game.gameSeats[game.button];
+    //庄家起手14张直接判胡(起手胡必为天胡,结算按最高台数,此处直接放行,与hu处理一致)
+    if(checkCanHu(zhuangSeat, game.caishen, game.caishen2)){
+        zhuangSeat.canHu = true;
+    }
     sendOperations(game, zhuangSeat, zhuangSeat.holds[zhuangSeat.holds.length-1]);
     //庄家开局直接出牌:进入出牌倒计时,超时系统代打
     scheduleTurnTimeout(game, game.button, false);
@@ -2347,14 +2375,16 @@ exports.setReady = function(userId){
 
     // 只有被"在线玩家"占据且已准备的座位才计数;离线/空座位不计入,避免误开局
     var readyCount = 0;
+    var onlineCount = 0;
     for(var i = 0; i < roomInfo.seats.length; ++i){
         var rs = roomInfo.seats[i];
-        if(rs.userId > 0 && userMgr.isOnline(rs.userId) && rs.ready){
-            readyCount++;
+        if(rs.userId > 0 && userMgr.isOnline(rs.userId)){
+            onlineCount++;
+            if(rs.ready){ readyCount++; }
         }
     }
 
-    if(readyCount == roomInfo.seats.length){
+    if(onlineCount >= 2 && readyCount == onlineCount){
         // 所有在线座位都准备好了，延时1秒开局
         setTimeout(function(){
             // 延时期间若已开局(如断线重连)或局数已打满,不再开局

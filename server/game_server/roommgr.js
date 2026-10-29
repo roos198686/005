@@ -103,9 +103,9 @@ function dissolveIdleRoom(room){
 // 从数据库读取玩法配置，带缓存
 var configCache = {};
 var CONFIG_CACHE_TTL = 30 * 1000; // 30秒缓存,保证后台修改台数/封顶等配置后自动生效
-function getGameConfig(type, callback){
+function getGameConfig(type, callback, force){
 	var cached = configCache[type];
-	if(cached && (Date.now() - cached.time) < CONFIG_CACHE_TTL){
+	if(!force && cached && (Date.now() - cached.time) < CONFIG_CACHE_TTL){
 		callback(cached.cfg);
 		return;
 	}
@@ -139,6 +139,12 @@ function getGameMgrByType(type){
 	else if(type == "zj4_bt"){
 		return require("./gamemgr_zj4_bt"); // 包麻将（包财神）4人
 	}
+	else if(type == "zj_zx"){
+		return require("./gamemgr_zjzx");  // 诸暨自选麻将 2人(自选财神)
+	}
+	else if(type == "zj4_zx"){
+		return require("./gamemgr_zjzx4"); // 诸暨自选麻将 4人(自选财神)
+	}
 	else if(type == "zp"){
 		return require("./gamemgr_zp");    // 漳浦麻将 2人
 	}
@@ -150,6 +156,9 @@ function getGameMgrByType(type){
 	}
 	else if(type == "dzpk"){
 		return require("./gamemgr_dzpk");
+	}
+	else if(type == "guanpai2" || type == "guanpai3"){
+		return require("./gamemgr_guanpai"); // 关牌(扑克) 2人/3人共用
 	}
 	// 旧数据(xlch等)兜底，防恢复崩溃；新建房间已被createRoom拦截
 	return require("./gamemgr_ldh");
@@ -165,6 +174,27 @@ function generateRoomId(){
 
 function constructRoomFromDb(dbdata){
 	var conf = JSON.parse(dbdata.base_info);
+	// 向后兼容补齐:老房间从 DB 恢复时,conf 可能缺后续版本加的字段
+	// 1) 先补 conf 自身已有的(驼峰/下划线/旧命名)
+	if(conf.baseScore == null && conf.base != null) conf.baseScore = conf.base;
+	if(conf.baseScore == null && conf.base_score != null) conf.baseScore = conf.base_score;
+	if(conf.maxGames == null && conf.max_games != null) conf.maxGames = conf.max_games;
+	if(conf.maxGames == null && conf.jushuxuanze != null) conf.maxGames = conf.jushuxuanze;
+	if(conf.maxTai == null && conf.max_tai != null) conf.maxTai = conf.max_tai;
+	// 2) 再从内存 configCache(游戏启动/新建房时已填充)拿最新后台配置补齐
+	var type = conf.type;
+	var cachedCfg = configCache[type];
+	if(cachedCfg && cachedCfg.cfg){
+		var c = cachedCfg.cfg;
+		if(conf.maxTai == null) conf.maxTai = c.max_tai || 10;
+		if(conf.taiRules == null) conf.taiRules = c.tai_rules || null;
+	}else{
+		// configCache 没命中(老房间首次恢复):用默认值兜底,同时触发一次 getGameConfig 把缓存填上
+		if(conf.maxTai == null) conf.maxTai = 10;
+		getGameConfig(type, function(){}, true); // force=true 强制查 DB 写缓存,后续新建房/恢复房就命中了
+	}
+	console.log("[constructRoomFromDb] roomId=", dbdata.id, " type=", type, " conf keys=", Object.keys(conf).join(","), " baseScore=", conf.baseScore, " maxTai=", conf.maxTai, " maxGames=", conf.maxGames, " taiRules=", conf.taiRules);
+
 	var maxPlayers = conf.maxPlayers || 2;
 	var roomInfo = {
 		uuid:dbdata.uuid,
@@ -208,12 +238,12 @@ function constructRoomFromDb(dbdata){
 exports.createRoom = function(creator,roomConf,gems,ip,port,callback){
 	var type = roomConf.type;
 	// 仅开放诸暨四玩法（翻财神/赖倒胡/包财神，2人/4人） + 德州扑克 + 漳浦(带金/无金)
-	if(type != "zj" && type != "zj_lao" && type != "zj_bt" && type != "zj4" && type != "zj4_bt" && type != "dzpk" && type != "zp" && type != "zp4" && type != "wujin"){
+	if(type != "zj" && type != "zj_lao" && type != "zj_bt" && type != "zj4" && type != "zj4_bt" && type != "zj_zx" && type != "zj4_zx" && type != "dzpk" && type != "zp" && type != "zp4" && type != "wujin" && type != "guanpai2" && type != "guanpai3"){
 		callback(1,null);
 		return;
 	}
 
-	// 从数据库读取玩法配置
+	// 从数据库读取玩法配置（建房必须走最新配置,不走缓存,确保后台开关（去条子/单双财神等）立即生效）
 	getGameConfig(type, function(cfg){
 		if(!cfg){
 			callback(1,null);
@@ -285,9 +315,10 @@ exports.createRoom = function(creator,roomConf,gems,ip,port,callback){
 						if(roomConf.game_type != null){ conf.game_type = roomConf.game_type; }
 
 						// 诸暨麻将特有配置
-						if(type == "zj" || type == "zj_lao" || type == "zj_bt" || type == "zj4" || type == "zj4_bt"){
+						if(type == "zj" || type == "zj_lao" || type == "zj_bt" || type == "zj4" || type == "zj4_bt" || type == "zj_zx" || type == "zj4_zx"){
 							if(type == "zj" || type == "zj4") conf.playStyle = 'fancaishen';
 							else if(type == "zj_bt" || type == "zj4_bt") conf.playStyle = 'baocaishen';
+							else if(type == "zj_zx" || type == "zj4_zx") conf.playStyle = 'zixuancaishen';
 							conf.maxTai = roomConf.maxTai || cfg.max_tai || 10;
 							conf.caishen_cpg = cfg.caishen_cpg != null ? cfg.caishen_cpg : 1;
 							conf.taiRules = cfg.tai_rules || null;
@@ -299,6 +330,10 @@ exports.createRoom = function(creator,roomConf,gems,ip,port,callback){
 							conf.cai_peng = cfg.cai_peng != null ? cfg.cai_peng : 1;
 							conf.cai_gang = cfg.cai_gang != null ? cfg.cai_gang : 1;
 							conf.dianpao_hu = cfg.dianpao_hu != null ? cfg.dianpao_hu : 1;
+							// 二人诸暨玩法:是否去掉条子(仅 zj/zj_lao/zj_bt 生效,zj4/zj4_bt 忽略)
+							conf.remove_tiao = cfg.remove_tiao != null ? cfg.remove_tiao : 0;
+							// 翻财神/赖倒胡:财神模式(1=双财神7财,0=单财神4财)
+							conf.cai7 = cfg.cai7 != null ? cfg.cai7 : 0;
 							// 赖倒胡专属开关:天胡地胡翻倍/财吊翻倍
 							if(type == "zj_lao"){
 								conf.tianhu_di = cfg.tianhu_di != null ? cfg.tianhu_di : 1;
@@ -308,6 +343,10 @@ exports.createRoom = function(creator,roomConf,gems,ip,port,callback){
 							if(type == "zj_bt" || type == "zj4_bt"){
 								conf.bao_tai_score = cfg.bao_tai_score != null ? cfg.bao_tai_score : 1;
 								// 结算分:胡牌分=底分×2^(台数-1), 包台分=底分×2^(包台数-1), 底分取添加牌桌时选的底分
+							}
+							// 自选财神专属:老庄结算倍数(默认2)
+							if(type == "zj_zx" || type == "zj4_zx"){
+								conf.laozhuang_multiplier = cfg.laozhuang_multiplier != null ? cfg.laozhuang_multiplier : 2;
 							}
 						}
 
@@ -322,6 +361,20 @@ exports.createRoom = function(creator,roomConf,gems,ip,port,callback){
 							conf.chips = CHIPS[roomConf.chips];
 						}
 
+						// 关牌(扑克)：7 个后台开关原样透传给对局
+						if(type == "guanpai2" || type == "guanpai3"){
+							conf.gp_four_two = cfg.gp_four_two != null ? cfg.gp_four_two : 1;
+							conf.gp_four_three = cfg.gp_four_three != null ? cfg.gp_four_three : 1;
+							conf.gp_three_one = cfg.gp_three_one != null ? cfg.gp_three_one : 1;
+							conf.gp_last_three_one = cfg.gp_last_three_one != null ? cfg.gp_last_three_one : 0;
+							conf.gp_last_four_two_three = cfg.gp_last_four_two_three != null ? cfg.gp_last_four_two_three : 0;
+							conf.gp_bomb = cfg.gp_bomb != null ? cfg.gp_bomb : 1;
+							conf.gp_bomb_four = cfg.gp_bomb_four != null ? cfg.gp_bomb_four : 1;
+							conf.gp_card_history = cfg.gp_card_history != null ? cfg.gp_card_history : 0;
+							conf.gp_straight_a2 = cfg.gp_straight_a2 != null ? cfg.gp_straight_a2 : 1;
+							conf.taiRules = cfg.tai_rules || null; //出牌倒计时 chupai_timeout 走 tai_rules
+						}
+
 						var roomInfo = {
 							uuid:"",
 							id:roomId,
@@ -331,6 +384,7 @@ exports.createRoom = function(creator,roomConf,gems,ip,port,callback){
 							seats:[],
 							conf:conf
 						};
+						console.log("[createRoom] roomId=", roomId, " type=", type, " conf keys=", Object.keys(conf), " baseScore=", conf.baseScore, " maxTai=", conf.maxTai, " maxGames=", conf.maxGames, " taiRules=", JSON.stringify(conf.taiRules).substring(0,80));
 
 						roomInfo.gameMgr = getGameMgrByType(type);
 						console.log(roomInfo.conf);
@@ -372,7 +426,7 @@ exports.createRoom = function(creator,roomConf,gems,ip,port,callback){
 		}
 
 		fnCreate();
-	});
+	}, true);
 };
 
 exports.destroy = function(roomId,callback){

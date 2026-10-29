@@ -1,4 +1,5 @@
 var roomMgr = require('./roommgr');
+var replayMgr = require('./replaymgr');
 var userList = {};
 var userOnline = 0;
 //玩家最后真实操作时间(心跳game_ping不计入)与断线开始时间,供房间无动作/断线自动解散扫描使用
@@ -55,6 +56,8 @@ exports.getOnlineCount = function(){
 
 exports.sendMsg = function(userId,event,msgdata){
     console.log(event);
+    //录像录制:只记录,不额外推送
+    replayMgr.onSend(roomMgr.getUserRoom(userId), userId, event, msgdata);
     var userInfo = userList[userId];
     if(userInfo == null){
         return;
@@ -95,6 +98,8 @@ exports.brocastInRoom = function(roomId,event,data){
     if(roomId == null){
         return;
     }
+    //录像录制:广播同样需要入档
+    replayMgr.onSend(roomId, 0, event, data);
     var roomInfo = roomMgr.getRoom(roomId);
     if(roomInfo == null){
         return;
@@ -113,6 +118,8 @@ exports.broacastInRoom = function(event,data,sender,includingSender){
     if(roomId == null){
         return;
     }
+    //录像录制:广播同样需要入档
+    replayMgr.onSend(roomId, 0, event, data);
     var roomInfo = roomMgr.getRoom(roomId);
     if(roomInfo == null){
         return;

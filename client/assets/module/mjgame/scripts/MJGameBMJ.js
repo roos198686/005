@@ -198,6 +198,12 @@ cc.Class({
                     evtNode.emit('game_num',{detail:nm.numOfGames});
                     evtNode.emit('mj_count',{detail:null});
                     evtNode.emit('game_start',{detail:null});
+                    //兜底:开局操作(如天胡)事件若在监听器绑定前到达被丢弃,此处补发确保胡/碰/杠按钮一定显示
+                    if(nm.curaction){
+                        var action = nm.curaction;
+                        nm.curaction = null;
+                        evtNode.emit('game_action',{detail:action});
+                    }
                 },0);
             }
         }
@@ -631,8 +637,10 @@ cc.Class({
     },
     //加载玩法
     initWanfaLabel:function(){
-        var wanfa = cc.find("Canvas/infobar/wanfa").getComponent(cc.Label);
-        wanfa.string = cc.vv.gameNetMgr.getWanfa();
+        var wanfaNode = cc.find("Canvas/infobar/wanfa") || cc.find("Canvas/infobar/New Sprite/wanfa");
+        if(!wanfaNode){ return; }
+        var wanfa = wanfaNode.getComponent(cc.Label);
+        if(wanfa){ wanfa.string = cc.vv.gameNetMgr.getWanfa(); }
     },
 
     //财神提示（翻财神模式：开局即显示财神）

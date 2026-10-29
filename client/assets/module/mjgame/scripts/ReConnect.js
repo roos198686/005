@@ -29,7 +29,7 @@ cc.Class({
             if(cc.vv.gameNetMgr){ cc.vv.gameNetMgr.clearRoomState(); }
             cc.vv.userMgr.oldRoomId = null;
             if(cc.vv.wc && cc.vv.wc.hide){ cc.vv.wc.hide(); }
-            cc.director.loadScene(cc.vv.fromClubId ? "club" : "hall");
+            cc.director.loadScene("club");
         };
 
         //断线恢复:直接重新进入原房间(服务端保留座位),登录成功后由login_finished加载对应玩法场景

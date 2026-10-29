@@ -1,4 +1,4 @@
-﻿//强制加载JS版socket.io客户端,兼容两种模块包装:
+//强制加载JS版socket.io客户端,兼容两种模块包装:
 //1.打包bundle:库无导出,执行时通过副作用把window.io设为v2协议客户端(覆盖jsb引擎预置的0.9老协议客户端)
 //2.预览/quick-scripts:库通过module.exports导出,需手动把导出对象赋给window.io
 //(jsb引擎预置的0.9老客户端与服务端socket.io 2.x不兼容,握手后无法解析导致原生端进房黑屏)
@@ -37,7 +37,7 @@ var Global = cc.Class({
             var self = this;
             
             var opts = {
-                'reconnection':false,
+                'reconnection':true,
                 'force new connection': true,
                 'transports':['websocket', 'polling']
             }
@@ -45,9 +45,18 @@ var Global = cc.Class({
             var url = this.ip;
             if(url.indexOf('://') < 0){ url = 'http://' + url; }
             this.sio = window.io.connect(url,opts);
+            // 全局监听所有socket事件(调试用)
             this.sio.on('reconnect',function(){
                 console.log('reconnection');
             });
+            // socket.io 2.x 的 manager onAny
+            if(this.sio.io && this.sio.io.onAny){
+                this.sio.io.onAny(function(event,data){
+                    if(event.indexOf('game_') === 0 || event.indexOf('hu') >= 0 || event.indexOf('caishen') >= 0){
+                        console.log('[socket.io onAny]', event, typeof(data) === 'string' ? data.substring(0,100) : data);
+                    }
+                });
+            }
             this.sio.on('connect',function(data){
                 self.sio.connected = true;
                 fnConnect(data);
@@ -69,6 +78,7 @@ var Global = cc.Class({
                 if(fnError){ fnError(); }
             });
             
+            console.log("[Net.connect] handlers keys:", Object.keys(this.handlers));
             for(var key in this.handlers){
                 var value = this.handlers[key];
                 if(typeof(value) == "function"){
@@ -76,7 +86,7 @@ var Global = cc.Class({
                         this.fnDisconnect = value;
                     }
                     else{
-                        console.log("register:function " + key);
+                        console.log("[Net.connect] register sio.on:", key);
                         this.sio.on(key,value);                        
                     }
                 }
@@ -160,7 +170,7 @@ var Global = cc.Class({
             },1500);
             /*
             var opts = {
-                'reconnection':false,
+                'reconnection':true,
                 'force new connection': true,
                 'transports':['websocket', 'polling']
             }

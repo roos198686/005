@@ -391,13 +391,19 @@ function doGameOver(game){
         roomInfo.seats[gs.roomSeatIndex].score = gs.score;
     }
 
-    // 房卡扣除：第一局结束一次性扣除整局房卡(中途解散不退)
+    // 房卡扣除：第一局结束一次性扣除整局房卡(中途解散不退)，所有在坐玩家均按后台设置的数量扣除
     var cost = roomInfo.conf.cost || 0;
-    var creator = roomInfo.conf.creator;
-    if(creator && roomInfo.numOfGames === 1 && cost > 0){
-        db.cost_gems(creator, cost, function(success){
-            console.log("[德州][房卡扣除] 房主", creator, "扣除", cost, "结果:", success);
-        });
+    if(roomInfo.numOfGames === 1 && cost > 0){
+        for(var ci = 0; ci < roomInfo.seats.length; ++ci){
+            var cuid = roomInfo.seats[ci].userId;
+            if(cuid > 0){
+                (function(uid){
+                    db.cost_gems(uid, cost, function(success){
+                        console.log("[德州][房卡扣除] 玩家", uid, "扣除", cost, "结果:", success);
+                    });
+                })(cuid);
+            }
+        }
     }
 
     // 战绩入库

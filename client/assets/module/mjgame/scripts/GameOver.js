@@ -108,6 +108,11 @@ cc.Class({
         
         this.node.on('game_end',function(data){
             self._isGameEnd = true;
+            //最终结算:取消单局结算的30秒自动准备定时器,最终弹窗不自动关闭
+            if(self._autoReadyCb){
+                self.unschedule(self._autoReadyCb);
+                self._autoReadyCb = null;
+            }
             //需求4:牌局全部结束(服务端下发endinfo/最终结算)时直接展示"本次游戏总分数"面板
             if(self._gameresult){ self._gameresult.active = true; }
             if(self._gameover){ self._gameover.active = false; }
@@ -116,7 +121,7 @@ cc.Class({
     
     onGameOver(data){
         var type = cc.vv.gameNetMgr.conf.type;
-        if(type == "zj" || type == "zj_bt" || type == "zj4" || type == "zj4_bt" || type == "zj_lao"){
+        if(type == "zj" || type == "zj_bt" || type == "zj4" || type == "zj4_bt" || type == "zj_lao" || type == "zj_zx" || type == "zj4_zx"){
             this.onGameOver_ZJ(data);
         }
         else if(type == "xzdd"){
@@ -331,6 +336,61 @@ cc.Class({
                 }
             }
         }
+
+        //本局财神展示(牌图):自选玩法每人财神不同不展示;无财模式(包麻将选无财)服务端下发-1自动隐藏
+        this.showSettleCaishen();
+        //30秒未操作自动关闭并准备下一局(最终结算弹窗由game_end接管,不自动关)
+        this.startAutoReadyTimer();
+    },
+
+    //单局结算弹窗:本局财神展示区(绑定场景内已固化的settleCsArea节点,位置在编辑器里手动调整,代码只设牌面/显隐)
+    showSettleCaishen:function(){
+        var conf = cc.vv.gameNetMgr.conf || {};
+        if(conf.type == "zj_zx" || conf.type == "zj4_zx"){ return; }
+        var cs1 = (conf.caishen != null) ? conf.caishen : -1;
+        var cs2 = (conf.caishen2 != null) ? conf.caishen2 : -1;
+        if(cs1 < 0){ return; }
+        // 绑定场景内已固化的财神展示区:路径 game_result/settleCsArea (用户在编辑器里手动摆好位置)
+        var area = this._gameover.getChildByName("settleCsArea");
+        if(!area){
+            console.log("[结算财神] 场景内未找到 settleCsArea 节点,跳过显示(请在结算弹窗下手动添加)");
+            return;
+        }
+        area.active = true;
+        var ids = (cs2 >= 0 && cs2 != cs1) ? [cs1, cs2] : [cs1];
+        // 财神标签 csLab(场景内固化,文字已在编辑器设置好);找不到也跳过
+        var lab = area.getChildByName("csLab");
+        if(lab) lab.active = true;
+        // 财神牌面节点 cs0/cs1(场景内固化,Sprite组件已挂好),代码只赋值 spriteFrame
+        for(var i = 0; i < 2; ++i){
+            var tn = area.getChildByName("cs" + i);
+            if(!tn){ continue; }
+            var sp = tn.getComponent(cc.Sprite);
+            if(i < ids.length){
+                tn.active = true;
+                if(sp){ sp.spriteFrame = cc.vv.mahjongmgr.getSpriteFrameByMJID("B_", ids[i]); }
+            } else {
+                tn.active = false;
+            }
+        }
+    },
+
+    //单局结算30秒未操作:自动关闭弹窗并发送ready进入下一局(与点击"准备"按钮等价)
+    startAutoReadyTimer:function(){
+        if(this._autoReadyCb){
+            this.unschedule(this._autoReadyCb);
+            this._autoReadyCb = null;
+        }
+        if(this._isGameEnd){ return; }
+        var self = this;
+        this._autoReadyCb = function(){
+            self._autoReadyCb = null;
+            if(self._gameover && self._gameover.active){
+                console.log("[结算]30秒未操作,自动准备下一局");
+                self.onBtnReadyClicked();
+            }
+        };
+        this.scheduleOnce(this._autoReadyCb, 30);
     },
 
     //结算行老庄标签:挂在庄标节点正下方(庄标56x56,下方空隙不碰右侧牌区),count>=1时显示"老庄X",否则隐藏
@@ -913,6 +973,11 @@ cc.Class({
     
     onBtnReadyClicked:function(){
         console.log("onBtnReadyClicked");
+        //手动点准备:取消30秒自动准备定时器,避免重复发送ready
+        if(this._autoReadyCb){
+            this.unschedule(this._autoReadyCb);
+            this._autoReadyCb = null;
+        }
         if(this._isGameEnd){
             this._gameresult.active = true;
         }

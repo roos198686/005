@@ -1040,10 +1040,18 @@ exports.hu = function(userId){
     var baseScore = game.conf.baseScore || 1;
     var score = baseScore * Math.pow(2, tai);
 
-    // 老庄翻倍：连庄胡牌再×2
-    if(game.laozhuangCount > 0 && seatIndex == game.button){
-        score = score * 2;
-        if(seatData.taiLog){ seatData.taiLog.push('老庄×2'); } //结算说明里展示老庄翻倍
+    // 无财/独财×2: caishenMode 0=无财 1=独财 2=双财, 0和1都×2
+    var caiMul = (game.caishenMode != null && (game.caishenMode === 0 || game.caishenMode === 1)) ? 2 : 1;
+    if(caiMul > 1){
+        score = score * caiMul;
+        if(seatData.taiLog){ seatData.taiLog.push('财神模式×'+caiMul); }
+    }
+
+    // 老庄翻倍: lzMul 从后台配置读取(默认2), 老庄时胡牌分×lzMul
+    var lzMul = (game.laozhuang_multiplier != null && game.laozhuang_multiplier > 0) ? Number(game.laozhuang_multiplier) : 2;
+    if(game.laozhuangCount > 0){
+        score = score * lzMul;
+        if(seatData.taiLog){ seatData.taiLog.push('老庄×'+lzMul); }
     }
 
     // 包财神赔付规则（必须设置了包家才走包台赔付）

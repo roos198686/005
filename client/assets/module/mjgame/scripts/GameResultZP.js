@@ -154,12 +154,18 @@ cc.Class({
     },
 
     onBtnCloseClicked:function(){
-        //点击"退出房间"先通知服务端离开房间,再返回大厅
+        //点击"退出房间"先通知服务端离开房间,再按进入来源返回
         if(cc.vv && cc.vv.net && cc.vv.net.send){
             cc.vv.net.send("leave_room");
         }
-        cc.vv.fromClub = true; //本次进桌来自俱乐部:直接回独立俱乐部场景(club.fire),由clubScene直达玩法详情页
-        cc.director.loadScene("club");
+        //来自俱乐部→club场景(由clubScene根据fromClubId直达玩法详情页),否则回大厅
+        if(cc.vv.fromClubId){
+            cc.vv.fromClub = true;
+            cc.director.loadScene("club");
+        }
+        else{
+            cc.director.loadScene("hall");
+        }
     },
 
     onBtnShareClicked:function(){

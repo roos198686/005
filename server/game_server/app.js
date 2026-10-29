@@ -16,6 +16,12 @@ db.clear_all_club_table_rooms();
 //开启HTTP服务
 http_service.start(config);
 
+//录像保留3天:启动清理一次,之后每小时清理一次
+db.clean_expired_replays(3, function(){});
+setInterval(function(){
+    db.clean_expired_replays(3, function(){});
+}, 3600 * 1000);
+
 //开启外网SOCKET服务
 socket_service.start(config);
 

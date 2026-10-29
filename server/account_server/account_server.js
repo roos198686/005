@@ -73,12 +73,15 @@ app.get('/get_version',function(req,res){
 });
 
 app.get('/get_serverinfo',function(req,res){
-	var ret = {
-		version:config.VERSION,
-		hall:hallAddr,
-		appweb:config.APP_WEB,
-	}
-	send(res,ret);
+	get_wx_config(function(wx){
+		var ret = {
+			version:config.VERSION,
+			hall:hallAddr,
+			appweb:config.APP_WEB,
+			wxlogin:wx.enabled ? 1 : 0,
+		}
+		send(res,ret);
+	});
 });
 
 // 公开接口：客户端拉取玩法配置（小盲/手数/筹码等选项）
@@ -98,15 +101,19 @@ app.get('/guest',function(req,res){
 	var raw = req.query.account || String(Date.now());
 	//幂等处理:客户端localStorage可能存过完整账号,已带guest_前缀则不再重复添加,避免产生guest_guest_xxx脏账号
 	var account = raw.indexOf("guest_") === 0 ? raw : "guest_" + raw;
-	var sign = crypto.md5(account + req.ip + config.ACCOUNT_PRI_KEY);
-	var ret = {
-		errcode:0,
-		errmsg:"ok",
-		account:account,
-		halladdr:hallAddr,
-		sign:sign
-	}
-	send(res,ret);
+	//已绑定微信的游客账号,统一按主账号登录,保证两种登录方式进同一存档
+	db.get_bind_primary(account,function(primary){
+		var loginAccount = primary || account;
+		var sign = crypto.md5(loginAccount + req.ip + config.ACCOUNT_PRI_KEY);
+		send(res,{
+			errcode:0,
+			errmsg:"ok",
+			account:loginAccount,
+			guest_account:account,
+			halladdr:hallAddr,
+			sign:sign
+		});
+	});
 });
 
 app.get('/auth',function(req,res){
@@ -139,13 +146,37 @@ var appInfo = {
 	iOS:{
 		appid:"wxcb508816c5c4e2a4",
 		secret:"7de38489ede63089269e3410d5905038",		
+	},
+	web:{
+		appid:"",
+		secret:"",
 	}
 };
 
-function get_access_token(code,os,callback){
-	var info = appInfo[os];
-	if(info == null){
+//微信登录参数:后台"系统配置"可覆盖(t_sys_config),未配置时用上面的默认值
+var wxCfgCache = {time:0, data:null};
+function get_wx_config(callback){
+	var now = Date.now();
+	if(wxCfgCache.data && now - wxCfgCache.time < 60000){
+		callback(wxCfgCache.data);
+		return;
+	}
+	db.get_sys_config(function(map){
+		var cfg = {
+			enabled: map.wx_login != "0", //默认开启
+			Android:{ appid: map.wx_appid_android || appInfo.Android.appid, secret: map.wx_secret_android || appInfo.Android.secret },
+			iOS:{ appid: map.wx_appid_ios || appInfo.iOS.appid, secret: map.wx_secret_ios || appInfo.iOS.secret },
+			web:{ appid: map.wx_appid_web || appInfo.web.appid, secret: map.wx_secret_web || appInfo.web.secret }
+		};
+		wxCfgCache = {time:now, data:cfg};
+		callback(cfg);
+	});
+}
+
+function get_access_token(code,info,callback){
+	if(info == null || !info.appid || !info.secret){
 		callback(false,null);
+		return;
 	}
 	var data = {
 		appid:info.appid,
@@ -186,37 +217,79 @@ app.get('/wechat_auth',function(req,res){
 	var code = req.query.code;
 	var os = req.query.os;
 	if(code == null || code == "" || os == null || os == ""){
+		send(res,{errcode:1,errmsg:"missing code"});
 		return;
 	}
 	console.log(os);
-	get_access_token(code,os,function(suc,data){
-		if(suc){
-			var access_token = data.access_token;
-			var openid = data.openid;
-			get_state_info(access_token,openid,function(suc2,data2){
-				if(suc2){
-					var openid = data2.openid;
-					var nickname = data2.nickname;
-					var sex = data2.sex;
-					var headimgurl = data2.headimgurl;
-					var account = "wx_" + openid;
-					create_user(account,nickname,sex,headimgurl,function(){
-						var sign = crypto.md5(account + req.ip + config.ACCOUNT_PRI_KEY);
-					    var ret = {
-					        errcode:0,
-					        errmsg:"ok",
-					        account:account,
-					        halladdr:hallAddr,
-					        sign:sign
-					    };
-					    send(res,ret);
-					});						
-				}
+	get_wx_config(function(wx){
+		if(!wx.enabled){
+			send(res,{errcode:2,errmsg:"wechat login disabled"});
+			return;
+		}
+		var info = wx[os];
+		if(info == null){ info = wx.web; }
+		var send_result = function(account,bound,isGuestPrimary){
+			var sign = crypto.md5(account + req.ip + config.ACCOUNT_PRI_KEY);
+			send(res,{
+				errcode:0,
+				errmsg:"ok",
+				account:account,
+				halladdr:hallAddr,
+				sign:sign,
+				wx:1,
+				bound:bound ? 1 : 0,
+				bound_guest:isGuestPrimary ? 1 : 0
 			});
-		}
-		else{
-			send(res,{errcode:-1,errmsg:"unkown err."});
-		}
+		};
+		get_access_token(code,info,function(suc,data){
+			if(!suc || data == null || data.openid == null){
+				send(res,{errcode:-1,errmsg:"wechat auth failed"});
+				return;
+			}
+			get_state_info(data.access_token,data.openid,function(suc2,data2){
+				if(!suc2 || data2 == null){
+					send(res,{errcode:-1,errmsg:"wechat userinfo failed"});
+					return;
+				}
+				var wxAccount = "wx_" + data2.openid;
+				//bound=true表示该账号已绑定,主账号已有存档,不再重复创建微信角色
+				var fnLogin = function(account,bound,isGuestPrimary){
+					if(bound){
+						send_result(account,bound,isGuestPrimary);
+						return;
+					}
+					create_user(account,data2.nickname,data2.sex,data2.headimgurl,function(){
+						send_result(account,bound,isGuestPrimary);
+					});
+				};
+				//带本机游客账号时自动绑定(游客账号需已创建角色),绑定后主账号为游客账号
+				var bindAccount = req.query.bind_account;
+				if(bindAccount && bindAccount.indexOf("guest_") === 0 && bindAccount != wxAccount){
+					db.is_user_exist(bindAccount,function(hasRole){
+						if(!hasRole){
+							fnLogin(wxAccount,false,false);
+							return;
+						}
+						db.bind_accounts(bindAccount,wxAccount,function(primary){
+							if(!primary){
+								fnLogin(wxAccount,false,false);
+								return;
+							}
+							fnLogin(primary,true,primary == bindAccount);
+						});
+					});
+					return;
+				}
+				//未带绑定参数时:已绑定账号依旧按主账号登录
+				db.get_bind_primary(wxAccount,function(primary){
+					if(primary){
+						fnLogin(primary,true,primary.indexOf("guest_") === 0);
+						return;
+					}
+					fnLogin(wxAccount,false,false);
+				});
+			});
+		});
 	});
 });
 

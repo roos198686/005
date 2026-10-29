@@ -42,6 +42,37 @@ exports.init = function(config){
         database: config.DB,
         port: config.PORT,
     });
+    //账号绑定表(游客账号<->微信账号),表不存在时自动创建,保证部署环境可直接跑
+    var sql = 'CREATE TABLE IF NOT EXISTS `t_account_bind` (' +
+        '`id` int(11) unsigned NOT NULL AUTO_INCREMENT,' +
+        '`account_a` varchar(64) NOT NULL COMMENT "游客账号",' +
+        '`account_b` varchar(64) NOT NULL COMMENT "微信账号",' +
+        '`primary_account` varchar(64) NOT NULL COMMENT "主账号",' +
+        '`create_time` int(11) NOT NULL DEFAULT 0,' +
+        'PRIMARY KEY (`id`),UNIQUE KEY `account_a` (`account_a`),UNIQUE KEY `account_b` (`account_b`)' +
+        ') ENGINE=InnoDB DEFAULT CHARSET=utf8';
+    setTimeout(function(){
+        query(sql, function(err){
+            if(err){ console.log("create t_account_bind failed:" + err.message); }
+        });
+    }, 300);
+
+    //对局录像表(保留3天),不存在时自动创建
+    var sql2 = 'CREATE TABLE IF NOT EXISTS `t_replays` (' +
+        '`room_uuid` char(20) NOT NULL,' +
+        '`game_index` smallint(6) NOT NULL,' +
+        '`type` varchar(32) NOT NULL,' +
+        '`roomid` int(11) NOT NULL DEFAULT 0,' +
+        '`players` varchar(255) NOT NULL,' +
+        '`data` longtext NOT NULL,' +
+        '`create_time` int(11) NOT NULL DEFAULT 0,' +
+        'PRIMARY KEY (`room_uuid`,`game_index`)' +
+        ') ENGINE=InnoDB DEFAULT CHARSET=utf8';
+    setTimeout(function(){
+        query(sql2, function(err){
+            if(err){ console.log("create t_replays failed:" + err.message); }
+        });
+    }, 600);
 };
 
 exports.is_account_exist = function(account,callback){
@@ -768,8 +799,113 @@ exports.update_game_result = function(room_uuid,index,result,callback){
     });
 };
 
+//保存单局录像(覆盖同房间同局号)
+exports.save_replay = function(room_uuid,index,type,roomid,players,data,callback){
+    callback = callback == null? nop:callback;
+    if(room_uuid == null || index == null || data == null){
+        callback(false);
+        return;
+    }
+    var sql = "INSERT INTO t_replays(room_uuid,game_index,type,roomid,players,data,create_time) VALUES('" +
+        room_uuid + "'," + index + ",'" + type + "'," + roomid + ",'" + players + "','" + data + "',unix_timestamp(now()))" +
+        " ON DUPLICATE KEY UPDATE type=VALUES(type),roomid=VALUES(roomid),players=VALUES(players),data=VALUES(data),create_time=VALUES(create_time)";
+    query(sql,function(err,rows,fields){
+        if(err){
+            console.log("save_replay error:", err.message);
+            callback(false);
+            return;
+        }
+        callback(true);
+    });
+};
+
+//读取单局录像全量数据
+exports.get_replay = function(room_uuid,index,callback){
+    callback = callback == null? nop:callback;
+    if(room_uuid == null || index == null){
+        callback(null);
+        return;
+    }
+    var sql = 'SELECT room_uuid,game_index,type,roomid,players,data,create_time FROM t_replays WHERE room_uuid = "' +
+        room_uuid + '" AND game_index = ' + index;
+    query(sql, function(err, rows){
+        if(err){
+            console.log("get_replay error:", err.message);
+            callback(null);
+            return;
+        }
+        if(rows.length == 0){
+            callback(null);
+            return;
+        }
+        callback(rows[0]);
+    });
+};
+
+//某玩家3天内的录像列表,按 房间 -> 局 两级返回
+exports.get_replay_list = function(userid,days,callback){
+    callback = callback == null? nop:callback;
+    if(userid == null){
+        callback([]);
+        return;
+    }
+    var span = (days || 3) * 86400;
+    var sql = 'SELECT room_uuid,game_index,type,roomid,create_time FROM t_replays' +
+        ' WHERE FIND_IN_SET(' + userid + ',players) AND create_time >= unix_timestamp(now()) - ' + span +
+        ' ORDER BY create_time DESC';
+    query(sql, function(err, rows){
+        if(err){
+            console.log("get_replay_list error:", err.message);
+            callback([]);
+            return;
+        }
+        var list = [];
+        var map = {};
+        for(var i = 0; i < rows.length; ++i){
+            var r = rows[i];
+            var g = map[r.room_uuid];
+            if(g == null){
+                g = {uuid: r.room_uuid, roomid: r.roomid, type: r.type, create_time: r.create_time, games: []};
+                map[r.room_uuid] = g;
+                list.push(g);
+            }
+            g.games.push({index: r.game_index, create_time: r.create_time});
+        }
+        callback(list);
+    });
+};
+
+//清理超过保留期的录像
+exports.clean_expired_replays = function(days,callback){
+    callback = callback == null? nop:callback;
+    var span = (days || 3) * 86400;
+    var sql = 'DELETE FROM t_replays WHERE create_time < unix_timestamp(now()) - ' + span;
+    query(sql, function(err, rows){
+        if(err){
+            console.log("clean_expired_replays error:", err.message);
+            callback(false);
+            return;
+        }
+        callback(true);
+    });
+};
+
 exports.get_message = function(type,version,callback){
     callback = callback == null? nop:callback;
+
+    //公告(大厅跑马灯)统一取后台「系统配置-公告内容」,不再读旧的 t_message,
+    //避免后台改了配置、客户端仍显示旧公告
+    if(type === 'notice'){
+        query('SELECT v FROM t_sys_config WHERE k = "notice"', function(err, rows){
+            if(err){
+                console.log("get_message(notice) error:", err.message);
+                callback(null);
+                return;
+            }
+            callback(rows.length > 0 ? {msg: rows[0].v || "", version: "sys"} : null);
+        });
+        return;
+    }
     
     var sql = 'SELECT * FROM t_message WHERE type = "'+ type + '"';
     
@@ -799,6 +935,67 @@ exports.get_message = function(type,version,callback){
 };
 
 exports.query = query;
+
+/*==================== 系统配置 / 账号绑定 ====================*/
+//读取全部系统配置(k->v)
+exports.get_sys_config = function(callback){
+    callback = callback == null? nop:callback;
+    query('SELECT k,v FROM t_sys_config', function(err, rows){
+        if(err){
+            console.log(err);
+            callback({});
+            return;
+        }
+        var map = {};
+        (rows || []).forEach(function(r){ map[r.k] = r.v; });
+        callback(map);
+    });
+};
+
+//查询账号绑定的主账号(未绑定返回null)
+exports.get_bind_primary = function(account, callback){
+    callback = callback == null? nop:callback;
+    if(account == null || account == ""){
+        callback(null);
+        return;
+    }
+    var sql = 'SELECT primary_account FROM t_account_bind WHERE account_a = "' + account + '" OR account_b = "' + account + '" LIMIT 1';
+    query(sql, function(err, rows){
+        if(err || rows.length == 0){
+            callback(null);
+            return;
+        }
+        callback(rows[0].primary_account);
+    });
+};
+
+//绑定游客账号与微信账号(已存在任一绑定则返回已有主账号,不重复绑定)
+exports.bind_accounts = function(guestAccount, wxAccount, callback){
+    callback = callback == null? nop:callback;
+    var fn = function(){
+        //主账号:优先取已有角色(存档)的游客账号,其次微信账号
+        exports.is_user_exist(guestAccount, function(guestHas){
+            var primaryAccount = guestHas ? guestAccount : wxAccount;
+            var sql = 'INSERT INTO t_account_bind(account_a,account_b,primary_account,create_time) VALUES("' +
+                guestAccount + '","' + wxAccount + '","' + primaryAccount + '",' + Math.ceil(Date.now()/1000) + ')';
+            query(sql, function(err){
+                if(err){
+                    console.log("bind_accounts failed:" + err.message);
+                    callback(null);
+                    return;
+                }
+                callback(primaryAccount);
+            });
+        });
+    };
+    exports.get_bind_primary(guestAccount, function(p1){
+        if(p1){ callback(p1); return; }
+        exports.get_bind_primary(wxAccount, function(p2){
+            if(p2){ callback(p2); return; }
+            fn();
+        });
+    });
+};
 
 /*==================== 俱乐部相关 ====================*/
 //查询用户是否代理
@@ -1037,8 +1234,13 @@ function queryP(sql,params,callback){
 //俱乐部玩法列表(含该玩法下的牌桌数/人数上限)
 exports.club_games_with_count = function(clubId,callback){
     callback = callback == null? nop:callback;
-    //联表全局玩法配置取max_players,供后台按玩法人数上限渲染(2人玩法不出现4人相关项)
+    //联表全局玩法配置取max_players及玩法开关(cai7/remove_tiao/cai_chi等),供后台显示真实状态
     var sql = 'SELECT g.*, c.max_players AS max_players, '
+        + 'c.cai7 AS cai7, c.remove_tiao AS remove_tiao, c.cai_chi AS cai_chi, c.cai_peng AS cai_peng, '
+        + 'c.cai_gang AS cai_gang, c.dianpao_hu AS dianpao_hu, c.tianhu_di AS tianhu_di, c.cai_diao AS cai_diao, '
+        + 'c.gp_bomb AS gp_bomb, c.gp_bomb_four AS gp_bomb_four, c.gp_four_two AS gp_four_two, c.gp_four_three AS gp_four_three, '
+        + 'c.gp_three_one AS gp_three_one, c.gp_last_three_one AS gp_last_three_one, c.gp_last_four_two_three AS gp_last_four_two_three, '
+        + 'c.gp_straight_a2 AS gp_straight_a2, c.gp_card_history AS gp_card_history, '
         + '(SELECT COUNT(*) FROM t_club_tables t WHERE t.club_id = g.club_id AND t.game_type = g.game_type) AS table_count '
         + 'FROM t_club_games g LEFT JOIN t_game_config c ON c.type = g.game_type WHERE g.club_id = ? ORDER BY g.sort,g.id';
     queryP(sql,[clubId],function(err,rows){
@@ -1284,14 +1486,40 @@ exports.get_game_config = function(type, callback){
             cai_peng: r.cai_peng != null ? r.cai_peng : (r.caishen_cpg != null ? r.caishen_cpg : 1),
             cai_gang: r.cai_gang != null ? r.cai_gang : (r.caishen_cpg != null ? r.caishen_cpg : 1),
             dianpao_hu: r.dianpao_hu != null ? r.dianpao_hu : 1,
+            remove_tiao: r.remove_tiao != null ? r.remove_tiao : 0,
+            cai7: r.cai7 != null ? r.cai7 : 0,
+            laozhuang_multiplier: r.laozhuang_multiplier != null ? r.laozhuang_multiplier : 2,
             // 诸暨赖倒胡专属开关（t_game_config 里还没这些列时用兜底值）
             tianhu_di: r.tianhu_di != null ? r.tianhu_di : 1,
             cai_diao: r.cai_diao != null ? r.cai_diao : 1,
             // 包财神专属:每台包台分数（列不存在时用兜底值1）
             bao_tai_score: r.bao_tai_score != null ? r.bao_tai_score : 1,
+            // 关牌专属开关
+            gp_bomb: r.gp_bomb != null ? r.gp_bomb : 1,
+            gp_bomb_four: r.gp_bomb_four != null ? r.gp_bomb_four : 1,
+            gp_four_two: r.gp_four_two != null ? r.gp_four_two : 1,
+            gp_four_three: r.gp_four_three != null ? r.gp_four_three : 1,
+            gp_three_one: r.gp_three_one != null ? r.gp_three_one : 1,
+            gp_last_three_one: r.gp_last_three_one != null ? r.gp_last_three_one : 0,
+            gp_last_four_two_three: r.gp_last_four_two_three != null ? r.gp_last_four_two_three : 0,
+            gp_straight_a2: r.gp_straight_a2 != null ? r.gp_straight_a2 : 1,
+            gp_card_history: r.gp_card_history != null ? r.gp_card_history : 0,
             tai_rules: r.tai_rules ? JSON.parse(r.tai_rules) : null,
             auto_dissolve_seconds: r.auto_dissolve_seconds != null ? r.auto_dissolve_seconds : 300,
             enabled: r.enabled
         });
+    });
+};
+
+//后台启用的玩法列表(大厅玩法介绍弹窗左侧列表)
+exports.game_config_list = function(callback){
+    callback = callback == null ? nop : callback;
+    var sql = 'SELECT type,name,max_players FROM t_game_config WHERE enabled = 1 ORDER BY sort ASC, id ASC';
+    query(sql, function(err, rows){
+        if(err){
+            callback([]);
+            return;
+        }
+        callback(rows || []);
     });
 };

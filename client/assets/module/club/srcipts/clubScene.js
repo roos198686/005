@@ -533,15 +533,30 @@ cc.Class({
             sign:cc.vv.userMgr.sign,
             clubid:id
         },function(ret){
-            if(ret.errcode !== 0){
-                cc.vv.wc.showError(ret.errmsg || "加入失败");
-                if(self._clubJoinComp && self._clubJoinComp.onResetClicked){ self._clubJoinComp.onResetClicked(); } //失败清空重输
+            if(ret.errcode === 0){
+                //新加入成功:关闭弹窗,刷新列表,进入俱乐部
+                if(self._clubJoinWin){ self._clubJoinWin.active = false; }
+                cc.vv.wc.showError("已加入俱乐部「" + ret.name + "」");
+                self._clubShowMine();
+                self._clubRefreshList();
                 return;
             }
-            if(self._clubJoinWin){ self._clubJoinWin.active = false; }
-            cc.vv.wc.showError("已加入俱乐部「" + ret.name + "」");
-            self._clubShowMine();
-            self._clubRefreshList();
+            if(ret.errcode === 4){
+                //已在该俱乐部中:直接关闭弹窗刷新列表(不用再提示)
+                if(self._clubJoinWin){ self._clubJoinWin.active = false; }
+                self._clubShowMine();
+                self._clubRefreshList();
+                return;
+            }
+            if(ret.errcode === 3){
+                //俱乐部不存在:提示并清空输入
+                cc.vv.wc.showError("没有此ID的俱乐部");
+                if(self._clubJoinComp && self._clubJoinComp.onResetClicked){ self._clubJoinComp.onResetClicked(); }
+                return;
+            }
+            //其他错误:显示服务端errmsg并清空
+            cc.vv.wc.showError(ret.errmsg || "加入失败");
+            if(self._clubJoinComp && self._clubJoinComp.onResetClicked){ self._clubJoinComp.onResetClicked(); }
         });
     },
 
@@ -706,6 +721,22 @@ cc.Class({
                 cnNode.x = backRightLocal.x + 30 + cnNode.anchorX * cnNode.width;
             }
         }
+        //俱乐部名称后面显示玩家房卡数(节点clubGems固化在场景listArea下,位置由编辑器控制,JS只填文字)
+        var gemsNode = this._clubFind(area,"clubGems");
+        var setGems = function(v){
+            if(!cc.isValid(gemsNode)){ return; }
+            var gl = gemsNode.getComponent(cc.Label);
+            if(gl){ gl.string = String(v == null ? 0 : v); }
+        };
+        if(gemsNode){ setGems(cc.vv.userMgr.gems); }
+        //静默刷新真实房卡余额(扣房卡/奖励后同步显示)
+        cc.vv.http.sendRequest("/get_user_status",{account:cc.vv.userMgr.account,sign:cc.vv.userMgr.sign},function(ret){
+            if(ret && ret.gems != null){
+                cc.vv.userMgr.gems = Number(ret.gems);
+                self._gemsCache = {gems:cc.vv.userMgr.gems,at:Date.now()}; //同步给进桌前的余额缓存
+                setGems(cc.vv.userMgr.gems);
+            }
+        });
 
         //左侧玩法列表:行结构(gameRowTpl含bgimg背景图+l名称Label)固化在场景games下,JS只克隆填文字+赋图
         var gamesNode = this._clubFind(area,"games");

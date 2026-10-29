@@ -295,6 +295,60 @@ app.get('/get_detail_of_game',function(req,res){
 	});
 });
 
+//我的录像列表(3天内,房间->局两级)
+app.get('/get_replay_list',function(req,res){
+	if(!check_account(req,res)){
+		return;
+	}
+	db.get_user_data(req.query.account,function(data){
+		if(data == null){
+			http.send(res,-1,"system error");
+			return;
+		}
+		db.get_replay_list(data.userid,3,function(list){
+			http.send(res,0,"ok",{list:list});
+		});
+	});
+});
+
+//获取单局录像全量数据(仅参与者可看,上帝视角)
+app.get('/get_replay',function(req,res){
+	var data = req.query;
+	var uuid = data.uuid;
+	var index = parseInt(data.index, 10);
+	if(uuid == null || isNaN(index)){
+		http.send(res,-1,"parameters don't match api requirements.");
+		return;
+	}
+	//房号只允许字母数字,避免拼SQL注入
+	if(!/^[A-Za-z0-9]+$/.test(uuid)){
+		http.send(res,-1,"parameters don't match api requirements.");
+		return;
+	}
+	if(!check_account(req,res)){
+		return;
+	}
+	db.get_user_data(data.account,function(user){
+		if(user == null){
+			http.send(res,-1,"system error");
+			return;
+		}
+		db.get_replay(uuid,index,function(row){
+			if(row == null){
+				http.send(res,1,"replay not exist.");
+				return;
+			}
+			//校验请求者是本局参与者
+			var players = ("," + row.players + ",");
+			if(players.indexOf("," + user.userid + ",") == -1){
+				http.send(res,2,"no permission.");
+				return;
+			}
+			http.send(res,0,"ok",{replay:JSON.parse(row.data)});
+		});
+	});
+});
+
 //获取房卡状态
 app.get('/get_user_status',function(req,res){
     //账号合法性
@@ -431,12 +485,18 @@ app.get('/club_join',function(req,res){
 				http.send(res,3,"club not found.");
 				return;
 			}
-			db.club_join(clubId,data.userid,function(ok){
-				if(!ok){
-					http.send(res,1,"join failed.");
+			db.club_is_member(clubId,data.userid,function(isMember){
+				if(isMember){
+					http.send(res,4,"已在该俱乐部中");
 					return;
 				}
-				http.send(res,0,"ok",{clubid:clubId,name:club.name});
+				db.club_join(clubId,data.userid,function(ok){
+					if(!ok){
+						http.send(res,1,"join failed.");
+						return;
+					}
+					http.send(res,0,"ok",{clubid:clubId,name:club.name});
+				});
 			});
 		});
 	});
@@ -513,6 +573,19 @@ app.get('/club_games',function(req,res){
 				http.send(res,0,"ok",{games:games});
 			});
 		});
+	});
+});
+
+//后台启用的玩法列表(大厅玩法介绍弹窗左侧列表)
+app.get('/game_list',function(req,res){
+	if(!check_account(req,res)){
+		return;
+	}
+	db.game_config_list(function(rows){
+		var games = rows.map(function(r){
+			return {type:r.type,name:r.name,max_players:r.max_players};
+		});
+		http.send(res,0,"ok",{games:games});
 	});
 });
 

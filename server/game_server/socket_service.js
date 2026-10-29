@@ -315,6 +315,10 @@ exports.start = function(conf,mgr){
 			if(socket.userId == null){
 				return;
 			}
+			//客户端Net.send会把对象/数组JSON序列化成字符串,这里兼容解析回数组(关牌出多张牌)
+			if(typeof(data) == "string"){
+				try{ data = JSON.parse(data); }catch(e){}
+			}
 			var pai = data;
 			console.log("chupai request from", socket.userId, "pai=", pai);
 			socket.gameMgr.chuPai(socket.userId,pai);
@@ -347,12 +351,16 @@ exports.start = function(conf,mgr){
 			socket.gameMgr.gang(socket.userId,pai);
 		});
 		
-		//胡
+		//胡 (自选麻将第二阶段带财神选择 data={c1,c2,mode})
 		socket.on('hu',function(data){
 			if(socket.userId == null){
 				return;
 			}
-			socket.gameMgr.hu(socket.userId);
+			if(typeof(data) == "string"){
+				try{ data = JSON.parse(data); }catch(e){ data = null; }
+			}
+			console.log('[HU] socket.on hu userId=',socket.userId,' data=',JSON.stringify(data));
+			socket.gameMgr.hu(socket.userId, data);
 		});
 
 		//过  遇上胡，碰，杠的时候，可以选择过

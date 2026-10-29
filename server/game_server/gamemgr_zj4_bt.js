@@ -183,21 +183,6 @@ function checkCanHu(seatData, caishen, caishen2){
         }
     }
 
-    // 七对
-    if(holds.length === 14){
-        var pairs = 0;
-        var cs = caishenCount;
-        for(var k in countMap){
-            pairs += Math.floor(countMap[k] / 2);
-            if(countMap[k] % 2 == 1 && cs > 0){
-                pairs++;
-                cs--;
-            }
-        }
-        pairs += Math.floor(cs / 2);
-        if(pairs >= 7) return true;
-    }
-
     // 只有财神
     if(Object.keys(countMap).length === 0 && caishenCount > 0){
         if(caishenCount >= 2 && canFormMelds({}, caishenCount - 2)) return true;
@@ -348,6 +333,42 @@ function getGameByUserID(userId){
 
 function hasOperations(seatData){
     return seatData.canGang || seatData.canPeng || seatData.canHu || seatData.canChi;
+}
+
+// 出牌/操作倒计时(秒):后台taiRules.chupai_timeout可配,缺省15秒
+function getChupaiTimeout(game){
+    return taiRule(game, 'chupai_timeout', 15);
+}
+function clearTurnTimeout(game){
+    if(game && game.turnTimeoutId){
+        clearTimeout(game.turnTimeoutId);
+        game.turnTimeoutId = null;
+    }
+}
+// 倒计时结束系统代打:出牌超时打最后一张手牌(摸到的牌在末尾);操作超时自动过
+function scheduleTurnTimeout(game, seatIndex, isAction){
+    clearTurnTimeout(game);
+    var sec = getChupaiTimeout(game);
+    if(sec <= 0) return; //0=关闭托管
+    game.turnTimeoutId = setTimeout(function(){
+        game.turnTimeoutId = null;
+        if(!game || game.gameOver) return;
+        var sd = game.gameSeats[seatIndex];
+        if(!sd || sd.userId <= 0) return;
+        if(isAction){
+            if(hasOperations(sd)){
+                console.log("[托管] 操作超时自动过 userId=", sd.userId);
+                exports.guo(sd.userId);
+            }
+            return;
+        }
+        if(seatIndex != game.turn) return;
+        var pai = sd.holds[sd.holds.length - 1];
+        if(pai != null && pai >= 0){
+            console.log("[托管] 出牌超时系统代打 userId=", sd.userId, "pai=", pai);
+            exports.chuPai(sd.userId, pai);
+        }
+    }, sec * 1000);
 }
 
 function sendOperations(game, seatData, pai){
@@ -588,10 +609,13 @@ function doUserMoPai(game){
         data.holds = isTurn ? sd.holds.slice() : sd.holds.length;
         userMgr.sendMsg(sd.userId, 'game_mopai_push', data);
     }
+    //摸牌完成进入出牌倒计时,超时系统代打
+    scheduleTurnTimeout(game, game.turn, false);
 }
 
 function doGameOver(game){
     game.gameOver = true;
+    clearTurnTimeout(game);
     var roomId = roomMgr.getRoomIdOfUser(game.gameSeats[0].userId);
     var roomInfo = roomMgr.getRoom(roomId);
     if(roomInfo == null){
@@ -700,6 +724,9 @@ function doGameOver(game){
 
     // 客户端 game_over_push 格式：{results:[...], endinfo?}
     var pushData = {results: results};
+    // 结算数据携带本局财神:客户端单局结算弹窗用牌图展示(-1表示无,客户端自动隐藏)
+    pushData.caishen = (game.caishen != null) ? game.caishen : -1;
+    pushData.caishen2 = (game.caishen2 != null) ? game.caishen2 : -1;
     // 缓存最近一局结算:结算停留期断线/重进时由 resendGameState 补发
     game.lastResult = pushData;
 
@@ -724,13 +751,19 @@ function doGameOver(game){
 
     userMgr.brocastInRoom(roomId, 'game_over_push', pushData);
 
-    // 房卡扣除：第一局结束一次性扣除整局房卡(中途解散不退)
+    // 房卡扣除：第一局结束一次性扣除整局房卡(中途解散不退)，所有在坐玩家均按后台设置的数量扣除
     var cost = roomInfo.conf.cost || 0;
-    var creator = roomInfo.conf.creator;
-    if(creator && roomInfo.numOfGames === 1 && cost > 0){
-        db.cost_gems(creator, cost, function(success){
-            console.log("[房卡扣除] 房主", creator, "扣除", cost, "房卡, 结果:", success);
-        });
+    if(roomInfo.numOfGames === 1 && cost > 0){
+        for(var ci = 0; ci < roomInfo.seats.length; ++ci){
+            var cuid = roomInfo.seats[ci].userId;
+            if(cuid > 0){
+                (function(uid){
+                    db.cost_gems(uid, cost, function(success){
+                        console.log("[房卡扣除] 玩家", uid, "扣除", cost, "房卡, 结果:", success);
+                    });
+                })(cuid);
+            }
+        }
     }
 
     var index = roomInfo.numOfGames;
@@ -787,6 +820,8 @@ exports.chuPai = function(userId, pai){
     seatData.lastGangHua = false; //出牌即放弃杠上开花机会(仅杠后摸牌胡才加台)
     var idx = seatData.holds.indexOf(pai);
     if(idx == -1) return;
+    // 上面校验全部通过才算有效出牌,此时才清倒计时
+    clearTurnTimeout(game); //玩家已动作,清掉出牌/操作倒计时
 
     seatData.holds.splice(idx, 1);
     seatData.countMap[pai]--;
@@ -821,9 +856,11 @@ exports.chuPai = function(userId, pai){
     }
 
     var hasOp = false;
+    var opSeat = -1;
     for(var i = 0; i < 4; ++i){
         if(i != seatIndex && hasOperations(game.gameSeats[i])){
             hasOp = true;
+            opSeat = i;
             break;
         }
     }
@@ -831,11 +868,16 @@ exports.chuPai = function(userId, pai){
         moveToNextUser(game);
         setTimeout(function(){ doUserMoPai(game); }, 500);
     }
+    else{
+        //对家有吃/碰/杠/胡待选:进入操作倒计时,超时自动过
+        scheduleTurnTimeout(game, opSeat, true);
+    }
 };
 
 exports.peng = function(userId){
     var game = getGameByUserID(userId);
     if(game == null || game.gameOver) return;
+    clearTurnTimeout(game);
     var seatIndex = getSeatIndex(userId);
     var seatData = game.gameSeats[seatIndex];
     if(!seatData.canPeng) return;
@@ -887,6 +929,7 @@ exports.peng = function(userId){
 exports.gang = function(userId, pai){
     var game = getGameByUserID(userId);
     if(game == null || game.gameOver) return;
+    clearTurnTimeout(game);
     var seatIndex = getSeatIndex(userId);
     var seatData = game.gameSeats[seatIndex];
     if(!seatData.canGang) return;
@@ -961,6 +1004,7 @@ exports.gang = function(userId, pai){
 exports.chi = function(userId, chiPais){
     var game = getGameByUserID(userId);
     if(game == null || game.gameOver) return;
+    clearTurnTimeout(game);
     var seatIndex = getSeatIndex(userId);
     var seatData = game.gameSeats[seatIndex];
     if(!seatData.canChi) return;
@@ -1011,6 +1055,7 @@ exports.chi = function(userId, chiPais){
 exports.hu = function(userId){
     var game = getGameByUserID(userId);
     if(game == null || game.gameOver) return;
+    clearTurnTimeout(game);
     var seatIndex = getSeatIndex(userId);
     var seatData = game.gameSeats[seatIndex];
     if(!seatData.canHu) return;
@@ -1051,8 +1096,11 @@ exports.hu = function(userId){
         }
     }
     if(isTianHu || isDiHu){
-        tai = Math.min(8, game.maxTai || 8); // 天胡/地胡固定8台（不超过封顶）
-        console.log("[天胡地胡]", isTianHu ? "天胡" : "地胡", "台数=", tai);
+        // 天胡/地胡台数从后台配置读取(后台配0则关闭,降级封顶maxTai)
+        var cfgTai = taiRule(game, isTianHu ? 'tian_hu' : 'di_hu', 0);
+        tai = (cfgTai > 0) ? cfgTai : (game.maxTai || 10);
+        seatData.taiLog = [(isTianHu ? '天胡' : '地胡') + '=' + (cfgTai > 0 ? cfgTai + '(配置)' : '封顶' + tai)];
+        console.log("[天胡地胡]", isTianHu ? "天胡" : "地胡", "cfg=", cfgTai, "final=", tai);
     }
 
     // 包财神4人版：包家必须达到自己叫的台数，闲家≥1台，全不包则无门槛（转赖倒胡）
@@ -1074,15 +1122,33 @@ exports.hu = function(userId){
         return;
     }
 
-    // 计分：底 × 2^台
+    // 计分：胡牌分与包台分分开计算，底分 × 2^(台数-起胡台数)，刚好达到起胡台数=底分，每多一台翻倍
     var baseScore = game.conf.baseScore || 1;
-    var score = baseScore * Math.pow(2, tai);
+    var minTaiCfg = taiRule(game, 'min_tai', 1);
+    var huScore = baseScore * Math.pow(2, Math.max(0, tai - minTaiCfg));
 
-    // 老庄翻倍：连庄胡牌再×2
-    if(game.laozhuangCount > 0 && seatIndex == game.button){
-        score = score * 2;
-        if(seatData.taiLog){ seatData.taiLog.push('老庄×2'); } //结算说明里展示老庄翻倍
+    // 无财/独财×2（baoMode 0=无财 1=独财；2=双财不翻倍）
+    var baoMode = game.baoMode;
+    var caiMul = (baoMode != null && (baoMode === 0 || baoMode === 1)) ? 2 : 1;
+    if(caiMul > 1){
+        huScore = huScore * caiMul;
+        if(seatData.taiLog){ seatData.taiLog.push('财神模式×'+caiMul); }
     }
+    var lzMul = (game.laozhuang_multiplier != null && game.laozhuang_multiplier > 0) ? Number(game.laozhuang_multiplier) : 2;
+    var isLaozhuang = (game.laozhuangCount > 0);
+    if(isLaozhuang){
+        huScore = huScore * lzMul;
+        if(seatData.taiLog){ seatData.taiLog.push('老庄×'+lzMul); }
+    }
+
+    // 包台分 = 底分 × 2^(包台数-起胡台数)，同样乘老庄与财神模式倍数
+    var baoScore = 0;
+    if(game.baoSeatIndex >= 0 && game.baoSeatIndex < 4){
+        baoScore = baseScore * Math.pow(2, Math.max(0, (game.baoTai || 0) - minTaiCfg));
+        if(isLaozhuang){ baoScore = baoScore * lzMul; }
+        if(caiMul > 1){ baoScore = baoScore * caiMul; }
+    }
+    var score = huScore + baoScore; // 单家应付总额(分配逻辑沿用原规则)
 
     if(game.baoSeatIndex >= 0 && game.baoSeatIndex < 4){
         // 包麻将4人版结算（按规格）
@@ -1122,6 +1188,9 @@ exports.hu = function(userId){
         zimo: isZimo,
         tai: tai,
         score: score,
+        huScore: huScore,
+        baoScore: baoScore,
+        baoTai: (game.baoSeatIndex >= 0 && game.baoSeatIndex < 4) ? (game.baoTai || 0) : 0,
         seatIndex: seatIndex
     };
     // 记录放炮者（4人版：放炮者即当前出牌者）
@@ -1137,7 +1206,9 @@ exports.hu = function(userId){
         pai: huPai,
         zimo: isZimo,
         tai: tai,
-        score: score
+        score: score,
+        huScore: huScore,
+        baoScore: baoScore
     });
 
     setTimeout(function(){ doGameOver(game); }, 1000);
@@ -1146,6 +1217,7 @@ exports.hu = function(userId){
 exports.guo = function(userId){
     var game = getGameByUserID(userId);
     if(game == null || game.gameOver) return;
+    clearTurnTimeout(game);
     var seatIndex = getSeatIndex(userId);
     var seatData = game.gameSeats[seatIndex];
     clearAllOptions(game, seatData);
@@ -1447,12 +1519,10 @@ function calculateTai(seatData, game, isZimo, extraTai){
         tai += tn; taiLog.push('无财+'+tn);
     }
 
-    // ---- 封顶：全字牌 / 三个及以上财神 直接按封顶台数计 ----
+    // ---- 封顶：全字牌 直接按封顶台数计 ----
     var maxTai = game.maxTai || 10;
     if(isQuanZi){
         tai = maxTai; taiLog.push('全字牌=封顶'+maxTai);
-    } else if(caishenTotal >= 3 && taiRule(game, 'san_caishen_fengding', 1) > 0){
-        tai = maxTai; taiLog.push('多财神=封顶'+maxTai);
     } else if(tai > maxTai){
         tai = maxTai; taiLog.push('封顶'+maxTai);
     }
@@ -1720,6 +1790,7 @@ exports.start = function(roomInfo){
         caishen2: game.caishen2,
         fanPai: game.fanPai,
         playStyle: game.playStyle,
+        chupaiTimeout: getChupaiTimeout(game), //出牌倒计时(秒),后台可配,客户端同步显示
         numofmj: game.mahjongs.length - game.currentIndex,
         seats: []
     };
@@ -1790,6 +1861,7 @@ exports.resendGameState = function(roomId, userId){
         caishen2: game.caishen2,
         fanPai: game.fanPai,
         playStyle: game.playStyle,
+        chupaiTimeout: getChupaiTimeout(game), //出牌倒计时(秒),后台可配,客户端同步显示
         numofmj: game.mahjongs.length - game.currentIndex,
         seats: []
     };
@@ -1826,6 +1898,10 @@ exports.resendGameState = function(roomId, userId){
         var mySeatData = game.gameSeats[seatIndex];
         if(mySeatData != null && hasOperations(mySeatData)){
             sendOperations(game, mySeatData, game.chuPai);
+            // 对家出牌触发的待选(非本人轮次)重新起算操作倒计时,超时自动过
+            if(seatIndex != game.turn){
+                scheduleTurnTimeout(game, seatIndex, true);
+            }
         }
     }
 };
@@ -1933,7 +2009,12 @@ function finishBaoProcess(game, roomId){
 
     // 庄家开始出牌
     var zhuangSeat = game.gameSeats[game.button];
+    //庄家起手14张直接判胡(天胡),否则庄家天胡永远不弹胡按钮
+    if(checkCanHu(zhuangSeat, game.caishen, game.caishen2)){
+        zhuangSeat.canHu = true;
+    }
     sendOperations(game, zhuangSeat, zhuangSeat.holds[zhuangSeat.holds.length-1]);
+    scheduleTurnTimeout(game, game.button, false);
 }
 
 // 该房间是否有对局进行中（用于断线重连判断）
@@ -1968,14 +2049,16 @@ exports.setReady = function(userId){
 
     // 只有被"在线玩家"占据且已准备的座位才计数;离线/空座位不计入,避免误开局
     var readyCount = 0;
+    var onlineCount = 0;
     for(var i = 0; i < roomInfo.seats.length; ++i){
         var rs = roomInfo.seats[i];
-        if(rs.userId > 0 && userMgr.isOnline(rs.userId) && rs.ready){
-            readyCount++;
+        if(rs.userId > 0 && userMgr.isOnline(rs.userId)){
+            onlineCount++;
+            if(rs.ready){ readyCount++; }
         }
     }
 
-    if(readyCount == roomInfo.seats.length){
+    if(onlineCount >= 2 && readyCount == onlineCount){
         // 所有在线座位都准备好了，延时1秒开局
         setTimeout(function(){
             // 延时期间若已开局(如断线重连)或局数已打满,不再开局

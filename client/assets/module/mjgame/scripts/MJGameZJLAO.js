@@ -1,4 +1,4 @@
-﻿// 诸暨赖倒胡（翻财神，无台数门槛，推倒胡）游戏主脚本
+// 诸暨赖倒胡（翻财神，无台数门槛，推倒胡）游戏主脚本
 cc.Class({
     extends: cc.Component,
 
@@ -95,6 +95,19 @@ cc.Class({
             this._myMJArr.push(sprite);
             sprite.spriteFrame = null;
         }
+        //场景复制自ldh,其中12张手牌Button的点击事件组件名仍指向MJGameLDH(本场景Canvas挂的是MJGameZJLAO),
+        //运行时找不到组件导致点击无效;统一重绑到本脚本(仅修事件引用,不动场景结构)
+        for(var i = 0; i < this._myMJArr.length; ++i){
+            var tileNode = this._myMJArr[i].node;
+            var tileBtn = tileNode.getComponent(cc.Button);
+            if(tileBtn == null){ continue; }
+            var eh = new cc.Component.EventHandler();
+            eh.target = this.node;
+            eh.component = "MJGameZJLAO";
+            eh.handler = "onMJClicked";
+            eh.customEventData = "";
+            tileBtn.clickEvents = [eh];
+        }
         //获取真实宽度(2.4无cc.director.getVisibleSize,必须用cc.view)
         var realwidth = cc.view.getVisibleSize().width;
         var mjscale = realwidth/1280;
@@ -164,6 +177,12 @@ cc.Class({
                     evtNode.emit('game_num',{detail:nm.numOfGames});
                     evtNode.emit('mj_count',{detail:null});
                     evtNode.emit('game_start',{detail:null});
+                    //兜底:开局操作(如天胡)事件若在监听器绑定前到达被丢弃,此处补发确保胡/碰/杠按钮一定显示
+                    if(nm.curaction){
+                        var action = nm.curaction;
+                        nm.curaction = null;
+                        evtNode.emit('game_action',{detail:action});
+                    }
                 },0);
             }
         }
@@ -171,7 +190,8 @@ cc.Class({
         var self = this;
         //开始（zj协议开局完整座位数据）
         this.node.on('game_start',function(data){
-            self.onGameBeign(true, data && data.detail);
+            //onGameBeign任何异常都不能影响财神区刷新,否则财神永远不显示
+            try{ self.onGameBeign(true, data && data.detail); }catch(e){ console.error('[ZJLAO] onGameBeign error:', e); }
             self.initCaishenTip();
         });
 
@@ -530,8 +550,10 @@ cc.Class({
     },
     //加载玩法
     initWanfaLabel:function(){
-        var wanfa = cc.find("Canvas/infobar/wanfa").getComponent(cc.Label);
-        wanfa.string = cc.vv.gameNetMgr.getWanfa();
+        var wanfaNode = cc.find("Canvas/infobar/wanfa") || cc.find("Canvas/infobar/New Sprite/wanfa");
+        if(!wanfaNode){ return; }
+        var wanfa = wanfaNode.getComponent(cc.Label);
+        if(wanfa){ wanfa.string = cc.vv.gameNetMgr.getWanfa(); }
     },
 
     //财神提示（翻财神模式：开局即显示财神）
@@ -546,10 +568,13 @@ cc.Class({
         var has = conf != null && conf.caishen != null && conf.caishen >= 0;
         tipNode.active = has;
         if(!has){ return; }
+        //提到最上层,防止被牌墙/桌面等后加全屏节点盖住导致财神不显示
+        tipNode.setSiblingIndex(tipNode.parent.childrenCount - 1);
 
         var setIcon = function(node, pai){
             var sp = node.getComponent(cc.Sprite);
-            if(sp){ sp.spriteFrame = cc.vv.mahjongmgr.getSpriteFrameByMJID("M_", pai); }
+            //场景里cs1的Sprite组件被禁用(_enabled:false),运行时强制启用,否则财神牌永远不渲染
+            if(sp){ sp.enabled = true; sp.spriteFrame = cc.vv.mahjongmgr.getSpriteFrameByMJID("M_", pai); }
         };
         var cs1 = tipNode.getChildByName("cs1");
         if(cs1){ cs1.active = true; setIcon(cs1, conf.caishen); }

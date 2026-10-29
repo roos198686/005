@@ -66,7 +66,9 @@ cc.Class({
         
         this.lblRoomNo = cc.find("Canvas/infobar/Z_room_txt/New Label").getComponent(cc.Label);
         this._timeLabel = cc.find("Canvas/infobar/time").getComponent(cc.Label);
-        this.lblRoomNo.string = cc.vv.gameNetMgr.roomId;
+        var roomId = cc.vv.gameNetMgr.roomId;
+        //顶部左侧仅保留房号:底分已合并进玩法信息串(getWanfa),避免重复显示
+        this.lblRoomNo.string = "房号:" + roomId;
         var gameChild = this.node.getChildByName("game");
         //2人玩法对手固定在上方(up)槽位：_seats2按本机座位顺序排列，localIndex才能索引到正确方位，否则对家头像写到右侧空槽位看不到
         var sides = cc.vv.mahjongmgr.is2Player() ? ["myself","up"] : ["myself","right","up","left"];
@@ -594,7 +596,8 @@ cc.Class({
         //"退出房间"按钮:服务端exit为释放式退出(仅自己退出,不再占用房间;房内还有其他玩家时房间保留给他人),
         //服务端回exit_result清本地状态后断开连接,由disconnect处理器按来源回俱乐部/大厅
         if(cc.vv.alert && cc.vv.alert.show){
-            cc.vv.alert.show("退出房间","是否确定退出房间？",function(){
+            // title/content 全传 null:保留场景内默认节点文字
+            cc.vv.alert.show(null,"是否确定退出房间？",function(){
                 cc.vv.net.send("exit");
             },true);
         }
@@ -627,7 +630,7 @@ cc.Class({
             }
         };
         if(cc.vv.alert && cc.vv.alert.show){
-            cc.vv.alert.show("解散房间","解散房间不扣房卡，是否确定解散？",doSend,true);
+            cc.vv.alert.show(null,"解散房间不扣房卡，是否确定解散？",doSend,true);
         }
         else{
             doSend();
@@ -637,7 +640,8 @@ cc.Class({
     onBtnExit:function(){
         //退出前弹确认框,避免误触直接退房(与解散按钮同一原生弹窗组件)
         if(cc.vv.alert && cc.vv.alert.show){
-            cc.vv.alert.show("退出房间","是否确定退出房间？",function(){
+            // title/content 全传 null:保留场景内默认节点文字
+            cc.vv.alert.show(null,"是否确定退出房间？",function(){
                 cc.vv.net.send("exit");
             },true);
         }

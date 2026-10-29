@@ -65,8 +65,8 @@ cc.Class({
 
         var box = new cc.Node("resultList");
         root.addChild(box);
-        //起始y=170(相对面板中心):整体下移50,与标题拉开距离,列表更居中
-        var y = 170;
+        //先收集所有行再统一排布:整列在面板内上下居中
+        var rows = [];
         //自家/对家都显示:按座位顺序列出,标注身份(大赢家判定按全部座位分数)
         var selfIdx = cc.vv.gameNetMgr.seatIndex;
         for(var i = 0; i < info.length; ++i){
@@ -88,7 +88,7 @@ cc.Class({
                      + "  查叫" + this.signedNum(e.numchadajiao);
             }
             txt += "   总成绩:" + this.signedNum(sc);
-            y -= this.addListRow(box, txt, 28, y, sc > 0 ? cc.color(40,120,40) : (sc < 0 ? cc.color(170,40,40) : cc.color(90,90,90)));
+            rows.push({text:txt, fontSize:28, color:sc > 0 ? cc.color(40,120,40) : (sc < 0 ? cc.color(170,40,40) : cc.color(90,90,90))});
         }
         //整场结算:每局明细行——自家/对家双方分数 + 本局胡牌方与台数(荒庄只显分数)
         if(roundHistory && roundHistory.length > 0){
@@ -111,8 +111,15 @@ cc.Class({
                     //老庄局庄家胡牌分数×2,标注"(老庄)"解释翻倍原因
                     line += "   " + winSide + "胡" + winTai + "台" + (winZimo ? "(自摸)" : "") + (winLZ ? "(老庄)" : "");
                 }
-                y -= this.addListRow(box, line, 22, y, selfSc > 0 ? cc.color(34,120,34) : (selfSc < 0 ? cc.color(180,40,40) : cc.color(120,120,120)));
+                rows.push({text:line, fontSize:22, color:selfSc > 0 ? cc.color(34,120,34) : (selfSc < 0 ? cc.color(180,40,40) : cc.color(120,120,120))});
             }
+        }
+        //整列上下居中:起始y=总高的一半,逐行向下排
+        var totalH = 0;
+        for(var i = 0; i < rows.length; ++i){ totalH += rows[i].fontSize + 14; }
+        var y = totalH / 2;
+        for(var i = 0; i < rows.length; ++i){
+            y -= this.addListRow(box, rows[i].text, rows[i].fontSize, y, rows[i].color);
         }
     },
 
@@ -157,10 +164,10 @@ cc.Class({
     },
 
     onBtnCloseClicked:function(){
-        //点击"退出房间"先通知服务端离开房间,再按进房来源返回:俱乐部直达玩法详情页,否则回大厅
         if(cc.vv && cc.vv.net && cc.vv.net.send){
             cc.vv.net.send("leave_room");
         }
+        //按进入来源返回:来自俱乐部→club场景(由clubScene根据fromClubId直达玩法详情页),否则回大厅
         if(cc.vv.fromClubId){
             cc.vv.fromClub = true;
             cc.director.loadScene("club");

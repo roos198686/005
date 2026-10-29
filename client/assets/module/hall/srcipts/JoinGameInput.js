@@ -37,6 +37,9 @@ cc.Class({
                 if(ret.errcode == 4){
                     content = "房间["+ roomId + "]已满!";
                 }
+                else if(ret.errcode == 2222){
+                    content = "房卡不足，无法进入房间";
+                }
                 cc.vv.wc.showError(content);
                 this.onResetClicked();
             }

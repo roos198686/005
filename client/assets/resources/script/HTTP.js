@@ -1,5 +1,5 @@
-// 服务器地址：统一使用公网地址，真机/模拟器/H5 均可直连
-var _host = "47.239.100.68";
+// 服务器地址：本地开发走127.0.0.1
+var _host = "127.0.0.1";
 var _isAndroid = false;
 if(typeof cc !== "undefined"){
     if(cc.sys && cc.sys.platform === cc.sys.ANDROID){

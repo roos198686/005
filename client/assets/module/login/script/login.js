@@ -79,8 +79,7 @@ cc.Class({
         }
         //登录前先加载全部游戏资源:进度条展示,加载完才显示登录按钮
         this._initPreloadUI();
-        //url 赋值master_url
-        cc.vv.http.url = cc.vv.http.master_url;
+        //url已在Lodinglogin.js的onGetVersion里切到hall_server,此处不再重置回master_url(9000)
         //sockect连接模块  参数 事件 方法
         cc.vv.net.addHandler('push_need_create_role',function(){
             console.log("onLoad:push_need_create_role");
@@ -93,6 +92,24 @@ cc.Class({
         
         //游客登录按钮：原生(H5/安卓/iOS)与windows 均显示，方便一键进入
         cc.find("Canvas/global/button/btn_yk").active = true;
+        //微信登录按钮(场景内已有 button1 = 微信登录按钮图):后台关闭微信登录时隐藏
+        var btnWx = cc.find("Canvas/global/button/button1");
+        if(btnWx){
+            btnWx.active = !(cc.vv.SI && cc.vv.SI.wxlogin === 0);
+            cc.vv.utils.addClickEvent(btnWx,this.node,"login","onBtnWechatClicked");
+        }
+    },
+    
+    //微信登录
+    onBtnWechatClicked:function(){
+        cc.vv.audioMgr.playSFX("button.mp3");
+        if(!cc.sys.isNative){
+            if(cc.vv.wc && cc.vv.wc.showError){
+                cc.vv.wc.showError("微信登录仅支持APP端,请使用游客登录");
+            }
+            return;
+        }
+        cc.vv.anysdkMgr.login();
     },
     
     start:function(){

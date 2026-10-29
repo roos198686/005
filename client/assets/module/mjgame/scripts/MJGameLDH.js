@@ -164,6 +164,12 @@ cc.Class({
                     evtNode.emit('game_num',{detail:nm.numOfGames});
                     evtNode.emit('mj_count',{detail:null});
                     evtNode.emit('game_start',{detail:null});
+                    //兜底:开局操作(如天胡)事件若在监听器绑定前到达被丢弃,此处补发确保胡/碰/杠按钮一定显示
+                    if(nm.curaction){
+                        var action = nm.curaction;
+                        nm.curaction = null;
+                        evtNode.emit('game_action',{detail:action});
+                    }
                 },0);
             }
         }
@@ -171,7 +177,8 @@ cc.Class({
         var self = this;
         //开始（zj协议开局完整座位数据）
         this.node.on('game_start',function(data){
-            self.onGameBeign(true, data && data.detail);
+            //onGameBeign任何异常都不能影响财神区刷新,否则财神永远不显示
+            try{ self.onGameBeign(true, data && data.detail); }catch(e){ console.error('[LDH] onGameBeign error:', e); }
             self.initCaishenTip();
         });
 
@@ -530,8 +537,30 @@ cc.Class({
     },
     //加载玩法
     initWanfaLabel:function(){
-        var wanfa = cc.find("Canvas/infobar/wanfa").getComponent(cc.Label);
-        wanfa.string = cc.vv.gameNetMgr.getWanfa();
+        // 尝试多个可能路径:不同场景 Canvas 层级可能有差异
+        var paths = ["Canvas/infobar/wanfa", "Canvas/infobar/New Sprite/wanfa", "Canvas/infobar/infobar/wanfa"];
+        var wanfaNode = null;
+        for(var p = 0; p < paths.length; ++p){
+            wanfaNode = cc.find(paths[p]);
+            if(wanfaNode){ break; }
+        }
+        if(!wanfaNode){
+            console.warn("[initWanfaLabel] wanfa node NOT FOUND, tried:", paths.join(" | "));
+            // 打印场景里所有叫 wanfa 的节点路径帮助定位
+            var all = cc.director.getScene();
+            if(all){
+                var tryFind = function(n, depth){
+                    if(!n) return;
+                    if(n.name === "wanfa") console.warn("[initWanfaLabel] found wanfa at depth", depth, "name=", n.name, "parent=", n.parent && n.parent.name);
+                    for(var c = 0; c < n.children && c < 100; ++c){ tryFind(n.children[c], depth+1); }
+                };
+                tryFind(all, 0);
+            }
+            return;
+        }
+        var wanfa = wanfaNode.getComponent(cc.Label);
+        if(wanfa){ wanfa.string = cc.vv.gameNetMgr.getWanfa(); }
+        else{ console.warn("[initWanfaLabel] wanfa node has no cc.Label component"); }
     },
 
     //财神提示（翻财神模式：开局即显示财神）
@@ -546,10 +575,13 @@ cc.Class({
         var has = conf != null && conf.caishen != null && conf.caishen >= 0;
         tipNode.active = has;
         if(!has){ return; }
+        //提到最上层,防止被牌墙/桌面等后加全屏节点盖住导致财神不显示
+        tipNode.setSiblingIndex(tipNode.parent.childrenCount - 1);
 
         var setIcon = function(node, pai){
             var sp = node.getComponent(cc.Sprite);
-            if(sp){ sp.spriteFrame = cc.vv.mahjongmgr.getSpriteFrameByMJID("M_", pai); }
+            //场景里cs1的Sprite组件被禁用(_enabled:false),运行时强制启用,否则财神牌永远不渲染
+            if(sp){ sp.enabled = true; sp.spriteFrame = cc.vv.mahjongmgr.getSpriteFrameByMJID("M_", pai); }
         };
         var cs1 = tipNode.getChildByName("cs1");
         if(cs1){ cs1.active = true; setIcon(cs1, conf.caishen); }

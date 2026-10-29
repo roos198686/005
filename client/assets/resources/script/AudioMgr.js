@@ -47,10 +47,17 @@ cc.Class({
     
     //通过resources加载AudioClip,避免cc.url.raw弃用及"Wrong type of AudioClip"错误
     _loadClip:function(url, cb){
-        cc.resources.load("sounds/" + url, cc.AudioClip, function(err, clip){
-            if(err || !clip){ console.log("[AudioMgr]加载音频失败:", url, err && err.message); return; }
-            cb(clip);
-        });
+        var tryLoad = function(path){
+            cc.resources.load(path, cc.AudioClip, function(err, clip){
+                if(err || !clip){
+                    if(path.toLowerCase().endsWith('.mp3')){ tryLoad(path.substring(0,path.length-4)+".wav"); return; }
+                    if(!path.includes('.')){ tryLoad(path+".mp3"); return; }
+                    console.log("[AudioMgr]加载失败:", url); return;
+                }
+                cb(clip);
+            });
+        };
+        tryLoad("sounds/" + url);
     },
     
     playBGM(url){

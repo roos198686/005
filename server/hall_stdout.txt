@@ -1,0 +1,8 @@
+client service is listening on port 9001
+room service is listening on 127.0.0.1:9002
+game server registered.
+	id:127.0.0.1:10000
+	addr:127.0.0.1
+	http port:9003
+	socket clientport:10000
+invalid parameters

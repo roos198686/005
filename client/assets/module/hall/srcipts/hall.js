@@ -135,12 +135,23 @@ cc.Class({
         this.initButtonHandler("Canvas/global/main/menu/btn_zhanji");
         //原商城入口改为加入房间入口:与其他菜单按钮走同一绑定机制
         this.initButtonHandler("Canvas/global/main/menu/菜单-商城");
+        //清理菜单上残留的失效点击事件(分享/反馈等按钮点击会抛 getComponent: Type must be non-nil)
+        this.sanitizeEvents(this.node);
         //设置按钮返回事件
         this.helpWin.addComponent("OnBack");
         //玩法介绍弹窗整体等比缩小,上下留出外边距(文字不变形)
         this.helpWin.setScale(0.88);
         this.xiaoxiWin.addComponent("OnBack");
-        this.zhanjiWin.addComponent("OnBack");
+        //战绩面板:列表与录像回放全部由 History 组件控制(房间->局 两级)
+        //场景 Canvas 上已有 History 组件(它负责查找 history 节点并认领列表模板),
+        //不能再给 history 节点挂第二个实例,否则模板已被第一个实例拿走,新实例列表为空
+        if(this.zhanjiWin && this.node.getComponent("History") == null){
+            try{
+                this.node.addComponent("History");
+            }catch(e){
+                cc.log("[zhanji] History 组件挂载失败:" + (e && e.message));
+            }
+        }
 
         //notice滚动条获取值
         //初始化notice值
@@ -208,22 +219,71 @@ cc.Class({
     //通过路径获取按钮并且添加点击事件
     initButtonHandler:function(btnPath){
         var btn = cc.find(btnPath);
-        cc.vv.utils.addClickEvent(btn,this.node,"hall","onBtnClicked");        
+        if(btn == null){
+            cc.log("[hall] 未找到按钮:" + btnPath);
+            return;
+        }
+        //场景里遗留的点击事件若组件ID为空,点击时会抛 getComponent: Type must be non-nil,
+        //并中断同级后续事件,先清理;绑定改用节点触摸监听,不依赖 clickEvents 解析
+        this.sanitizeEvents(btn);
+        var self = this;
+        btn.on(cc.Node.EventType.TOUCH_END, function(){
+            if(!cc.isValid(btn)){ return; }
+            self.onBtnClicked({target:btn});
+        });
+    },
+
+    //递归清理节点树上无法解析的点击事件(组件ID/组件名都已失效的旧事件)
+    sanitizeEvents:function(node){
+        if(node == null){ return; }
+        var btns = node.getComponentsInChildren(cc.Button);
+        for(var i = 0; i < btns.length; ++i){
+            var list = btns[i].clickEvents;
+            if(list == null || list.length == 0){ continue; }
+            var keep = [];
+            for(var k = 0; k < list.length; ++k){
+                var h = list[k];
+                if(h == null || h.target == null){ continue; }
+                if(h._componentId){
+                    if(cc.js._getClassById(h._componentId)){ keep.push(h); }
+                }
+                else if(h.component && cc.js.getClassByName(h.component)){
+                    keep.push(h);
+                }
+            }
+            btns[i].clickEvents = keep;
+        }
     },
    
+    //玩法介绍弹窗:内容区左侧玩法列表 + 右侧玩法说明(逻辑在 HallHelp)
+    openHelp:function(){
+        if(this.helpWin == null){ return; }
+        this.helpWin.active = true;
+        var help = this.node.getComponent("HallHelp");
+        if(help == null){
+            try{
+                help = this.node.addComponent("HallHelp");
+            }catch(e){
+                cc.log("[help] HallHelp 组件挂载失败:" + (e && e.message));
+            }
+        }
+        if(help){ help.open(this.helpWin); }
+    },
+
     //点击事件返回值
     onBtnClicked:function(event){
+        cc.log("[hall] click:" + event.target.name);
         if(event.target.name == "btn_setting"){
             this.settingsWin.active = true;
         }   
         else if(event.target.name == "btn_help"){
-            this.helpWin.active = true;
+            this.openHelp();
         }
         else if(event.target.name == "btn_xiaoxi"){
             this.xiaoxiWin.active = true;
         }
         else if(event.target.name == "btn_zhanji"){
-            this.zhanjiWin.active=true;
+            this.openZhanji();
         }
         else if(event.target.name == "菜单-商城"){
             this.onJoinGameClicked(); //商城入口已改为加入房间:打开输入房号弹窗
@@ -244,6 +304,24 @@ cc.Class({
     //创建房间按钮显示
     onJoinGameClicked:function(){
         this.joinGameWin.active = true;
+    },
+
+    //打开战绩面板(内部为 房间->局 两级列表,点击某局进入录像回放)
+    openZhanji:function(){
+        if(this.zhanjiWin == null){ return; }
+        this.zhanjiWin.active = true;
+        //用 Canvas 上场景自带的 History 实例(它已认领列表模板),不要新建第二个实例
+        var history = this.node.getComponent("History");
+        if(history == null){
+            try{
+                history = this.node.addComponent("History");
+            }catch(e){
+                cc.log("[zhanji] History 组件挂载失败:" + (e && e.message));
+            }
+        }
+        cc.log("[zhanji] open, history=" + (history != null) + " active=" + this.zhanjiWin.active);
+        if(history){ history.open(); }
+        else{ cc.log("[zhanji] History 组件加载失败"); }
     },
     
     //返回按钮显示（按当前玩法分流到对应游戏场景）

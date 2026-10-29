@@ -242,43 +242,11 @@ function checkHuStructure(cm, wilds){
     return false;
 }
 
-// 七对（16张玩法的17张结构：7对子+1刻，金牌可补）
-function checkQiDui(cm, wilds){
-    var total = wilds;
-    for(var k in cm){ total += cm[k]; }
-    if(total != 17) return false;
-
-    function restAllPairs(cm2, w){
-        var singles = 0;
-        for(var k in cm2){
-            if(cm2[k] % 2 == 1) singles++;
-        }
-        // 每个单牌配1金成对，剩余金两两成对
-        return singles <= w && ((w - singles) % 2 == 0);
-    }
-
-    // 刻子候选：t 的 3-k 真 + k 金
-    for(var k in cm){
-        k = parseInt(k);
-        for(var useWild = 0; useWild <= 2; ++useWild){
-            if(cm[k] >= 3 - useWild && wilds >= useWild){
-                cm[k] -= (3 - useWild);
-                if(restAllPairs(cm, wilds - useWild)){ cm[k] += (3 - useWild); return true; }
-                cm[k] += (3 - useWild);
-            }
-        }
-    }
-    // 刻子=3金
-    if(wilds >= 3 && restAllPairs(cm, wilds - 3)) return true;
-    return false;
-}
-
 // 自摸胡判定（自己回合，手牌 %3==2）
 function canHuNow(game, seatData){
     if(seatData.holds.length % 3 != 2) return false;
     var sp = splitHolds(game, seatData);
     if(checkHuStructure(sp.cm, sp.wilds)) return true;
-    if(checkQiDui(sp.cm, sp.wilds)) return true;
     return false;
 }
 
@@ -290,7 +258,6 @@ function canDianPao(game, seatData, pai){
     var sp = splitHolds(game, seatData);
     sp.cm[pai] = (sp.cm[pai] || 0) + 1;
     if(checkHuStructure(sp.cm, sp.wilds)) return true;
-    if(checkQiDui(sp.cm, sp.wilds)) return true;
     return false;
 }
 
@@ -299,7 +266,6 @@ function canQiangJin(game, seatData){
     if(seatData.holds.length % 3 != 1) return false;
     var sp = splitHolds(game, seatData);
     if(checkHuStructure(sp.cm, sp.wilds + 1)) return true;
-    if(checkQiDui(sp.cm, sp.wilds + 1)) return true;
     return false;
 }
 
@@ -695,6 +661,9 @@ function doHuSettle(game, seatIndex, huPai, huType, payFrom){
         r.tailog.push("游金" + seatData.youJinLevel + "游×" + Math.pow(multi, seatData.youJinLevel));
     }
     score = Math.floor(score);
+    // 无财/独财×2
+    var caiMul = (game.caishenMode != null && (game.caishenMode === 0 || game.caishenMode === 1)) ? 2 : 1;
+    if(caiMul > 1){ score *= caiMul; r.tailog.push('财神模式×'+caiMul); }
     if(capped) r.tailog.push("封顶" + maxTai + "台");
 
     // 赔付
@@ -851,13 +820,19 @@ function doGameOver(game){
     // 缓存最近一局结算:结算停留期断线/重进时由 resendGameState 补发
     game.lastResult = pushData;
 
-    // 房卡扣除：第一局结束一次性扣除整局房卡(中途解散不退)
+    // 房卡扣除：第一局结束一次性扣除整局房卡(中途解散不退)，所有在坐玩家均按后台设置的数量扣除
     var cost = roomInfo.conf.cost || 0;
-    var creator = roomInfo.conf.creator;
-    if(creator && roomInfo.numOfGames === 1 && cost > 0){
-        db.cost_gems(creator, cost, function(success){
-            console.log("[zp房卡扣除] 房主", creator, "扣除", cost, "结果:", success);
-        });
+    if(roomInfo.numOfGames === 1 && cost > 0){
+        for(var ci = 0; ci < roomInfo.seats.length; ++ci){
+            var cuid = roomInfo.seats[ci].userId;
+            if(cuid > 0){
+                (function(uid){
+                    db.cost_gems(uid, cost, function(success){
+                        console.log("[zp房卡扣除] 玩家", uid, "扣除", cost, "结果:", success);
+                    });
+                })(cuid);
+            }
+        }
     }
 
     var index = roomInfo.numOfGames;
@@ -1647,11 +1622,15 @@ exports.setReady = function(userId){
     if(games[roomId] != null && games[roomId].gameOver != true) return;
 
     var readyCount = 0;
+    var onlineCount = 0;
     for(var i = 0; i < roomInfo.seats.length; ++i){
         var rs = roomInfo.seats[i];
-        if(rs.userId > 0 && userMgr.isOnline(rs.userId) && rs.ready) readyCount++;
+        if(rs.userId > 0 && userMgr.isOnline(rs.userId)){
+            onlineCount++;
+            if(rs.ready) readyCount++;
+        }
     }
-    if(readyCount == roomInfo.seats.length){
+    if(onlineCount >= 2 && readyCount == onlineCount){
         setTimeout(function(){
             if(roomInfo.numOfGames >= roomInfo.conf.maxGames) return;
             if(games[roomId] != null && games[roomId].gameOver != true) return;

@@ -131,21 +131,44 @@ app.get('/enter_room',function(req,res){
 		}
 	}
 
-	//安排玩家坐下
-	roomMgr.enterRoom(roomId,userId,name,function(ret){
-		if(ret != 0){
-			if(ret == 1){
-				http.send(res,4,"room is full.");
-			}
-			else if(ret == 2){
-				http.send(res,3,"can't find room.");
-			}	
-			return;		
-		}
+	//房卡校验:新入座玩家房卡 < 本房间所需房卡(conf.cost)时禁止进入
+	//(重连回自己座位的玩家放行;房主建房时已在createRoom校验过,此处主要拦截后续加入者)
+	var targetRoom = roomMgr.getRoom(roomId);
+	var needCost = (targetRoom && targetRoom.conf && targetRoom.conf.cost) || 0;
+	var isReconnect = (roomMgr.getUserRoom(userId) == roomId);
 
-		var token = tokenMgr.createToken(userId,5000);
-		http.send(res,0,"ok",{token:token});
-	});
+	var doTakeSeat = function(){
+		//安排玩家坐下
+		roomMgr.enterRoom(roomId,userId,name,function(ret){
+			if(ret != 0){
+				if(ret == 1){
+					http.send(res,4,"room is full.");
+				}
+				else if(ret == 2){
+					http.send(res,3,"can't find room.");
+				}
+				return;
+			}
+
+			var token = tokenMgr.createToken(userId,5000);
+			http.send(res,0,"ok",{token:token});
+		});
+	};
+
+	if(needCost > 0 && !isReconnect){
+		db.get_user_data_by_userid(userId,function(udata){
+			var myGems = (udata && udata.gems) || 0;
+			if(myGems < needCost){
+				console.log('[enter_room reject] userId=' + userId + ' 房卡不足:gems=' + myGems + ' < cost=' + needCost + ' room=' + roomId);
+				http.send(res,2222,"房卡不足，无法进入房间");
+				return;
+			}
+			doTakeSeat();
+		});
+	}
+	else{
+		doTakeSeat();
+	}
 });
 
 //大厅服探活接口,供 /is_server_online 判定本游戏服是否在线

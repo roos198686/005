@@ -1,20 +1,10 @@
 {
-  "name": "babykylin_scmj_server",
-  "version": "1.0.0",
-  "description": "幼麟棋牌-四川麻将服务端（已升级至 NodeJS 14+，移除 fibers 依赖）",
-  "main": "game_server/app.js",
-  "scripts": {
-    "account": "node account_server/app.js configs_win.js",
-    "hall": "node hall_server/app.js configs_win.js",
-    "game": "node game_server/app.js configs_win.js",
-    "start": "node account_server/app.js configs_win.js"
-  },
   "dependencies": {
-    "express": "^4.18.2",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
     "mysql": "^2.18.1",
-    "socket.io": "^2.5.0"
-  },
-  "engines": {
-    "node": ">=14.0.0"
+    "path-to-regexp": "^3.2.0",
+    "router": "^1.3.5",
+    "socket.io": "^2.5.1"
   }
 }

@@ -64,27 +64,30 @@ function isCaishenPai(game, pai){
 }
 
 function shuffle(game) {
-    var mahjongs = game.mahjongs;
-    var index = 0;
+    var removeTiao = game.remove_tiao === 1;
+    var tmp = [];
     for(var i = 0; i < 9; ++i){
-        for(var c = 0; c < 4; ++c){ mahjongs[index++] = i; }
+        for(var c = 0; c < 4; ++c){ tmp.push(i); }
     }
-    for(var i = 9; i < 18; ++i){
-        for(var c = 0; c < 4; ++c){ mahjongs[index++] = i; }
+    if(!removeTiao){
+        for(var i = 9; i < 18; ++i){
+            for(var c = 0; c < 4; ++c){ tmp.push(i); }
+        }
     }
     for(var i = 18; i < 27; ++i){
-        for(var c = 0; c < 4; ++c){ mahjongs[index++] = i; }
+        for(var c = 0; c < 4; ++c){ tmp.push(i); }
     }
     for(var i = 27; i < 34; ++i){
-        for(var c = 0; c < 4; ++c){ mahjongs[index++] = i; }
+        for(var c = 0; c < 4; ++c){ tmp.push(i); }
     }
+    game.mahjongs = tmp;
 
-    for(var i = 0; i < mahjongs.length; ++i){
-        var lastIndex = mahjongs.length - 1 - i;
+    for(var i = 0; i < game.mahjongs.length; ++i){
+        var lastIndex = game.mahjongs.length - 1 - i;
         var idx = Math.floor(Math.random() * lastIndex);
-        var t = mahjongs[idx];
-        mahjongs[idx] = mahjongs[lastIndex];
-        mahjongs[lastIndex] = t;
+        var t = game.mahjongs[idx];
+        game.mahjongs[idx] = game.mahjongs[lastIndex];
+        game.mahjongs[lastIndex] = t;
     }
 }
 
@@ -92,6 +95,7 @@ function shuffle(game) {
 function fanCaishen(game){
     if(game.currentIndex >= game.mahjongs.length){
         game.caishen = -1;
+        game.caishen2 = -1;
         return;
     }
     var fanPai = game.mahjongs[game.currentIndex];
@@ -99,15 +103,35 @@ function fanCaishen(game){
     game.fanPai = fanPai;
 
     if(isZi(fanPai)){
-        // 字牌的财神就是它自己
-        game.caishen = fanPai;
+        // 字牌也分单双财神, 按中发白(3循环)/东南西北(4循环)取循环下一张
+        var nextPai = nextCaishenOf(fanPai);
+        if(game.cai7 === 1){
+            // 双财神(7张): 指示牌(展示牌移除,剩3张) + 循环下一张(4张)
+            game.caishen = fanPai;
+            game.caishen2 = nextPai;
+        } else {
+            // 单财神(4张): 循环下一张(4张)
+            game.caishen = nextPai;
+            game.caishen2 = -1;
+            game.mahjongs.push(fanPai);
+        }
     } else {
         var type = getMJType(fanPai);
         var value = fanPai % 9;
         var nextValue = (value + 1) % 9;
-        game.caishen = type * 9 + nextValue;
+        var nextPai = type * 9 + nextValue;
+        if(game.cai7 === 1){
+            // 双财神(7张): 指示牌数字(展示牌移除,剩3张) + 下一数字(4张)
+            game.caishen = fanPai;
+            game.caishen2 = nextPai;
+            // 指示牌作为展示牌, 不放回牌堆, 该数字只剩3张在游戏中
+        } else {
+            // 单财神(4张): 下一数字(4张)
+            game.caishen = nextPai;
+            game.caishen2 = -1;
+            game.mahjongs.push(fanPai);
+        }
     }
-    game.mahjongs.push(fanPai);
 }
 
 function mopai(game, seatIndex) {
@@ -188,21 +212,6 @@ function checkCanHu(seatData, caishen, caishen2){
         if(canFormMelds(countMap, caishenCount - 2)){
             return true;
         }
-    }
-
-    // 七对
-    if(holds.length === 14){
-        var pairs = 0;
-        var cs = caishenCount;
-        for(var k in countMap){
-            pairs += Math.floor(countMap[k] / 2);
-            if(countMap[k] % 2 == 1 && cs > 0){
-                pairs++;
-                cs--;
-            }
-        }
-        pairs += Math.floor(cs / 2);
-        if(pairs >= 7) return true;
     }
 
     // 只有财神
@@ -324,6 +333,235 @@ function canFormMelds(countMap, caishenCount){
 
     return false;
 }
+function findAllHuSplits(seatData, caishen, caishen2){
+    var countMap = {};
+    var cs = 0;
+    for(var i = 0; i < seatData.holds.length; i++){
+        var p = seatData.holds[i];
+        if((caishen >= 0 && p == caishen) || (caishen2 != null && caishen2 >= 0 && p == caishen2)) cs++;
+        else countMap[p] = (countMap[p] || 0) + 1;
+    }
+    var results = [];
+    // 将牌: 真牌对
+    var labels = Object.keys(countMap).map(Number);
+    for(var i = 0; i < labels.length; i++){
+        var p = labels[i];
+        if(countMap[p] >= 2){
+            countMap[p] -= 2;
+            _splitDfs(countMap, cs, { jiang: p, kes: [], shuns: [] }, results);
+            countMap[p] += 2;
+        }
+    }
+    // 将牌: 1真+1财
+    if(cs >= 1){
+        for(var j = 0; j < labels.length; j++){
+            var p2 = labels[j];
+            if(countMap[p2] >= 1){
+                countMap[p2] -= 1;
+                _splitDfs(countMap, cs - 1, { jiang: p2, kes: [], shuns: [] }, results);
+                countMap[p2] += 1;
+            }
+        }
+    }
+    // 将牌: 2财
+    if(cs >= 2){
+        _splitDfs(countMap, cs - 2, { jiang: -1, kes: [], shuns: [] }, results);
+    }
+    return results;
+}
+
+function _splitDfs(cm, cs, cur, results){
+    // 找最小剩余牌
+    var labels = Object.keys(cm).filter(function(k){ return cm[k] > 0; }).map(Number);
+    if(labels.length === 0){
+        if(cs % 3 === 0){
+            // 必须 clone, 否则 push 同一个引用, 后续 push/pop 会把已存的结果也改掉
+            results.push({
+                jiang: cur.jiang,
+                kes: cur.kes.slice(),
+                shuns: cur.shuns.map(function(s){ return s.slice(); }),
+                csLeft: cs
+            });
+        }
+        return;
+    }
+    labels.sort(function(a,b){ return a - b; });
+    var first = labels[0];
+    var c = cm[first];
+
+    // 刻子: first×3
+    if(c >= 3){
+        cm[first] -= 3; cur.kes.push(first);
+        _splitDfs(cm, cs, cur, results);
+        cur.kes.pop(); cm[first] += 3;
+    }
+    // 刻子: first×2 + 1财
+    if(c >= 2 && cs >= 1){
+        cm[first] -= 2; cur.kes.push(first);
+        _splitDfs(cm, cs - 1, cur, results);
+        cur.kes.pop(); cm[first] += 2;
+    }
+    // 刻子: first×1 + 2财
+    if(c >= 1 && cs >= 2){
+        cm[first] -= 1; cur.kes.push(first);
+        _splitDfs(cm, cs - 2, cur, results);
+        cur.kes.pop(); cm[first] += 1;
+    }
+    // 顺子(字牌不能): first, first+1, first+2
+    if(!isZi(first)){
+        var v = first % 9;
+        if(v <= 6){
+            var p2 = first + 1, p3 = first + 2;
+            var c2 = cm[p2] || 0, c3 = cm[p3] || 0;
+            // 真顺 a,b,c
+            if(c2 > 0 && c3 > 0){
+                cm[first]--; cm[p2]--; cm[p3]--; cur.shuns.push([first,p2,p3]);
+                _splitDfs(cm, cs, cur, results);
+                cur.shuns.pop(); cm[first]++; cm[p2]++; cm[p3]++;
+            }
+            // 财神补: a,b,cs
+            if(c2 > 0 && cs >= 1){
+                cm[first]--; cm[p2]--; cur.shuns.push([first,p2,-1]);
+                _splitDfs(cm, cs - 1, cur, results);
+                cur.shuns.pop(); cm[first]++; cm[p2]++;
+            }
+            // 财神补: a,cs,c
+            if(c3 > 0 && cs >= 1){
+                cm[first]--; cm[p3]--; cur.shuns.push([first,-1,p3]);
+                _splitDfs(cm, cs - 1, cur, results);
+                cur.shuns.pop(); cm[first]++; cm[p3]++;
+            }
+            // 财神补: a,cs,cs
+            if(cs >= 2){
+                cm[first]--; cur.shuns.push([first,-1,-1]);
+                _splitDfs(cm, cs - 2, cur, results);
+                cur.shuns.pop(); cm[first]++;
+            }
+        } else if(v == 7){
+            // first=8万/8筒/8条: 唯一 8+9+cs(当7)
+            var q2 = first + 1;
+            if((cm[q2] || 0) > 0 && cs >= 1){
+                cm[first]--; cm[q2]--; cur.shuns.push([-1,first,q2]);
+                _splitDfs(cm, cs - 1, cur, results);
+                cur.shuns.pop(); cm[first]++; cm[q2]++;
+            }
+        }
+    }
+    // 3财替代 first 成刻(first 是真牌, 3财当 first 的刻)
+    if(cs >= 3){
+        cm[first] -= 1; cur.kes.push(first);
+        _splitDfs(cm, cs - 3, cur, results);
+        cur.kes.pop(); cm[first] += 1;
+    }
+}
+
+// 对一个完整拆法算台项: 返回 {tai, logs, isPing, isDui, hun, qing}
+function calcTaiFromSplit(split, seatData, game){
+    var logs = [];
+    var tai = 0;
+    var kes = split.kes;      // 手牌中拆出来的刻子(含财神补的)
+    var shuns = split.shuns;  // 手牌中拆出来的顺子(含财神补的)
+    var jiang = split.jiang;
+    var csLeft = split.csLeft; // 剩余未分配财神(必是3的倍数)
+
+    // 合并碰/杠刻子
+    var allKes = kes.slice();
+    if(seatData.pengs){ for(var i = 0; i < seatData.pengs.length; i++) allKes.push(seatData.pengs[i]); }
+    if(seatData.gangs){ for(var i = 0; i < seatData.gangs.length; i++) allKes.push(seatData.gangs[i].pai); }
+
+    // 1. 对对胡 = 没有顺子(手牌+副露)
+    var hasChi = (seatData.chis && seatData.chis.length > 0);
+    var isDui = (shuns.length === 0 && !hasChi);
+    if(isDui){ var tn = taiRule(game, 'duidui_hu', 1); tai += tn; logs.push('对对胡+' + tn); }
+
+    // 2. 平胡 = 手牌内无刻子 + 无碰杠副露 + 无纯财神刻
+    // 注意: 吃副露不破坏平胡(吃本来就是顺子, 平胡=将+全顺子, 吃算顺子!)
+    var hasPengGang = (seatData.pengs && seatData.pengs.length > 0) || (seatData.gangs && seatData.gangs.length > 0);
+    var hasPureKe = csLeft >= 3;
+    var isPing = (kes.length === 0 && !hasPengGang && csLeft === 0);
+    if(isPing){ var tn2 = taiRule(game, 'ping_hu', 1); tai += tn2; logs.push('平胡+' + tn2); }
+
+    // 3. 字刻台数(ziKeDefs 里配置的)
+    var ziKeDefs = [
+        [30, 'dong_ke', 2, '东风刻'],
+        [27, 'zfb_ke', 1, '中刻'],
+        [28, 'zfb_ke', 1, '发刻'],
+        [29, 'zfb_ke', 1, '白刻']
+    ];
+    // 统计所有字刻数量
+    var ziKeCount = {};
+    for(var k = 0; k < allKes.length; k++){
+        if(isZi(allKes[k])) ziKeCount[allKes[k]] = (ziKeCount[allKes[k]] || 0) + 1;
+    }
+    for(var z = 0; z < ziKeDefs.length; z++){
+        var zp = ziKeDefs[z][0];
+        var zc = ziKeCount[zp] || 0;
+        if(zc > 0){
+            var zn = taiRule(game, ziKeDefs[z][1], ziKeDefs[z][2]) * zc;
+            tai += zn; logs.push(ziKeDefs[z][3] + '+' + zn);
+        }
+    }
+    // 纯财神刻 = 按东风刻计
+    if(hasPureKe){
+        var pureKeCount = csLeft / 3;
+        var dtn = taiRule(game, 'dong_ke', 2) * pureKeCount;
+        tai += dtn; logs.push('纯财神刻+' + dtn);
+        // 纯财神刻是字牌 → 破坏平胡
+        // (这里 isPing 已确保 csLeft===0, 所以不会走到这里)
+    }
+
+    // 4. 花色判断(基于完整拆法里的真牌, 财神不算花色)
+    var suitSet = {};
+    var isCaiTile = function(p){ return (p == game.caishen) || (game.caishen2 != null && game.caishen2 >= 0 && p == game.caishen2); };
+    // 刻子里的真牌
+    for(var a = 0; a < allKes.length; a++){
+        if(!isCaiTile(allKes[a])){
+            var t = getMJType(allKes[a]);
+            if(t < 3) suitSet[t] = true; else suitSet['zi'] = true;
+        }
+    }
+    // 顺子
+    for(var s = 0; s < shuns.length; s++){
+        for(var si = 0; si < shuns[s].length; si++){
+            var sv = shuns[s][si];
+            if(sv >= 0 && !isCaiTile(sv)){
+                var st = getMJType(sv);
+                if(st < 3) suitSet[st] = true; else suitSet['zi'] = true;
+            }
+        }
+    }
+    // 将
+    if(jiang >= 0 && !isCaiTile(jiang)){
+        var jt = getMJType(jiang);
+        if(jt < 3) suitSet[jt] = true; else suitSet['zi'] = true;
+    }
+    // 副露吃
+    if(seatData.chis){
+        for(var ci = 0; ci < seatData.chis.length; ci++){
+            for(var cj = 0; cj < seatData.chis[ci].length; cj++){
+                var cp = seatData.chis[ci][cj];
+                if(!isCaiTile(cp)){
+                    var ct = getMJType(cp);
+                    if(ct < 3) suitSet[ct] = true; else suitSet['zi'] = true;
+                }
+            }
+        }
+    }
+    // 纯财神刻当作字牌 → 破坏清一色, 变混一色
+    if(hasPureKe) suitSet['zi'] = true;
+
+    var suitKeys = Object.keys(suitSet);
+    var isQing = (suitKeys.length === 1 && suitKeys[0] !== 'zi');
+    var isHun = (suitKeys.length === 2 && suitSet['zi'] === true);
+    if(isQing){ var qn = taiRule(game, 'qing_yise', 3); tai += qn; logs.push('清一色+' + qn); }
+    else if(isHun){ var hn = taiRule(game, 'hun_yise', 1); tai += hn; logs.push('混一色+' + hn); }
+
+    // 5. 额外台数
+    // (额外台数是全局的, 不是拆法相关的, 这里不处理, 由 calculateTai 在外层统一加)
+
+    return { tai: tai, logs: logs, isPing: isPing, isDui: isDui };
+}
+
 
 function checkTingPai(seatData, caishen, caishen2){
     seatData.tingMap = {};
@@ -851,6 +1089,9 @@ function doGameOver(game){
 
     // 客户端 game_over_push 格式：{results:[...], endinfo?}
     var pushData = {results: results};
+    // 结算数据携带本局财神:客户端单局结算弹窗用牌图展示(-1表示无,客户端自动隐藏)
+    pushData.caishen = (game.caishen != null) ? game.caishen : -1;
+    pushData.caishen2 = (game.caishen2 != null) ? game.caishen2 : -1;
 
     // 打完指定局数，发最终结算数据
     if(roomInfo.numOfGames >= roomInfo.conf.maxGames){
@@ -889,13 +1130,19 @@ function doGameOver(game){
         }
     }
 
-    // 房卡扣除：第一局结束一次性扣除整局房卡(中途解散不退)
+    // 房卡扣除：第一局结束一次性扣除整局房卡(中途解散不退)，所有在坐玩家均按后台设置的数量扣除
     var cost = roomInfo.conf.cost || 0;
-    var creator = roomInfo.conf.creator;
-    if(creator && roomInfo.numOfGames === 1 && cost > 0){
-        db.cost_gems(creator, cost, function(success){
-            console.log("[房卡扣除] 房主", creator, "扣除", cost, "房卡, 结果:", success);
-        });
+    if(roomInfo.numOfGames === 1 && cost > 0){
+        for(var ci = 0; ci < roomInfo.seats.length; ++ci){
+            var cuid = roomInfo.seats[ci].userId;
+            if(cuid > 0){
+                (function(uid){
+                    db.cost_gems(uid, cost, function(success){
+                        console.log("[房卡扣除] 玩家", uid, "扣除", cost, "房卡, 结果:", success);
+                    });
+                })(cuid);
+            }
+        }
     }
 
     var index = roomInfo.numOfGames;
@@ -1328,8 +1575,11 @@ exports.hu = function(userId){
         }
     }
     if(isTianHu || isDiHu){
-        tai = game.maxTai || 10;
-        console.log("[天胡地胡]", isTianHu ? "天胡" : "地胡", "台数=", tai);
+        // 天胡/地胡台数从后台配置读取(后台配0则关闭,降级封顶maxTai;否则用配置值)
+        var cfgTai = taiRule(game, isTianHu ? 'tian_hu' : 'di_hu', 0);
+        tai = (cfgTai > 0) ? cfgTai : (game.maxTai || 10);
+        seatData.taiLog = [(isTianHu ? '天胡' : '地胡') + '=' + (cfgTai > 0 ? cfgTai + '(配置)' : '封顶' + tai)];
+        console.log("[天胡地胡]", isTianHu ? "天胡" : "地胡", "cfg=", cfgTai, "final=", tai);
     }
 
     // 一台起胡：台数不满门槛不能胡（门槛后台可配，缺省1台）
@@ -1356,14 +1606,20 @@ exports.hu = function(userId){
         return;
     }
 
-    // 计分：底 × 2^台
+    // 计分：底分 × 2^(台数-起胡台数)，刚好达到起胡台数=底分，每多一台翻倍
     var baseScore = game.conf.baseScore || 1;
-    var score = baseScore * Math.pow(2, tai);
+    var score = baseScore * Math.pow(2, Math.max(0, tai - minTai));
 
-    // 老庄翻倍：连庄胡牌再×2
-    if(game.laozhuangCount > 0 && seatIndex == game.button){
-        score = score * 2;
-        if(seatData.taiLog){ seatData.taiLog.push('老庄×2'); } //结算说明里展示老庄翻倍
+    // 无财/独财×2 + 老庄倍数变量化
+    var caiMul = (game.caishenMode != null && (game.caishenMode === 0 || game.caishenMode === 1)) ? 2 : 1;
+    if(caiMul > 1){
+        score = score * caiMul;
+        if(seatData.taiLog){ seatData.taiLog.push('财神模式×'+caiMul); }
+    }
+    var lzMul = (game.laozhuang_multiplier != null && game.laozhuang_multiplier > 0) ? Number(game.laozhuang_multiplier) : 2;
+    if(game.laozhuangCount > 0){
+        score = score * lzMul;
+        if(seatData.taiLog){ seatData.taiLog.push('老庄×'+lzMul); }
     }
 
     // 包财神赔付规则（必须设置了包家才走包台赔付）
@@ -1636,222 +1892,69 @@ function bestZiKeSplit(countMap, caishenCount){
 function calculateTai(seatData, game, isZimo, extraTai){
     var caishen = game.caishen;
     var caishen2 = game.caishen2;
-    var tai = 0;
-    var taiLog = []; // 临时台数明细日志
     extraTai = extraTai || 0;
 
     var holds = seatData.holds;
-    var countMap = {};
-    var caishenCount = 0;
-    for(var i = 0; i < holds.length; ++i){
+    // 基础 countMap + caishenCount (用于全字牌判断/无财判断)
+    var countMap = {}, caishenCount = 0;
+    for(var i = 0; i < holds.length; i++){
         var p = holds[i];
-        if((caishen >= 0 && p == caishen) || (caishen2 != null && caishen2 >= 0 && p == caishen2)){
-            caishenCount++;
-        } else {
-            countMap[p] = (countMap[p] || 0) + 1;
-        }
+        if((caishen >= 0 && p == caishen) || (caishen2 != null && caishen2 >= 0 && p == caishen2)) caishenCount++;
+        else countMap[p] = (countMap[p] || 0) + 1;
     }
-
-    // 收集所有刻子（手牌中的刻子 + 碰 + 杠）
-    var keSet = {}; // {pai: count} 手牌中的刻子数量
-    for(var k in countMap){
-        if(countMap[k] >= 3){
-            keSet[parseInt(k)] = Math.floor(countMap[k] / 3);
-        }
-    }
-    // 碰牌也算刻子
-    if(seatData.pengs){
-        for(var i = 0; i < seatData.pengs.length; ++i){
-            var pp = seatData.pengs[i];
-            keSet[pp] = (keSet[pp] || 0) + 1;
-        }
-    }
-    // 杠牌也算刻子
-    if(seatData.gangs){
-        for(var i = 0; i < seatData.gangs.length; ++i){
-            var gp = seatData.gangs[i].pai;
-            keSet[gp] = (keSet[gp] || 0) + 1;
-        }
-    }
-
-    // 判断牌型（基于拆解式判定，不按单牌数量判断刻子/顺子）
-    var isDuiDuiHu = isDuiDuiHuCheck(seatData, caishen, caishen2);
-    var isPingHu = isPingHuCheck(seatData, caishen, caishen2);
-
-    // 花色判断
-    var suitSet = {};
-    for(var k in countMap){
-        var t = getMJType(parseInt(k));
-        if(t < 3) suitSet[t] = true;
-        else suitSet['zi'] = true;
-    }
-    // 碰/杠/吃的牌也算花色;财神是百搭不带花色(财神吃/碰/杠不破坏清一色)
     var isCaiTile = function(p){ return (p == caishen) || (caishen2 != null && caishen2 >= 0 && p == caishen2); };
-    if(seatData.pengs){
-        for(var i = 0; i < seatData.pengs.length; ++i){
-            if(isCaiTile(seatData.pengs[i])) continue;
-            var t = getMJType(seatData.pengs[i]);
-            if(t < 3) suitSet[t] = true; else suitSet['zi'] = true;
-        }
-    }
-    if(seatData.gangs){
-        for(var i = 0; i < seatData.gangs.length; ++i){
-            if(isCaiTile(seatData.gangs[i].pai)) continue;
-            var t = getMJType(seatData.gangs[i].pai);
-            if(t < 3) suitSet[t] = true; else suitSet['zi'] = true;
-        }
-    }
-    if(seatData.chis){
-        for(var i = 0; i < seatData.chis.length; ++i){
-            for(var j = 0; j < seatData.chis[i].length; ++j){
-                if(isCaiTile(seatData.chis[i][j])) continue;
-                var t = getMJType(seatData.chis[i][j]);
-                suitSet[t] = true;
-            }
-        }
-    }
-    var suitKeys = Object.keys(suitSet);
-    var isQingYiSe = (suitKeys.length == 1 && suitKeys[0] !== 'zi');
-    var isHunYiSe = (suitKeys.length == 2 && suitSet['zi'] === true);
 
-    // 财神总数（手牌 + 碰 + 杠 + 吃副露 + 已被副露用掉的财神）
-    var caishenTotal = caishenCount + (seatData.caishenInMelds || 0);
-    // 副露(碰/杠)中的财神面值牌也算"有财"（如财神=红中时碰出的红中刻是3张财神牌）
-    var ci;
-    if(seatData.pengs){
-        for(ci = 0; ci < seatData.pengs.length; ++ci){
-            if(seatData.pengs[ci] == caishen || (caishen2 >= 0 && seatData.pengs[ci] == caishen2)){ caishenTotal += 3; }
-        }
-    }
-    if(seatData.gangs){
-        for(ci = 0; ci < seatData.gangs.length; ++ci){
-            var gp = seatData.gangs[ci] && seatData.gangs[ci].pai;
-            if(gp != null && (gp == caishen || (caishen2 >= 0 && gp == caishen2))){ caishenTotal += 4; }
-        }
-    }
-    if(seatData.chis){
-        for(ci = 0; ci < seatData.chis.length; ++ci){
-            for(var cj = 0; cj < seatData.chis[ci].length; ++cj){
-                var cp = seatData.chis[ci][cj];
-                if(cp == caishen || (caishen2 >= 0 && cp == caishen2)){ caishenTotal++; }
-            }
-        }
-    }
+    // 1. 枚举所有完整拆法, 每种拆法自洽(将+刻+顺+财神分配全部确定)
+    var splits = findAllHuSplits(seatData, caishen, caishen2);
 
-    // 全字牌：手牌与副露全部为字牌（财神百搭不参与判定）
-    var isQuanZi = (Object.keys(countMap).length > 0);
+    // 2. 全字牌判断(基于真牌 + 副露, 不依赖拆法)
+    var isQuanZi = true;
     for(var k in countMap){ if(!isZi(parseInt(k))){ isQuanZi = false; break; } }
-    if(isQuanZi && seatData.pengs){ for(var i = 0; i < seatData.pengs.length; ++i){ if(isCaiTile(seatData.pengs[i])) continue; if(!isZi(seatData.pengs[i])){ isQuanZi = false; break; } } }
-    if(isQuanZi && seatData.gangs){ for(var i = 0; i < seatData.gangs.length; ++i){ if(isCaiTile(seatData.gangs[i].pai)) continue; if(!isZi(seatData.gangs[i].pai)){ isQuanZi = false; break; } } }
+    if(isQuanZi && seatData.pengs){ for(var i = 0; i < seatData.pengs.length; i++){ if(isCaiTile(seatData.pengs[i])) continue; if(!isZi(seatData.pengs[i])){ isQuanZi = false; break; } } }
+    if(isQuanZi && seatData.gangs){ for(var i = 0; i < seatData.gangs.length; i++){ if(isCaiTile(seatData.gangs[i].pai)) continue; if(!isZi(seatData.gangs[i].pai)){ isQuanZi = false; break; } } }
+    if(isQuanZi && seatData.chis){ for(var i = 0; i < seatData.chis.length; i++){ var cg = seatData.chis[i]; for(var j = 0; j < cg.length; j++){ if(isCaiTile(cg[j])) continue; if(!isZi(cg[j])){ isQuanZi = false; break; } } if(!isQuanZi) break; } }
 
-    // ---- 台项（逐项叠加，后台可调）----
-    // 1. 东风刻 / 中发白刻：基于完整拆解取最优解,真刻与财神补刻都算台
-    //    (旧逻辑非对对胡只认真刻,漏算"中中+财神"这类补刻,导致台数不足不弹胡)
-    var ziKeDefs = [
-        [30, 'dong_ke', 2, '东风刻'],
-        [27, 'zfb_ke', 1, '中刻'],
-        [28, 'zfb_ke', 1, '发刻'],
-        [29, 'zfb_ke', 1, '白刻']
-    ];
-    var splitRes = bestZiKeSplit(countMap, caishenCount);
-    var handNoPure = splitRes ? splitRes.noPure : null;
-    var handWithPure = splitRes ? splitRes.withPure : null;
-    // 碰/杠中的字刻单独计数
-    var pengGangKes = {};
-    if(seatData.pengs){
-        for(var pg = 0; pg < seatData.pengs.length; ++pg){
-            pengGangKes[seatData.pengs[pg]] = (pengGangKes[seatData.pengs[pg]] || 0) + 1;
-        }
-    }
-    if(seatData.gangs){
-        for(var gg = 0; gg < seatData.gangs.length; ++gg){
-            var gp0 = seatData.gangs[gg].pai;
-            pengGangKes[gp0] = (pengGangKes[gp0] || 0) + 1;
-        }
-    }
+    // 3. 无财判断
+    var caishenTotal = caishenCount + (seatData.caishenInMelds || 0);
+    if(seatData.pengs){ for(var ci = 0; ci < seatData.pengs.length; ci++){ if(seatData.pengs[ci] == caishen || (caishen2 >= 0 && seatData.pengs[ci] == caishen2)) caishenTotal += 3; } }
+    if(seatData.gangs){ for(var ci = 0; ci < seatData.gangs.length; ci++){ var gp = seatData.gangs[ci] && seatData.gangs[ci].pai; if(gp != null && (gp == caishen || (caishen2 >= 0 && gp == caishen2))) caishenTotal += 4; } }
+    if(seatData.chis){ for(var ci = 0; ci < seatData.chis.length; ci++){ for(var cj = 0; cj < seatData.chis[ci].length; cj++){ var cp = seatData.chis[ci][cj]; if(cp == caishen || (caishen2 >= 0 && cp == caishen2)) caishenTotal++; } } }
 
-    // 按同一拆法自洽地算一套台项; pureAsZi=true 表示该拆法中纯财神刻当字牌处理
-    // (财神刻是字→破坏清一色变混一色; 有刻→必非平胡)
-    function calcVariant(handKes, pureAsZi){
-        var vTai = 0;
-        var vLogs = [];
-        for(var i = 0; i < ziKeDefs.length; ++i){
-            var zp = ziKeDefs[i][0];
-            var keTotal = (handKes[zp] || 0) + (pengGangKes[zp] || 0);
-            if(keTotal > 0){
-                var tn = taiRule(game, ziKeDefs[i][1], ziKeDefs[i][2]) * keTotal;
-                vTai += tn; vLogs.push(ziKeDefs[i][3] + '+' + tn);
-            }
-        }
-        // 平胡（没刻子）：+1台
-        if(!pureAsZi && isPingHu){
-            var tn1 = taiRule(game, 'ping_hu', 1);
-            vTai += tn1; vLogs.push('平胡+' + tn1);
-        }
-        // 对对胡：+1台
-        if(isDuiDuiHu){
-            var tn2 = taiRule(game, 'duidui_hu', 1);
-            vTai += tn2; vLogs.push('对对胡+' + tn2);
-        }
-        // 花色: 纯财刻当字牌时花色集合加入字 → 清一色不成立,单花色+字=混一色
-        var vHun = isHunYiSe, vQing = isQingYiSe;
-        if(pureAsZi){
-            var suitOnly = Object.keys(suitSet).filter(function(k){ return k !== 'zi'; });
-            vHun = (suitOnly.length == 1);
-            vQing = false;
-        }
-        if(vHun){
-            var tn3 = taiRule(game, 'hun_yise', 1);
-            vTai += tn3; vLogs.push('混一色+' + tn3);
-        }
-        if(vQing){
-            var tn4 = taiRule(game, 'qing_yise', 3);
-            vTai += tn4; vLogs.push('清一色+' + tn4);
-        }
-        return { tai: vTai, logs: vLogs };
+    // 4. 对每种完整拆法算台项, 取最高
+    var best = { tai: 0, logs: [] };
+    for(var si = 0; si < splits.length; si++){
+        var res = calcTaiFromSplit(splits[si], seatData, game);
+        if(res.tai > best.tai) best = res;
     }
+    var tai = best.tai;
+    var taiLog = best.logs.slice();
 
-    // 两种拆法分别评分取最高:
-    //  noPure   财神全当普通牌(顺/将/补刻) → 无纯财刻台,清一色/平胡正常
-    //  withPure 剩余财神3张成刻当东风刻    → 有字刻台,但破坏清一色与平胡
-    var variants = [];
-    if(handNoPure){ variants.push(calcVariant(handNoPure.kes, false)); }
-    if(handWithPure && handWithPure.pureKe > 0){ variants.push(calcVariant(handWithPure.kes, true)); }
-    if(variants.length === 0){ variants.push(calcVariant({}, false)); }
-    var bestV = variants[0];
-    for(var vi = 1; vi < variants.length; ++vi){
-        if(variants[vi].tai > bestV.tai){ bestV = variants[vi]; }
-    }
-    tai = bestV.tai;
-    taiLog = bestV.logs;
-
-    // 7. 额外台数（杠上开花 / 抢杠胡）
+    // 额外台数(杠开/抢杠)
     tai += extraTai;
-    if(extraTai > 0) taiLog.push('额外+'+extraTai);
+    if(extraTai > 0) taiLog.push('额外+' + extraTai);
 
-    // 8. 无财：手牌与副露中都没有财神 +1台
+    // 无财
     if(caishenTotal == 0){
-        var tn = taiRule(game, 'wu_cai', 1);
-        tai += tn; taiLog.push('无财+'+tn);
+        var wtn = taiRule(game, 'wu_cai', 1);
+        tai += wtn; taiLog.push('无财+' + wtn);
     }
 
-    // ---- 封顶：全字牌 / 手牌抓三个及以上财神 直接按封顶台数计 ----
-    // 注意：封顶只看手牌财神(caishenCount)，碰/杠出来的财神面值刻不算"多财神"
+    // 封顶
     var maxTai = game.maxTai || 10;
     if(isQuanZi){
-        tai = maxTai; taiLog.push('全字牌=封顶'+maxTai);
-    } else if(caishenCount >= 3 && taiRule(game, 'san_caishen_fengding', 1) > 0){
-        tai = maxTai; taiLog.push('多财神=封顶'+maxTai);
+        tai = maxTai; taiLog = ['全字牌=封顶' + maxTai];
     } else if(tai > maxTai){
-        tai = maxTai; taiLog.push('封顶'+maxTai);
+        tai = maxTai; taiLog.push('封顶' + maxTai);
     }
     if(tai < 0) tai = 0;
 
-    seatData.taiLog = taiLog; // 台项明细，随结算推送显示到客户端
-    console.log('[calculateTai] holds=' + JSON.stringify(holds) + ' caishen=' + caishen + ' caishen2=' + caishen2 + ' ping=' + isPingHu + ' dui=' + isDuiDuiHu + ' hun=' + isHunYiSe + ' qing=' + isQingYiSe + ' quanzi=' + isQuanZi + ' tai=' + tai + ' logs=[' + taiLog.join(',') + ']');
+    seatData.taiLog = taiLog;
+    console.log('[calculateTai] splitCount=' + splits.length + ' best=' + JSON.stringify(best.logs) + ' extra=' + extraTai + ' wucai=' + (caishenTotal == 0) + ' quanzi=' + isQuanZi + ' tai=' + tai + ' logs=[' + taiLog.join(',') + ']');
 
     return tai;
 }
+
+
 
 // 从手牌分离出 countMap(非财神牌) 与财神张数
 function splitHolds(seatData, caishen, caishen2){
@@ -2160,19 +2263,18 @@ function isPingHuCheck(seatData, caishen, caishen2){
 
     // 选将：真牌对 / 真牌+财神 / 两张财神；其余牌必须全部能拆成顺子(财神可补顺)
     // 手牌中的刻子(如1万x3)或财神补刻(2万2万+财神)无法拆成纯顺子,自然判为非平胡
-    // 平胡将牌不能是字牌: 真字对、字牌+财神均排除; 纯财对仅在财神本身不是字牌时允许(财神是字则财对=字对)
-    var csPairOk = !isZi(caishen) && (caishen2 == null || caishen2 < 0 || !isZi(caishen2));
+    // 注意:将牌可以是字牌对(西风西风这类),平胡只禁刻子不禁字对
+    var csPairOk = true;
     var labels = Object.keys(countMap);
     for(var i = 0; i < labels.length; ++i){
         var p = parseInt(labels[i]);
-        if(isZi(p)) continue;
         if(countMap[p] >= 2){
             countMap[p] -= 2;
             var ok = canFormShunPure(countMap, cs, needShun);
             countMap[p] += 2;
             if(ok) return true;
         }
-        if(countMap[p] >= 1 && cs >= 1){
+        if(!isZi(p) && countMap[p] >= 1 && cs >= 1){
             countMap[p] -= 1;
             var ok2 = canFormShunPure(countMap, cs - 1, needShun);
             countMap[p] += 1;
@@ -2213,7 +2315,9 @@ exports.start = function(roomInfo){
         laozhuangCount: roomInfo.laozhuangCount || 0,
         baoSeatIndex: roomInfo.conf.baoSeatIndex != null ? roomInfo.conf.baoSeatIndex : -1,
         baoTai: roomInfo.conf.baoTai || 2,
-        baoTaiFee: roomInfo.conf.baoTaiFee || 0
+        baoTaiFee: roomInfo.conf.baoTaiFee || 0,
+        remove_tiao: roomInfo.conf.remove_tiao != null ? roomInfo.conf.remove_tiao : 0,
+        cai7: roomInfo.conf.cai7 != null ? roomInfo.conf.cai7 : 0
     };
 
     for(var i = 0; i < 2; ++i){
@@ -2297,6 +2401,10 @@ exports.start = function(roomInfo){
     console.log("[start] 赖倒胡 playStyle=", game.playStyle, "type=", roomInfo.conf.type);
     game.baoDecided = true;
     var zhuangSeat = game.gameSeats[game.button];
+    //庄家起手14张直接判胡(起手胡必为天胡,结算按最高台数,此处直接放行,与hu处理一致)
+    if(checkCanHu(zhuangSeat, game.caishen, game.caishen2)){
+        zhuangSeat.canHu = true;
+    }
     sendOperations(game, zhuangSeat, zhuangSeat.holds[zhuangSeat.holds.length-1]);
     //庄家开局直接出牌:进入出牌倒计时,超时系统代打
     scheduleTurnTimeout(game, game.button, false);
@@ -2409,14 +2517,16 @@ exports.setReady = function(userId){
 
     // 只有被"在线玩家"占据且已准备的座位才计数;离线/空座位不计入,避免误开局
     var readyCount = 0;
+    var onlineCount = 0;
     for(var i = 0; i < roomInfo.seats.length; ++i){
         var rs = roomInfo.seats[i];
-        if(rs.userId > 0 && userMgr.isOnline(rs.userId) && rs.ready){
-            readyCount++;
+        if(rs.userId > 0 && userMgr.isOnline(rs.userId)){
+            onlineCount++;
+            if(rs.ready){ readyCount++; }
         }
     }
 
-    if(readyCount == roomInfo.seats.length){
+    if(onlineCount >= 2 && readyCount == onlineCount){
         // 所有在线座位都准备好了，延时1秒开局
         setTimeout(function(){
             // 延时期间若已开局(如断线重连)或局数已打满,不再开局

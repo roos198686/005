@@ -64,6 +64,11 @@ cc.Class({
             self.initAllFolds();
         });  
         
+        //断线重连补发的事件名是 game_start 而不是 game_begin, 必须监听
+        this.node.on('game_start',function(data){
+            self.initAllFolds();
+        });
+        
         this.node.on('game_sync',function(data){
             self.initAllFolds();
         });

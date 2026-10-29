@@ -76,7 +76,10 @@ cc.Class({
         
         this._chatBubble = this.node.getChildByName("ChatBubble");
         if(this._chatBubble != null){
-            this._chatBubble.active = false;            
+            this._chatBubble.active = false;
+            // 初始化: New Label 默认 inactive, chat() 里启用
+            var newLbl = this._chatBubble.getChildByName("New Label");
+            if(newLbl) newLbl.active = false;
         }
         
         this._emoji = this.node.getChildByName("emoji");
@@ -222,8 +225,47 @@ cc.Class({
         }
         this._emoji.active = false;
         this._chatBubble.active = true;
-        this._chatBubble.getComponent(cc.Label).string = content;
-        this._chatBubble.getChildByName("New Label").getComponent(cc.Label).string = content;
+        var WHITE = new cc.Color(255,255,255,255);
+        // 暴力清理: ChatBubble 自身及所有子节点上的 Label/LabelOutline/LabelShadow 全部禁用,
+        // 彻底杜绝任何路径的文字渲染; 仅 New Label 节点自身保留其 LabelOutline/LabelShadow(白字需描边清晰)
+        var _newLblNode = this._chatBubble.getChildByName("New Label");
+        var _killTextComps = function(node){
+            var isNewLbl = (node === _newLblNode);
+            var comps = node.getComponents(cc.Label);
+            for(var k = 0; k < comps.length; k++) comps[k].enabled = false;
+            if(!isNewLbl){
+                var outs = node.getComponents(cc.LabelOutline);
+                for(var k2 = 0; k2 < outs.length; k2++) outs[k2].enabled = false;
+                var shads = node.getComponents(cc.LabelShadow);
+                for(var k3 = 0; k3 < shads.length; k3++) shads[k3].enabled = false;
+            }
+            for(var c = 0; c < node.children.length; c++){
+                _killTextComps(node.children[c]);
+            }
+        };
+        _killTextComps(this._chatBubble);
+        // New Label: 唯一实际渲染的文字,启用自身的 Label 组件
+        if(_newLblNode){
+            _newLblNode.active = true;
+            var newLbl = _newLblNode.getComponent(cc.Label);
+            if(newLbl){
+                newLbl.enabled = true;
+                newLbl.string = content;
+                newLbl.node.color = WHITE;
+                newLbl.color = WHITE;
+            }
+        }
+        // chatbg_ld: children[0],加载底图
+        var bgNode = this._chatBubble.getChildByName("chatbg_ld");
+        if(bgNode){
+            bgNode.active = true;
+            var bgSprite = bgNode.getComponent(cc.Sprite);
+            if(bgSprite && !bgSprite.spriteFrame){
+                cc.loader.loadRes("images/chat/chat_backbg", cc.SpriteFrame, function(err, sf){
+                    if(!err && bgSprite){ bgSprite.spriteFrame = sf; }
+                });
+            }
+        }
         this._lastChatTime = 3;
     },
     

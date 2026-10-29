@@ -57,7 +57,7 @@ cc.Class({
         //标签内容赋值
         this.tipLabel.string = this._stateStr;  
         this._splash = cc.find("Canvas/splash"); //获取引导图
-        this._splash.active = false; //去掉白底引导图
+        if(this._splash){ this._splash.active = false; } //去掉白底引导图(节点缺失时跳过,避免崩溃)
 
     },
     //引导图显示加载
@@ -134,6 +134,7 @@ cc.Class({
          }
          else{
             cc.vv.SI = ret; //定义si接受ret
+            //HTTP.url不在此处切,留给UserMgr.onAuth在登录成功后切(因为/guest在account_server 9000,/login/club_join等在hall_server 9001)
             //是否和线上版本一致
             if(ret.version!=cc.VERSION){
                
