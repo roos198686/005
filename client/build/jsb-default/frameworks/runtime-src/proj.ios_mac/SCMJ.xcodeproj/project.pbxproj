@@ -717,6 +717,15 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
+					"-lwebp",
+					"-lpng",
+					"-ljpeg",
+					"-ltiff",
+					"-lfreetype",
+					"-lcrypto",
+					"-lssl",
+					"-lwebsockets",
+					"-luv_a",
 				);
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
@@ -751,6 +760,15 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
+					"-lwebp",
+					"-lpng",
+					"-ljpeg",
+					"-ltiff",
+					"-lfreetype",
+					"-lcrypto",
+					"-lssl",
+					"-lwebsockets",
+					"-luv_a",
 				);
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
