@@ -1,0 +1,40 @@
+name: iOS Build (unsigned IPA)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build unsigned .app
+        run: |
+          cd client/build/jsb-default/frameworks/runtime-src/proj.ios_mac
+          xcodebuild -project SCMJ.xcodeproj \
+            -scheme SCMJ-mobile \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            IPHONEOS_DEPLOYMENT_TARGET=12.0 \
+            build
+
+      - name: Package IPA
+        run: |
+          cd client/build/jsb-default/frameworks/runtime-src/proj.ios_mac
+          APP=$(find build/Build/Products/Release-iphoneos -name "*.app" -maxdepth 1 | head -1)
+          mkdir -p Payload
+          cp -r "$APP" Payload/
+          zip -qr SCMJ-mobile.ipa Payload
+          ls -lh SCMJ-mobile.ipa
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SCMJ-mobile-unsigned-ipa
+          path: client/build/jsb-default/frameworks/runtime-src/proj.ios_mac/SCMJ-mobile.ipa
