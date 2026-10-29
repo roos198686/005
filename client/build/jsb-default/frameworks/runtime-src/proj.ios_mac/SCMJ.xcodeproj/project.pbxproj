@@ -1,4 +1,4 @@
-// !$*UTF8*$!
+﻿// !$*UTF8*$!
 {
 	archiveVersion = 1;
 	classes = {
@@ -717,7 +717,6 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
-					"-lwebp",
 					"-lpng",
 					"-ljpeg",
 					"-ltiff",
@@ -760,7 +759,6 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
-					"-lwebp",
 					"-lpng",
 					"-ljpeg",
 					"-ltiff",
